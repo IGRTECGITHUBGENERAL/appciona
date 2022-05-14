@@ -41,10 +41,11 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text('AppCiona'),
+        centerTitle: true,
         leading: Icon(Icons.menu),
         actions: [
           Image.asset(
-            'assets/logo.png',
+            'assets/images/logo-green.png',
             fit: BoxFit.contain,
             height: 32,
           )
@@ -65,6 +66,24 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: Text('Agenda'),
             ),
+            Card(
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/images/logo-green.png',
+                    fit: BoxFit.contain,
+                    height: 150,
+                  ),
+                  Expanded(
+                    child: Container(
+                        child: Text('Cortegana crea una web de turimo',
+                            style: TextStyle(
+                                fontSize: 40, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center)),
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -79,17 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
           Icon(Icons.message, size: 20),
           Icon(Icons.perm_identity, size: 20),
         ],
-        color: Colors.white,
-        buttonBackgroundColor: Colors.white,
-        backgroundColor: Colors.blueAccent,
-        animationCurve: Curves.easeInOut,
-        animationDuration: Duration(milliseconds: 600),
-        onTap: (index) {
-          setState(() {
-            _page = index;
-          });
-        },
-        letIndexChange: (index) => true,
       ),
     );
   }
