@@ -1,4 +1,5 @@
 import 'package:appciona/pages/agenda_page.dart';
+import 'package:appciona/pages/appbarPrincipal.dart';
 import 'package:appciona/pages/bottonbar.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.grey,
       ),
       home: const MyHomePage(),
     );
@@ -38,7 +39,16 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('title'),
+        backgroundColor: Colors.white,
+        title: Text('AppCiona'),
+        leading: Icon(Icons.menu),
+        actions: [
+          Image.asset(
+            'assets/logo.png',
+            fit: BoxFit.contain,
+            height: 32,
+          )
+        ],
       ),
       body: Center(
         child: Column(
