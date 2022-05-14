@@ -12,10 +12,38 @@ class _AgendaPageState extends State<AgendaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Agenda'),
-        actions: [
-          Image.asset(''),
-        ],
+        elevation: 1,
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Agenda',
+        ),
+        actions: [],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text(
+              DateTime.now().toString(),
+            ),
+            Row(
+              children: [
+                Column(
+                  children: const [
+                    Text('Dom'),
+                    Text('27'),
+                  ],
+                ),
+                Column(
+                  children: const [
+                    Text('Lun'),
+                    Text('28'),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

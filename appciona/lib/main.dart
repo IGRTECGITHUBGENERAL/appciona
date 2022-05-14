@@ -1,3 +1,4 @@
+import 'package:appciona/pages/agenda_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -37,7 +38,19 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[],
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AgendaPage(),
+                  ),
+                );
+              },
+              child: Text('Agenda'),
+            ),
+          ],
         ),
       ),
     );
