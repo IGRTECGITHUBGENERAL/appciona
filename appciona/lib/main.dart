@@ -1,7 +1,9 @@
+import 'package:appciona/pages/Mensajeria.dart';
 import 'package:appciona/pages/agenda_page.dart';
-import 'package:appciona/pages/appbarPrincipal.dart';
-import 'package:appciona/pages/bottonbar.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:appciona/pages/audiovisual.dart';
+import 'package:appciona/pages/inicio.dart';
+import 'package:appciona/pages/perfil.dart';
+import 'package:appciona/pages/servicios.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -32,17 +34,27 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  /*
   int _page = 0;
-  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();*/
+  int _currentIndex = 0;
+  final pages = [
+    const InicioPage(),
+    const AudiovisualPage(),
+    const ServiciosPage(),
+    const AgendaPage(),
+    const MensajeriaPage(),
+    const PerfilPage()
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('AppCiona'),
+        title: const Text('AppCiona'),
         centerTitle: true,
-        leading: Icon(Icons.menu),
+        leading: const Icon(Icons.menu),
         actions: [
           Image.asset(
             'assets/images/logo-green.png',
@@ -51,42 +63,58 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AgendaPage(),
-                  ),
-                );
-              },
-              child: Text('Agenda'),
-            ),
-            Card(
-              child: Row(
-                children: [
-                  Image.asset(
-                    'assets/images/logo-green.png',
-                    fit: BoxFit.contain,
-                    height: 150,
-                  ),
-                  Expanded(
-                    child: Container(
-                        child: Text('Cortegana crea una web de turimo',
-                            style: TextStyle(
-                                fontSize: 40, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center)),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: pages,
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) => setState(() => {_currentIndex = index}),
+        unselectedItemColor: Colors.black,
+        selectedItemColor: const Color(0XFF00BAEF),
+        type: BottomNavigationBarType.fixed,
+        selectedFontSize: 12,
+        unselectedFontSize: 10,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home_outlined,
+            ),
+            label: 'Inicio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.play_circle_outline,
+            ),
+            label: 'Audiovisual',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.list_outlined,
+            ),
+            label: 'Servicios',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.map_outlined,
+            ),
+            label: 'Turismo',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.mail_outline,
+            ),
+            label: 'Mensajería',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person_outline,
+            ),
+            label: 'Perfil',
+          ),
+        ],
+      ),
+      /*
       bottomNavigationBar: CurvedNavigationBar(
         key: _bottomNavigationKey,
         index: 0,
@@ -98,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Icon(Icons.message, size: 20),
           Icon(Icons.perm_identity, size: 20),
         ],
-      ),
+      ),*/
     );
   }
 }

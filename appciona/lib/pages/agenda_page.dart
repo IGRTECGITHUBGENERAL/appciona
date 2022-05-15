@@ -18,15 +18,6 @@ class _AgendaPageState extends State<AgendaPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color(0XFFF3F4F6),
-      appBar: AppBar(
-        elevation: 2,
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
-        title: const Text(
-          'Agenda',
-        ),
-        actions: [],
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
