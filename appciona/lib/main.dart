@@ -51,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 2,
         backgroundColor: Colors.white,
         title: const Text('AppCiona'),
         centerTitle: true,
@@ -59,7 +60,6 @@ class _MyHomePageState extends State<MyHomePage> {
           Image.asset(
             'assets/images/logo-green.png',
             fit: BoxFit.contain,
-            height: 32,
           )
         ],
       ),
@@ -90,13 +90,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.list_outlined,
+              Icons.list,
             ),
             label: 'Servicios',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.map_outlined,
+              Icons.map,
             ),
             label: 'Turismo',
           ),
@@ -114,19 +114,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      /*
-      bottomNavigationBar: CurvedNavigationBar(
-        key: _bottomNavigationKey,
-        index: 0,
-        height: 60.0,
-        items: <Widget>[
-          Icon(Icons.home, size: 20),
-          Icon(Icons.play_arrow, size: 20),
-          Icon(Icons.list, size: 20),
-          Icon(Icons.message, size: 20),
-          Icon(Icons.perm_identity, size: 20),
-        ],
-      ),*/
     );
   }
 }

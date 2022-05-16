@@ -1,3 +1,5 @@
+import 'package:appciona/pages/inicio_sesion_page.dart';
+import 'package:appciona/pages/registro_page.dart';
 import 'package:flutter/material.dart';
 
 class PerfilPage extends StatefulWidget {
@@ -10,12 +12,6 @@ class PerfilPage extends StatefulWidget {
 class _PerfilPageState extends State<PerfilPage> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: const [
-          Text('Perfil'),
-        ],
-      ),
-    );
+    return const InicioSesionPage();
   }
 }
