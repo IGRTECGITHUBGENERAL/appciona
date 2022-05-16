@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 
 class InicioPage extends StatefulWidget {
@@ -20,25 +21,61 @@ class _InicioPageState extends State<InicioPage> {
               size,
               'assets/images/logo-green.png',
               'Cortegana crea una web de tursimo',
-              DateTime.now().toString(),
+              formatDate(
+                DateTime.now(),
+                [
+                  dd,
+                  "-",
+                  mm,
+                  "-",
+                  yyyy,
+                ],
+              ),
             ),
             _newCard(
               size,
               'assets/images/logo-green.png',
               'El Ayuntamiento de Cortegana organiza una carrera San Silvestre virtual para colaborar con una buena causa',
-              DateTime.now().toString(),
+              formatDate(
+                DateTime.now(),
+                [
+                  dd,
+                  "-",
+                  mm,
+                  "-",
+                  yyyy,
+                ],
+              ),
             ),
             _newCard(
               size,
               'assets/images/logo-green.png',
               'Conciertos de Fin de Año en Cortegana',
-              DateTime.now().toString(),
+              formatDate(
+                DateTime.now(),
+                [
+                  dd,
+                  "-",
+                  mm,
+                  "-",
+                  yyyy,
+                ],
+              ),
             ),
             _newCard(
               size,
               'assets/images/logo-green.png',
               'El Ayuntamiento de Cortegana "abre el paraguas" contra la violencia hacia la mujer',
-              DateTime.now().toString(),
+              formatDate(
+                DateTime.now(),
+                [
+                  dd,
+                  "-",
+                  mm,
+                  "-",
+                  yyyy,
+                ],
+              ),
             ),
           ],
         ),

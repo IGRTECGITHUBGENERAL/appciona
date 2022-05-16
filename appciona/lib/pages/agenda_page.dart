@@ -1,7 +1,7 @@
+import 'package:date_format/date_format.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 class AgendaPage extends StatefulWidget {
   const AgendaPage({Key? key}) : super(key: key);
@@ -28,8 +28,9 @@ class _AgendaPageState extends State<AgendaPage> {
             ),
             _agendaPerDia(
               size,
-              DateFormat.d().format(
+              formatDate(
                 DateTime.now(),
+                [dd],
               ),
               'Sab',
               '',
@@ -37,12 +38,11 @@ class _AgendaPageState extends State<AgendaPage> {
             ),
             _agendaPerDia(
               size,
-              DateFormat.d().format(
+              formatDate(
                 DateTime.now().add(
-                  const Duration(
-                    days: 1,
-                  ),
+                  const Duration(days: 1),
                 ),
+                [dd],
               ),
               'Dom',
               '',
@@ -50,12 +50,11 @@ class _AgendaPageState extends State<AgendaPage> {
             ),
             _agendaPerDia(
               size,
-              DateFormat.d().format(
+              formatDate(
                 DateTime.now().add(
-                  const Duration(
-                    days: 2,
-                  ),
+                  const Duration(days: 2),
                 ),
+                [dd],
               ),
               'Lun',
               '',
@@ -63,12 +62,11 @@ class _AgendaPageState extends State<AgendaPage> {
             ),
             _agendaPerDia(
               size,
-              DateFormat.d().format(
+              formatDate(
                 DateTime.now().add(
-                  const Duration(
-                    days: 3,
-                  ),
+                  const Duration(days: 3),
                 ),
+                [dd],
               ),
               'Mar',
               'San Silvestre virtual',
@@ -129,28 +127,30 @@ class _AgendaPageState extends State<AgendaPage> {
               ),
             ],
           ),
-          Container(
-            width: size.width * 0.75,
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 10,
-            ),
-            decoration: BoxDecoration(
-              color:
-                  actividad.isNotEmpty ? Colors.white : const Color(0XFFF3F4F6),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(10),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 10,
               ),
+              decoration: BoxDecoration(
+                color: actividad.isNotEmpty
+                    ? Colors.white
+                    : const Color(0XFFF3F4F6),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10),
+                ),
+              ),
+              child: actividad.isNotEmpty
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(actividad),
+                        Text(hora),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
             ),
-            child: actividad.isNotEmpty
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(actividad),
-                      Text(hora),
-                    ],
-                  )
-                : const SizedBox.shrink(),
           ),
         ],
       ),
@@ -207,32 +207,9 @@ class _AgendaPageState extends State<AgendaPage> {
             ),
           ),
           Text(
-            DateFormat.d().format(
+            formatDate(
               DateTime.now(),
-            ),
-            style: GoogleFonts.lato(
-              textStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const Text(' '),
-          Text(
-            DateFormat.MMMM().format(
-              DateTime.now(),
-            ),
-            style: GoogleFonts.lato(
-              textStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const Text(' '),
-          Text(
-            DateFormat.y().format(
-              DateTime.now(),
+              [DD, " ", dd, " ", MM, " ", yyyy],
             ),
             style: GoogleFonts.lato(
               textStyle: const TextStyle(
