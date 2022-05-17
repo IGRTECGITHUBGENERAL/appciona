@@ -10,11 +10,15 @@ class AudiovisualPage extends StatefulWidget {
 class _AudiovisualPageState extends State<AudiovisualPage> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: const [
-          Text('Audiovisual'),
-        ],
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: const [
+              Text('Audiovisual'),
+            ],
+          ),
+        ),
       ),
     );
   }

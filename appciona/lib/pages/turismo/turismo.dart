@@ -10,11 +10,15 @@ class TurismoPage extends StatefulWidget {
 class _TurismoPageState extends State<TurismoPage> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: const [
-          Text('Turismo'),
-        ],
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: const [
+              Text('Turismo'),
+            ],
+          ),
+        ),
       ),
     );
   }

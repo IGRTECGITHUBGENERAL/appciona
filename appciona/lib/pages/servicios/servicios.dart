@@ -10,11 +10,15 @@ class ServiciosPage extends StatefulWidget {
 class _ServiciosPageState extends State<ServiciosPage> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: const [
-          Text('Servicios'),
-        ],
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: const [
+              Text('Servicios'),
+            ],
+          ),
+        ),
       ),
     );
   }

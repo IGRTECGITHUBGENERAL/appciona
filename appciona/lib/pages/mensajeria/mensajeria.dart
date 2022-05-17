@@ -10,11 +10,15 @@ class MensajeriaPage extends StatefulWidget {
 class _MensajeriaPageState extends State<MensajeriaPage> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: const [
-          Text('Mensajeria'),
-        ],
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: const [
+              Text('Mensajeria'),
+            ],
+          ),
+        ),
       ),
     );
   }

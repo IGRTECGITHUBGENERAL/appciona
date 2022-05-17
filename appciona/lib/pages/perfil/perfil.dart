@@ -1,5 +1,4 @@
-import 'package:appciona/pages/inicio_sesion_page.dart';
-import 'package:appciona/pages/registro_page.dart';
+import 'package:appciona/pages/perfil/inicio_sesion_page.dart';
 import 'package:flutter/material.dart';
 
 class PerfilPage extends StatefulWidget {
