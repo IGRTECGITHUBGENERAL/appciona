@@ -39,6 +39,9 @@ dependencies:
   date_picker_timeline: ^1.2.3
   date_format: ^2.0.6
   font_awesome_flutter: ^10.1.0
+  firebase_core: ^1.17.1
+  cloud_firestore: ^3.1.17
+  firebase_auth: ^3.3.19
 
 dev_dependencies:
   flutter_test:

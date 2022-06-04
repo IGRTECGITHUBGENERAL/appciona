@@ -1,4 +1,6 @@
 import 'package:appciona/pages/inicio/encuestas_page.dart';
+import 'package:appciona/pages/inicio/inicio_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,13 @@ class InicioPage extends StatefulWidget {
 }
 
 class _InicioPageState extends State<InicioPage> {
+  final InicioController _controller = InicioController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -66,65 +75,47 @@ class _InicioPageState extends State<InicioPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _newCard(
-                size,
-                'assets/images/logo-green.png',
-                'Cortegana crea una web de tursimo',
-                formatDate(
-                  DateTime.now(),
-                  [
-                    dd,
-                    "-",
-                    mm,
-                    "-",
-                    yyyy,
-                  ],
-                ),
+              const SizedBox(
+                height: 10,
               ),
-              _newCard(
-                size,
-                'assets/images/logo-green.png',
-                'El Ayuntamiento de Cortegana organiza una carrera San Silvestre virtual para colaborar con una buena causa',
-                formatDate(
-                  DateTime.now(),
-                  [
-                    dd,
-                    "-",
-                    mm,
-                    "-",
-                    yyyy,
-                  ],
-                ),
-              ),
-              _newCard(
-                size,
-                'assets/images/logo-green.png',
-                'Conciertos de Fin de Año en Cortegana',
-                formatDate(
-                  DateTime.now(),
-                  [
-                    dd,
-                    "-",
-                    mm,
-                    "-",
-                    yyyy,
-                  ],
-                ),
-              ),
-              _newCard(
-                size,
-                'assets/images/logo-green.png',
-                'El Ayuntamiento de Cortegana "abre el paraguas" contra la violencia hacia la mujer',
-                formatDate(
-                  DateTime.now(),
-                  [
-                    dd,
-                    "-",
-                    mm,
-                    "-",
-                    yyyy,
-                  ],
-                ),
+              FutureBuilder(
+                future: _controller.getNoticias(),
+                builder: (context, data) {
+                  if (data.hasData) {
+                    List<DocumentSnapshot> documents =
+                        data.data as List<DocumentSnapshot>;
+                    return ListView.builder(
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: documents.isEmpty ? 0 : documents.length,
+                      itemBuilder: (context, index) {
+                        Timestamp t = documents[index]["Fecha"];
+                        DateTime d = t.toDate();
+                        return _newCard(
+                          size,
+                          documents[index]["Imagen"],
+                          documents[index]["Titulo"],
+                          formatDate(
+                            d,
+                            [
+                              dd,
+                              "-",
+                              mm,
+                              "-",
+                              yyyy,
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  } else if (data.hasError) {
+                    return Text('${data.error}');
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
               ),
             ],
           ),
@@ -145,7 +136,7 @@ class _InicioPageState extends State<InicioPage> {
         boxShadow: [
           BoxShadow(
             color: Colors.grey,
-            blurRadius: 10,
+            blurRadius: 6,
           ),
         ],
       ),
@@ -153,10 +144,15 @@ class _InicioPageState extends State<InicioPage> {
         onTap: () {},
         child: Row(
           children: [
-            Image.asset(
-              img,
-              fit: BoxFit.contain,
-              height: 150,
+            SizedBox(
+              width: size.width * 0.50,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Image.network(
+                  img,
+                  fit: BoxFit.contain,
+                ),
+              ),
             ),
             Expanded(
               child: Padding(
