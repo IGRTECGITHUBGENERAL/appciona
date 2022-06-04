@@ -4,11 +4,15 @@ import 'package:appciona/pages/inicio/inicio.dart';
 import 'package:appciona/pages/perfil/perfil.dart';
 import 'package:appciona/pages/servicios/servicios.dart';
 import 'package:appciona/pages/turismo/turismo.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp().then((value) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -22,9 +26,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
       ),
       home: const MyHomePage(),
-      supportedLocales: const [
-        Locale('es'),
-      ],
     );
   }
 }

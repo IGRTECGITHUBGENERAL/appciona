@@ -1,4 +1,4 @@
-package com.example.appciona
+package com.igrtec.appciona
 
 import io.flutter.embedding.android.FlutterActivity
 

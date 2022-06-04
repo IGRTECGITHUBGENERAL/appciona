@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "27940180392",
+    "project_id": "appciona-d1353",
+    "storage_bucket": "appciona-d1353.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27940180392:android:8f67d0a0d92e9d0c1f8d9d",
+        "android_client_info": {
+          "package_name": "com.igrtec.appciona"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27940180392-qg2affa8k7vffoq074l427dq606qrvf5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.igrtec.appciona",
+            "certificate_hash": "7eb0150b839dcd96e0c45dcd000601446ec2648b"
+          }
+        },
+        {
+          "client_id": "27940180392-h9h25924s7pabjigt6bujmdrsuhiaaj6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtr6up9CoGUzH2X56gz_IOd9ZRU_XwIsM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27940180392-h9h25924s7pabjigt6bujmdrsuhiaaj6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
