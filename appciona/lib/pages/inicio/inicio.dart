@@ -127,7 +127,6 @@ class _InicioPageState extends State<InicioPage> {
   Container _newCard(Size size, String img, String desc, String fecha) {
     return Container(
       width: size.width * 0.90,
-      height: 160,
       padding: const EdgeInsets.all(5),
       margin: const EdgeInsets.all(5),
       decoration: const BoxDecoration(

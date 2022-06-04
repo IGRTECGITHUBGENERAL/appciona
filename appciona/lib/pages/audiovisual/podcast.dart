@@ -51,31 +51,32 @@ class _PodcastPageState extends State<PodcastPage> {
                   DateTime d = t.toDate();
                   return Column(
                     children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                            ),
+                          ],
+                        ),
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                          child: Image.network(
+                            '${doc["Imagen"]}',
+                            width: size.width,
+                          ),
+                        ),
+                      ),
                       Row(
                         children: [
-                          Container(
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              child: Image.network(
-                                '${doc["Imagen"]}',
-                                width: size.width * 0.40,
-                              ),
-                            ),
-                          ),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -86,6 +87,15 @@ class _PodcastPageState extends State<PodcastPage> {
                                   fontSize: 18,
                                 ),
                               ),
+                            ),
+                          ),
+                          FloatingActionButton(
+                            backgroundColor: Colors.white,
+                            tooltip: 'Reproducir podcast',
+                            onPressed: () => _launchPodcast(doc["Link"]),
+                            child: const Icon(
+                              Icons.play_arrow,
+                              color: Colors.orange,
                             ),
                           ),
                         ],
@@ -145,15 +155,6 @@ class _PodcastPageState extends State<PodcastPage> {
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                      FloatingActionButton(
-                        backgroundColor: Colors.white,
-                        tooltip: 'Reproducir podcast',
-                        onPressed: () => _launchPodcast(doc["Link"]),
-                        child: const Icon(
-                          Icons.play_arrow,
-                          color: Colors.orange,
                         ),
                       ),
                     ],

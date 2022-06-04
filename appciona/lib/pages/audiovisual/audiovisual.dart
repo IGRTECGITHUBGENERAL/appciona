@@ -140,13 +140,16 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                       ),
                       textAlign: TextAlign.left,
                     ),
-                    Text(
-                      fecha,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 10,
+                    SizedBox(
+                      width: size.width,
+                      child: Text(
+                        'Fecha de publlicación: $fecha',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.left,
                       ),
-                      textAlign: TextAlign.right,
                     ),
                   ],
                 ),
