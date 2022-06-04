@@ -2,6 +2,7 @@ import 'package:appciona/pages/audiovisual/podcast_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PodcastPage extends StatefulWidget {
   final String documentID;
@@ -16,6 +17,13 @@ class PodcastPage extends StatefulWidget {
 
 class _PodcastPageState extends State<PodcastPage> {
   final PodcastController _controller = PodcastController();
+
+  void _launchPodcast(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      print('Could not launch ');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -137,6 +145,15 @@ class _PodcastPageState extends State<PodcastPage> {
                               ),
                             ),
                           ],
+                        ),
+                      ),
+                      FloatingActionButton(
+                        backgroundColor: Colors.white,
+                        tooltip: 'Reproducir podcast',
+                        onPressed: () => _launchPodcast(doc["Link"]),
+                        child: const Icon(
+                          Icons.play_arrow,
+                          color: Colors.orange,
                         ),
                       ),
                     ],
