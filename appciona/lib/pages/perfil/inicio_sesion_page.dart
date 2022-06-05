@@ -35,6 +35,14 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(

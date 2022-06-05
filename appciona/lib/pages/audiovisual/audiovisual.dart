@@ -101,7 +101,15 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
       padding: const EdgeInsets.all(5),
       margin: const EdgeInsets.all(5),
       decoration: const BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(10)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            spreadRadius: 0,
+            blurRadius: 3,
+          ),
+        ],
       ),
       child: InkWell(
         onTap: () => Navigator.push(

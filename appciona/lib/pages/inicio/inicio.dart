@@ -1,7 +1,11 @@
 import 'package:appciona/pages/inicio/encuestas_page.dart';
 import 'package:appciona/pages/inicio/inicio_controller.dart';
+import 'package:appciona/pages/mensajeria/mensajeria.dart';
+import 'package:appciona/pages/perfil/inicio_sesion_page.dart';
+import 'package:appciona/pages/perfil/perfil.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -42,28 +46,110 @@ class _InicioPageState extends State<InicioPage> {
         child: SafeArea(
           child: Column(
             children: [
-              ListTile(
-                leading: const Icon(Icons.book),
-                title: const Text("Agenda"),
-                onTap: () => {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => const AgendaPage(),
-                    ),
-                  )
-                },
+              Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Image.asset('assets/images/logo-green.png'),
               ),
-              ListTile(
-                leading: const Icon(Icons.question_answer_outlined),
-                title: const Text("Encuestas"),
-                onTap: () => {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => const EncuestasPage(),
-                    ),
-                  )
+              StreamBuilder(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const ListTile(
+                      leading: CircularProgressIndicator(),
+                      title: LinearProgressIndicator(),
+                    );
+                  } else if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.login),
+                          title: const Text("Perfil"),
+                          onTap: () => {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => const PerfilPage(),
+                              ),
+                            )
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.message),
+                          title: const Text("Mensajería"),
+                          onTap: () => {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => const MensajeriaPage(),
+                              ),
+                            )
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.book),
+                          title: const Text("Agenda"),
+                          onTap: () => {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => const AgendaPage(),
+                              ),
+                            )
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.question_answer_outlined),
+                          title: const Text("Encuestas"),
+                          onTap: () => {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => const EncuestasPage(),
+                              ),
+                            )
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.logout),
+                          title: const Text("Cerrar sesión"),
+                          onTap: () => {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => const EncuestasPage(),
+                              ),
+                            )
+                          },
+                        ),
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return ListTile(
+                      leading: const Icon(Icons.login),
+                      title: const Text("Iniciar sesión"),
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => const InicioSesionPage(),
+                          ),
+                        )
+                      },
+                    );
+                  } else {
+                    return ListTile(
+                      leading: const Icon(Icons.login),
+                      title: const Text("Iniciar sesión"),
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => const InicioSesionPage(),
+                          ),
+                        )
+                      },
+                    );
+                  }
                 },
               ),
             ],

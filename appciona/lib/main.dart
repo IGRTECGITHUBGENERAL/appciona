@@ -72,18 +72,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             label: 'Turismo',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.mail_outline,
-            ),
-            label: 'Mensajería',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person_outline,
-            ),
-            label: 'Perfil',
-          ),
         ],
       ),
       tabBuilder: (context, index) {
@@ -103,14 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
           case 3:
             return CupertinoTabView(
               builder: (context) => const TurismoPage(),
-            );
-          case 4:
-            return CupertinoTabView(
-              builder: (context) => const MensajeriaPage(),
-            );
-          case 5:
-            return CupertinoTabView(
-              builder: (context) => const PerfilPage(),
             );
           default:
             return CupertinoTabView(

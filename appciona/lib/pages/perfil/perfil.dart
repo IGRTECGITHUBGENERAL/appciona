@@ -1,4 +1,3 @@
-import 'package:appciona/pages/perfil/inicio_sesion_page.dart';
 import 'package:flutter/material.dart';
 
 class PerfilPage extends StatefulWidget {
@@ -11,6 +10,10 @@ class PerfilPage extends StatefulWidget {
 class _PerfilPageState extends State<PerfilPage> {
   @override
   Widget build(BuildContext context) {
-    return const InicioSesionPage();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Mi perfil'),
+      ),
+    );
   }
 }
