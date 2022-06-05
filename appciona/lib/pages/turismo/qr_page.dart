@@ -3,12 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class Qr extends StatefulWidget {
+class QRPage extends StatefulWidget {
+  const QRPage({Key? key}) : super(key: key);
   @override
-  _QrState createState() => _QrState();
+  State<QRPage> createState() => _QRPageState();
 }
 
-class _QrState extends State<Qr> {
+class _QRPageState extends State<QRPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;

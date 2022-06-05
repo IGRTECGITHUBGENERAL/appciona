@@ -8,7 +8,9 @@ import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../firebaseServices/google_sign_in.dart';
 import 'agenda_page.dart';
 
 class InicioPage extends StatefulWidget {
@@ -112,13 +114,15 @@ class _InicioPageState extends State<InicioPage> {
                         ListTile(
                           leading: const Icon(Icons.logout),
                           title: const Text("Cerrar sesión"),
-                          onTap: () => {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => const EncuestasPage(),
-                              ),
-                            )
+                          onTap: () async {
+                            final provider = Provider.of<GoogleSignInProvider>(
+                                context,
+                                listen: false);
+                            bool result = await provider.googleLogout();
+                            if (!result) {
+                              await FirebaseAuth.instance.signOut();
+                            }
+                            setState(() {});
                           },
                         ),
                       ],

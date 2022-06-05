@@ -1,10 +1,11 @@
+import 'package:appciona/pages/turismo/qr_page.dart';
 import 'package:appciona/pages/turismo/turismo_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
 
 class TurismoPage extends StatefulWidget {
   const TurismoPage({Key? key}) : super(key: key);
@@ -22,14 +23,6 @@ class _TurismoPageState extends State<TurismoPage> {
     zoom: 15,
   );
   final TurismoController _controller = TurismoController();
-
-  void scanQr() async {
-    String? cameraScanResult = await scanner.scan();
-    setState(() {
-      qrValue = cameraScanResult ?? "Codigo Qr";
-      if (qrValue != "Codigo Qr") {}
-    });
-  }
 
   @override
   void initState() {
@@ -119,7 +112,12 @@ class _TurismoPageState extends State<TurismoPage> {
                   foregroundColor: Colors.white,
                   children: [
                     SpeedDialChild(
-                      onTap: scanQr,
+                      onTap: () => Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const QRPage(),
+                        ),
+                      ),
                       child: Icon(
                         Icons.qr_code,
                         color: Colors.orange.shade600,
