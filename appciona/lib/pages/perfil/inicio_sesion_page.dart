@@ -61,13 +61,15 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
                 ),
                 _textBox(
                   size,
-                  'DNI',
+                  'Correo electrónico',
                   dniCtrl,
+                  false,
                 ),
                 _textBox(
                   size,
                   'Contraseña',
                   passCtrl,
+                  true,
                 ),
                 const SizedBox(
                   height: 20,
@@ -139,12 +141,14 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
     );
   }
 
-  Container _textBox(Size size, String labelText, TextEditingController ctrl) {
+  Container _textBox(Size size, String labelText, TextEditingController ctrl,
+      bool isPassword) {
     return Container(
       width: size.width * 0.75,
       margin: const EdgeInsets.all(10),
       child: TextFormField(
         controller: ctrl,
+        obscureText: isPassword,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
           labelText: labelText,

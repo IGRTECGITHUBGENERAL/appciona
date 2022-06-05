@@ -1,5 +1,5 @@
 import 'package:appciona/pages/audiovisual/audiovisual_controller.dart';
-import 'package:appciona/pages/audiovisual/podcast.dart';
+import 'package:appciona/pages/audiovisual/podcast_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';

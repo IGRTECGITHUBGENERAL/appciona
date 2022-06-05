@@ -1,8 +1,8 @@
 import 'package:appciona/pages/inicio/encuestas_page.dart';
 import 'package:appciona/pages/inicio/inicio_controller.dart';
-import 'package:appciona/pages/mensajeria/mensajeria.dart';
+import 'package:appciona/pages/mensajeria/mensajeria_page.dart';
 import 'package:appciona/pages/perfil/inicio_sesion_page.dart';
-import 'package:appciona/pages/perfil/perfil.dart';
+import 'package:appciona/pages/perfil/perfil_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,7 +62,7 @@ class _InicioPageState extends State<InicioPage> {
                     return Column(
                       children: [
                         ListTile(
-                          leading: const Icon(Icons.login),
+                          leading: const Icon(Icons.person),
                           title: const Text("Perfil"),
                           onTap: () => {
                             Navigator.push(

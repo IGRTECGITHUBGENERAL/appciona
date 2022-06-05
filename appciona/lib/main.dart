@@ -1,7 +1,7 @@
 import 'package:appciona/pages/mensajeria/Mensajeria.dart';
-import 'package:appciona/pages/audiovisual/audiovisual.dart';
-import 'package:appciona/pages/inicio/inicio.dart';
-import 'package:appciona/pages/perfil/perfil.dart';
+import 'package:appciona/pages/audiovisual/audiovisual_page.dart';
+import 'package:appciona/pages/inicio/inicio_page.dart';
+import 'package:appciona/pages/perfil/perfil_page.dart';
 import 'package:appciona/pages/servicios/servicios.dart';
 import 'package:appciona/pages/turismo/turismo.dart';
 import 'package:firebase_core/firebase_core.dart';
