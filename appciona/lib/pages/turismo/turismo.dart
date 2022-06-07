@@ -8,7 +8,11 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TurismoPage extends StatefulWidget {
-  const TurismoPage({Key? key}) : super(key: key);
+  final Widget drawer;
+  const TurismoPage({
+    Key? key,
+    required this.drawer,
+  }) : super(key: key);
 
   @override
   _TurismoPageState createState() => _TurismoPageState();
@@ -44,6 +48,9 @@ class _TurismoPageState extends State<TurismoPage> {
               fit: BoxFit.contain,
             )
           ],
+        ),
+        drawer: Drawer(
+          child: widget.drawer,
         ),
         body: isMapSelected
             ? GoogleMap(

@@ -133,31 +133,49 @@ class _RegistroPageState extends State<RegistroPage> {
                   size,
                   'Nombre',
                   nameCtrl,
+                  TextInputType.text,
+                  TextInputAction.next,
+                  false,
                 ),
                 _textBox(
                   size,
                   'Apellidos',
                   surnameCtrl,
+                  TextInputType.text,
+                  TextInputAction.next,
+                  false,
                 ),
                 _textBox(
                   size,
                   'Correo electrónico',
                   emailCtrl,
+                  TextInputType.emailAddress,
+                  TextInputAction.next,
+                  false,
                 ),
                 _textBox(
                   size,
                   'DNI',
                   dniCtrl,
+                  TextInputType.text,
+                  TextInputAction.next,
+                  false,
                 ),
                 _textBox(
                   size,
                   'Contraseña',
                   passCtrl,
+                  TextInputType.visiblePassword,
+                  TextInputAction.next,
+                  true,
                 ),
                 _textBox(
                   size,
                   'Confirme contraseña',
                   passPassCtrl,
+                  TextInputType.visiblePassword,
+                  TextInputAction.done,
+                  true,
                 ),
                 ElevatedButton(
                   onPressed: singin ? null : signUp,
@@ -214,13 +232,16 @@ class _RegistroPageState extends State<RegistroPage> {
     );
   }
 
-  Container _textBox(Size size, String labelText, TextEditingController ctrl) {
+  Container _textBox(Size size, String labelText, TextEditingController ctrl,
+      TextInputType tit, TextInputAction tia, bool isPassword) {
     return Container(
       width: size.width * 0.75,
       margin: const EdgeInsets.all(10),
       child: TextFormField(
         controller: ctrl,
-        textInputAction: TextInputAction.next,
+        textInputAction: tia,
+        keyboardType: tit,
+        obscureText: isPassword,
         validator: (value) {
           if (value!.isEmpty) {
             return "Campo necesario";

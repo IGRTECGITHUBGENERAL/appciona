@@ -93,12 +93,16 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
                     size,
                     'Correo electrónico',
                     emailCtrl,
+                    TextInputType.emailAddress,
+                    TextInputAction.next,
                     false,
                   ),
                   _textBox(
                     size,
                     'Contraseña',
                     passCtrl,
+                    TextInputType.visiblePassword,
+                    TextInputAction.done,
                     true,
                   ),
                   const SizedBox(
@@ -175,11 +179,13 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
   }
 
   Container _textBox(Size size, String labelText, TextEditingController ctrl,
-      bool isPassword) {
+      TextInputType tit, TextInputAction tia, bool isPassword) {
     return Container(
       width: size.width * 0.75,
       margin: const EdgeInsets.all(10),
       child: TextFormField(
+        textInputAction: tia,
+        keyboardType: tit,
         controller: ctrl,
         obscureText: isPassword,
         validator: (value) {

@@ -1,12 +1,17 @@
 import 'package:appciona/pages/audiovisual/audiovisual_controller.dart';
 import 'package:appciona/pages/audiovisual/podcast_page.dart';
+import 'package:appciona/pages/widgets/drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AudiovisualPage extends StatefulWidget {
-  const AudiovisualPage({Key? key}) : super(key: key);
+  final Widget drawer;
+  const AudiovisualPage({
+    Key? key,
+    required this.drawer,
+  }) : super(key: key);
 
   @override
   _AudiovisualPageState createState() => _AudiovisualPageState();
@@ -35,6 +40,9 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
             fit: BoxFit.contain,
           )
         ],
+      ),
+      drawer: Drawer(
+        child: widget.drawer,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

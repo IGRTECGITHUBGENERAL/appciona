@@ -110,15 +110,27 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           case 1:
             return CupertinoTabView(
-              builder: (context) => const AudiovisualPage(),
+              builder: (context) => AudiovisualPage(
+                drawer: DrawerWidget(
+                  userState: widget.userState,
+                ),
+              ),
             );
           case 2:
             return CupertinoTabView(
-              builder: (context) => const ServiciosPage(),
+              builder: (context) => ServiciosPage(
+                drawer: DrawerWidget(
+                  userState: widget.userState,
+                ),
+              ),
             );
           case 3:
             return CupertinoTabView(
-              builder: (context) => const TurismoPage(),
+              builder: (context) => TurismoPage(
+                drawer: DrawerWidget(
+                  userState: widget.userState,
+                ),
+              ),
             );
           default:
             return CupertinoTabView(
