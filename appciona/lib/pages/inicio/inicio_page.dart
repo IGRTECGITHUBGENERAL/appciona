@@ -1,20 +1,16 @@
-import 'package:appciona/pages/inicio/encuestas_page.dart';
 import 'package:appciona/pages/inicio/inicio_controller.dart';
-import 'package:appciona/pages/mensajeria/mensajeria_page.dart';
-import 'package:appciona/pages/perfil/inicio_sesion_page.dart';
-import 'package:appciona/pages/perfil/perfil_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../firebaseServices/google_sign_in.dart';
-import 'agenda_page.dart';
+import '../widgets/drawer.dart';
 
 class InicioPage extends StatefulWidget {
-  const InicioPage({Key? key}) : super(key: key);
+  final Widget drawer;
+  const InicioPage({
+    Key? key,
+    required this.drawer,
+  }) : super(key: key);
 
   @override
   _InicioPageState createState() => _InicioPageState();
@@ -45,120 +41,7 @@ class _InicioPageState extends State<InicioPage> {
         ],
       ),
       drawer: Drawer(
-        child: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(50.0),
-                child: Image.asset('assets/images/logo-green.png'),
-              ),
-              StreamBuilder(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const ListTile(
-                      leading: CircularProgressIndicator(),
-                      title: LinearProgressIndicator(),
-                    );
-                  } else if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        ListTile(
-                          leading: const Icon(Icons.person),
-                          title: const Text("Perfil"),
-                          onTap: () => {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => const PerfilPage(),
-                              ),
-                            )
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.message),
-                          title: const Text("Mensajería"),
-                          onTap: () => {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => const MensajeriaPage(),
-                              ),
-                            )
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.book),
-                          title: const Text("Agenda"),
-                          onTap: () => {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => const AgendaPage(),
-                              ),
-                            )
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.question_answer_outlined),
-                          title: const Text("Encuestas"),
-                          onTap: () => {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => const EncuestasPage(),
-                              ),
-                            )
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.logout),
-                          title: const Text("Cerrar sesión"),
-                          onTap: () async {
-                            final provider = Provider.of<GoogleSignInProvider>(
-                                context,
-                                listen: false);
-                            bool result = await provider.googleLogout();
-                            if (!result) {
-                              await FirebaseAuth.instance.signOut();
-                            }
-                            setState(() {});
-                          },
-                        ),
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return ListTile(
-                      leading: const Icon(Icons.login),
-                      title: const Text("Iniciar sesión"),
-                      onTap: () => {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => const InicioSesionPage(),
-                          ),
-                        )
-                      },
-                    );
-                  } else {
-                    return ListTile(
-                      leading: const Icon(Icons.login),
-                      title: const Text("Iniciar sesión"),
-                      onTap: () => {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => const InicioSesionPage(),
-                          ),
-                        )
-                      },
-                    );
-                  }
-                },
-              ),
-            ],
-          ),
-        ),
+        child: widget.drawer,
       ),
       body: SingleChildScrollView(
         child: Center(

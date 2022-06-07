@@ -42,7 +42,7 @@ class UsersModel {
   Future<bool> agregarUsuarioFirestore() async {
     bool result = false;
     try {
-      users
+      await users
           .doc(uid.toString())
           .set({
             'uid': uid,
@@ -56,6 +56,7 @@ class UsersModel {
           .catchError((error) => result = false);
       return result;
     } catch (e) {
+      print('->ERROR:$e\n\n\n\n\n\n');
       return result;
     }
   }

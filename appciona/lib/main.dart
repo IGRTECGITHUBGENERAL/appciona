@@ -2,9 +2,12 @@ import 'package:appciona/pages/audiovisual/audiovisual_page.dart';
 import 'package:appciona/pages/inicio/inicio_page.dart';
 import 'package:appciona/pages/servicios/servicios.dart';
 import 'package:appciona/pages/turismo/turismo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'pages/widgets/drawer.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,14 +26,37 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: const MyHomePage(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, data) {
+          if (data.connectionState == ConnectionState.waiting) {
+            return const MyHomePage(
+              userState: 2,
+            );
+          } else if (data.hasData) {
+            return const MyHomePage(
+              userState: 1,
+            );
+          } else if (data.hasError) {
+            return const MyHomePage(
+              userState: 0,
+            );
+          } else {
+            return const MyHomePage(
+              userState: 0,
+            );
+          }
+        },
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  final int userState;
   const MyHomePage({
     Key? key,
+    required this.userState,
   }) : super(key: key);
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -76,7 +102,11 @@ class _MyHomePageState extends State<MyHomePage> {
         switch (index) {
           case 0:
             return CupertinoTabView(
-              builder: (context) => const InicioPage(),
+              builder: (context) => InicioPage(
+                drawer: DrawerWidget(
+                  userState: widget.userState,
+                ),
+              ),
             );
           case 1:
             return CupertinoTabView(
@@ -92,7 +122,11 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           default:
             return CupertinoTabView(
-              builder: (context) => const InicioPage(),
+              builder: (context) => InicioPage(
+                drawer: DrawerWidget(
+                  userState: widget.userState,
+                ),
+              ),
             );
         }
       },

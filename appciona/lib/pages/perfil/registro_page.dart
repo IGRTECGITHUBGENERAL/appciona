@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../firebaseServices/auth_services.dart';
+import '../widgets/drawer.dart';
 
 class RegistroPage extends StatefulWidget {
   const RegistroPage({Key? key}) : super(key: key);
@@ -69,12 +70,13 @@ class _RegistroPageState extends State<RegistroPage> {
           dniCtrl.text,
           passCtrl.text,
         );
-        await register.agregarUsuarioFirestore();
-        UserCredential? uc = await as.singIn(emailCtrl.text, emailCtrl.text);
-        if (uc != null) {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => const InicioPage()),
-              (Route<dynamic> route) => false);
+        bool result = await register.agregarUsuarioFirestore();
+        if (result) {
+          UserCredential? uc = await as.singIn(emailCtrl.text, passCtrl.text);
+          if (uc != null) {
+            int counter = 0;
+            Navigator.of(context).popUntil((route) => counter++ >= 3);
+          }
         }
       }
     }

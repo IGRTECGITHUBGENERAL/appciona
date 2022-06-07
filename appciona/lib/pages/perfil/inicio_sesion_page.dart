@@ -1,6 +1,10 @@
 import 'package:appciona/pages/perfil/registro_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../firebaseServices/auth_services.dart';
+import '../widgets/alerts.dart';
 
 class InicioSesionPage extends StatefulWidget {
   const InicioSesionPage({Key? key}) : super(key: key);
@@ -10,12 +14,36 @@ class InicioSesionPage extends StatefulWidget {
 }
 
 class _InicioSesionPageState extends State<InicioSesionPage> {
-  TextEditingController dniCtrl = TextEditingController();
+  late bool loginIng = false;
+  GlobalKey<FormState> _keyForm = GlobalKey();
+
+  TextEditingController emailCtrl = TextEditingController();
   TextEditingController passCtrl = TextEditingController();
+
+  void signIn() async {
+    if (_keyForm.currentState!.validate()) {
+      setState(() {
+        loginIng = true;
+      });
+      if (_keyForm.currentState!.validate()) {
+        AuthServices as = AuthServices();
+        UserCredential? uc = await as.singIn(emailCtrl.text, passCtrl.text);
+        if (uc != null) {
+          Navigator.pop(context);
+        } else {
+          Alerts.messageBoxMessage(context, 'Verifica tus datos',
+              'Los datos que ingresaste son erróneos');
+        }
+      }
+      setState(() {
+        loginIng = false;
+      });
+    }
+  }
 
   @override
   void initState() {
-    dniCtrl = TextEditingController()
+    emailCtrl = TextEditingController()
       ..addListener(() {
         setState(() {});
       });
@@ -44,96 +72,101 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 5),
-                  child: Image.asset(
-                    'assets/images/logo-green.png',
-                    fit: BoxFit.contain,
-                    width: 200,
-                  ),
-                ),
-                SizedBox(
-                  height: size.height * 0.10,
-                ),
-                _textBox(
-                  size,
-                  'Correo electrónico',
-                  dniCtrl,
-                  false,
-                ),
-                _textBox(
-                  size,
-                  'Contraseña',
-                  passCtrl,
-                  true,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    elevation: 10,
-                    padding: EdgeInsets.zero,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+        child: Form(
+          key: _keyForm,
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 5),
+                    child: Image.asset(
+                      'assets/images/logo-green.png',
+                      fit: BoxFit.contain,
+                      width: 200,
                     ),
                   ),
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(0XFF005059),
-                          Color(0XFF007373),
-                        ],
+                  SizedBox(
+                    height: size.height * 0.10,
+                  ),
+                  _textBox(
+                    size,
+                    'Correo electrónico',
+                    emailCtrl,
+                    false,
+                  ),
+                  _textBox(
+                    size,
+                    'Contraseña',
+                    passCtrl,
+                    true,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: signIn,
+                    style: ElevatedButton.styleFrom(
+                      elevation: 10,
+                      padding: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
                       ),
-                      borderRadius: BorderRadius.circular(30),
                     ),
-                    child: Container(
-                      height: 40,
-                      width: size.width * 0.6,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'INICIAR SESIÓN',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0XFF005059),
+                            Color(0XFF007373),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Container(
+                        height: 40,
+                        width: size.width * 0.6,
+                        alignment: Alignment.center,
+                        child: loginIng
+                            ? const CircularProgressIndicator()
+                            : const Text(
+                                'INICIAR SESIÓN',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: size.width * 0.60,
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 20,
+                    ),
+                    child: const Divider(
+                      height: 5,
+                      thickness: 1,
+                      color: Color(0XFF005059),
+                    ),
+                  ),
+                  const Text('¿No tienes cuenta?'),
+                  TextButton(
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => const RegistroPage(),
                         ),
                       ),
+                    },
+                    child: const Text(
+                      'Registrate',
+                      style: TextStyle(color: Colors.orange),
                     ),
                   ),
-                ),
-                Container(
-                  width: size.width * 0.60,
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 20,
-                  ),
-                  child: const Divider(
-                    height: 5,
-                    thickness: 1,
-                    color: Color(0XFF005059),
-                  ),
-                ),
-                const Text('¿No tienes cuenta?'),
-                TextButton(
-                  onPressed: () => {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => const RegistroPage(),
-                      ),
-                    ),
-                  },
-                  child: const Text(
-                    'Registrate',
-                    style: TextStyle(color: Colors.orange),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -149,6 +182,9 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
       child: TextFormField(
         controller: ctrl,
         obscureText: isPassword,
+        validator: (value) {
+          return value!.isEmpty ? 'El campo está vacío' : null;
+        },
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
           labelText: labelText,
@@ -167,6 +203,20 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
             borderSide: const BorderSide(
               width: 2,
               color: Color(0XFF005059),
+            ),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              width: 2,
+              color: Color(0XFF005059),
+            ),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 2,
+              color: Colors.red.shade900,
             ),
             borderRadius: BorderRadius.circular(5),
           ),
