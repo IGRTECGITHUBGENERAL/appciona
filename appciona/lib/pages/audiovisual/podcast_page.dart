@@ -20,7 +20,7 @@ class _PodcastPageState extends State<PodcastPage> {
 
   void _launchPodcast(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
-      print('Could not launch ');
+      debugPrint('No se pudo acceder al sitio.');
     }
   }
 
