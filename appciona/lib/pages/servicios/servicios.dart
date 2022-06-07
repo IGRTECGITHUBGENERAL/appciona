@@ -19,7 +19,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text("Turismo"),
+        title: const Text("Servicios"),
         centerTitle: true,
         actions: [
           Image.asset(

@@ -3,8 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/drawer.dart';
-
 class InicioPage extends StatefulWidget {
   final Widget drawer;
   const InicioPage({
@@ -68,6 +66,8 @@ class _InicioPageState extends State<InicioPage> {
                           size,
                           documents[index]["Imagen"],
                           documents[index]["Titulo"],
+                          documents[index]["Subtitulo"],
+                          documents[index]["Texto"],
                           formatDate(
                             d,
                             [
@@ -97,7 +97,8 @@ class _InicioPageState extends State<InicioPage> {
     );
   }
 
-  Container _newCard(Size size, String img, String desc, String fecha) {
+  Container _newCard(Size size, String img, String title, String subtitle,
+      String text, String fecha) {
     return Container(
       width: size.width * 0.90,
       padding: const EdgeInsets.all(5),
@@ -134,11 +135,27 @@ class _InicioPageState extends State<InicioPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      desc,
+                      title,
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                    Text(
+                      text,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
                       ),
                       textAlign: TextAlign.left,
                     ),
