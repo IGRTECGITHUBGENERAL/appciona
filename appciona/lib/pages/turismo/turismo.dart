@@ -1,11 +1,13 @@
 import 'package:appciona/pages/turismo/qr_page.dart';
 import 'package:appciona/pages/turismo/turismo_controller.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TurismoPage extends StatefulWidget {
   final Widget drawer;
@@ -23,13 +25,15 @@ class _TurismoPageState extends State<TurismoPage> {
   bool isMapSelected = false;
 
   final _initialCameraPosition = const CameraPosition(
-    target: LatLng(40.9776352, -0.4492164),
+    target: LatLng(37.9101298, -6.8306072),
     zoom: 15,
   );
   final TurismoController _controller = TurismoController();
 
   @override
   void initState() {
+    _controller.markers = [];
+    _controller.addMarkers();
     super.initState();
   }
 
@@ -37,181 +41,188 @@ class _TurismoPageState extends State<TurismoPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          elevation: 2,
-          backgroundColor: Colors.white,
-          title: const Text("Turismo"),
-          centerTitle: true,
-          actions: [
-            Image.asset(
-              'assets/images/logo-green.png',
-              fit: BoxFit.contain,
+      appBar: AppBar(
+        elevation: 2,
+        backgroundColor: Colors.white,
+        title: const Text("Turismo"),
+        centerTitle: true,
+        actions: [
+          Image.asset(
+            'assets/images/logo-green.png',
+            fit: BoxFit.contain,
+          )
+        ],
+      ),
+      drawer: Drawer(
+        child: widget.drawer,
+      ),
+      body: isMapSelected
+          ? FutureBuilder(
+              future: _controller.addMarkers(),
+              builder: (context, data) {
+                if (data.hasData) {
+                  return GoogleMap(
+                    initialCameraPosition: _initialCameraPosition,
+                    markers: Set.from(_controller.markers!),
+                    myLocationButtonEnabled: true,
+                    myLocationEnabled: true,
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             )
-          ],
-        ),
-        drawer: Drawer(
-          child: widget.drawer,
-        ),
-        body: isMapSelected
-            ? GoogleMap(
-                initialCameraPosition: _initialCameraPosition,
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-              )
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    FutureBuilder(
-                      future: _controller.getNoticias(),
-                      builder: (context, data) {
-                        if (data.hasData) {
-                          List<DocumentSnapshot> documents =
-                              data.data as List<DocumentSnapshot>;
-                          return ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: documents.isEmpty ? 0 : documents.length,
-                            itemBuilder: (context, index) {
-                              Timestamp t = documents[index]["Fecha"];
-                              DateTime d = t.toDate();
-                              return _newCard(
-                                size,
-                                documents[index]["Imagen"],
-                                documents[index]["Titulo"],
-                                formatDate(
-                                  d,
-                                  [
-                                    dd,
-                                    "-",
-                                    mm,
-                                    "-",
-                                    yyyy,
-                                  ],
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  FutureBuilder(
+                    future: _controller.getNoticias(),
+                    builder: (context, data) {
+                      if (data.hasData) {
+                        List<DocumentSnapshot> documents =
+                            data.data as List<DocumentSnapshot>;
+                        return documents.isEmpty
+                            ? const Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                    'Parece que aún no hay puntos de interés.'),
+                              )
+                            : SizedBox(
+                                width: size.width,
+                                child: Wrap(
+                                  alignment: WrapAlignment.spaceEvenly,
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  spacing: 5,
+                                  runSpacing: 5,
+                                  children: List.generate(
+                                    documents.length,
+                                    (index) => _cardPoint(
+                                      documents[index]["Imagen"],
+                                      documents[index]["Titulo"],
+                                      documents[index]["Link"],
+                                    ),
+                                  ),
                                 ),
                               );
-                            },
-                          );
-                        } else if (data.hasError) {
-                          return Text('${data.error}');
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              ),
-        floatingActionButton: Stack(
-          children: [
-            Align(
-              alignment:
-                  isMapSelected ? Alignment.bottomLeft : Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 25.0),
-                child: SpeedDial(
-                  backgroundColor: const Color(0XFF007474),
-                  animatedIcon: AnimatedIcons.menu_close,
-                  foregroundColor: Colors.white,
-                  children: [
-                    SpeedDialChild(
-                      onTap: () => Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (context) => const QRPage(),
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.qr_code,
-                        color: Colors.orange.shade600,
-                      ),
-                      label: 'QR',
-                    ),
-                    SpeedDialChild(
-                      onTap: () => setState(() {
-                        isMapSelected = !isMapSelected;
-                      }),
-                      child: isMapSelected
-                          ? Icon(
-                              Icons.newspaper,
-                              color: Colors.orange.shade600,
-                            )
-                          : Icon(
-                              Icons.map_rounded,
-                              color: Colors.orange.shade600,
-                            ),
-                      label: 'Mapa',
-                    ),
-                  ],
-                ),
+                      } else if (data.hasError) {
+                        return Text('${data.error}');
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
-          ],
-        ));
-  }
-
-  Container _newCard(Size size, String img, String desc, String fecha) {
-    return Container(
-      width: size.width * 0.90,
-      padding: const EdgeInsets.all(5),
-      margin: const EdgeInsets.all(5),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            blurRadius: 6,
+      floatingActionButton: Stack(
+        children: [
+          Align(
+            alignment:
+                isMapSelected ? Alignment.bottomLeft : Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: SpeedDial(
+                backgroundColor: Colors.orange.shade600,
+                animatedIcon: AnimatedIcons.menu_close,
+                foregroundColor: Colors.white,
+                children: [
+                  SpeedDialChild(
+                    onTap: () => Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => const QRPage(),
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.qr_code,
+                      color: Color(0XFF007474),
+                    ),
+                    label: 'QR',
+                  ),
+                  SpeedDialChild(
+                    onTap: () => setState(() {
+                      isMapSelected = !isMapSelected;
+                    }),
+                    child: isMapSelected
+                        ? const Icon(
+                            Icons.newspaper,
+                            color: Color(0XFF007474),
+                          )
+                        : const Icon(
+                            Icons.map_rounded,
+                            color: Color(0XFF007474),
+                          ),
+                    label: 'Mapa',
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  Card _cardPoint(String imagen, String titulo, String link) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
       child: InkWell(
-        onTap: () {},
-        child: Row(
-          children: [
-            SizedBox(
-              width: size.width * 0.50,
-              child: AspectRatio(
+        borderRadius: BorderRadius.circular(15),
+        onTap: () async {
+          if (!await launchUrl(Uri.parse(link))) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("No se pudo acceder al punto de interés."),
+              ),
+            );
+          }
+        },
+        child: SizedBox(
+          width: 150,
+          child: Column(
+            children: [
+              AspectRatio(
                 aspectRatio: 16 / 9,
-                child: Image.network(
-                  img,
-                  fit: BoxFit.contain,
+                child: CachedNetworkImage(
+                  imageUrl: imagen,
+                  placeholder: (context, url) =>
+                      Image.asset('assets/images/logo-green.png'),
+                  errorWidget: (context, url, error) =>
+                      Image.asset('assets/images/logo-green.png'),
                 ),
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      desc,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                    Text(
-                      fecha,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 10,
-                      ),
-                      textAlign: TextAlign.right,
-                    ),
-                  ],
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  ),
+                  color: Color(0XFF007474),
+                ),
+                width: 150,
+                padding: const EdgeInsets.all(8),
+                child: Text(
+                  titulo,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -8,7 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../firebaseServices/google_sign_in.dart';
 import '../inicio/agenda_page.dart';
 import '../inicio/encuestas_page.dart';
-import '../mensajeria/mensajeria_page.dart';
 import '../perfil/inicio_sesion_page.dart';
 import '../perfil/perfil_page.dart';
 
@@ -41,41 +40,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           padding: const EdgeInsets.all(50.0),
           child: Image.asset('assets/images/logo-green.png'),
         ),
-        ListTile(
-          leading: const CircularProgressIndicator(),
-          title: const LinearProgressIndicator(),
-          onTap: () => {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const InicioSesionPage(),
-              ),
-            )
-          },
+        const ListTile(
+          leading: CircularProgressIndicator(),
+          title: LinearProgressIndicator(),
+          onTap: null,
         ),
-        ListTile(
-          leading: const CircularProgressIndicator(),
-          title: const LinearProgressIndicator(),
-          onTap: () => {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const InicioSesionPage(),
-              ),
-            )
-          },
+        const ListTile(
+          leading: CircularProgressIndicator(),
+          title: LinearProgressIndicator(),
+          onTap: null,
         ),
-        ListTile(
-          leading: const CircularProgressIndicator(),
-          title: const LinearProgressIndicator(),
-          onTap: () => {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const InicioSesionPage(),
-              ),
-            )
-          },
+        const ListTile(
+          leading: CircularProgressIndicator(),
+          title: LinearProgressIndicator(),
+          onTap: null,
         ),
       ],
     );
@@ -124,7 +102,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.message),
+          leading: const Icon(Icons.whatsapp),
           title: const Text("Mensajería"),
           onTap: () {
             openwhatsapp();
@@ -187,16 +165,24 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       if (await canLaunch(whatappURL_ios)) {
         await launch(whatappURL_ios, forceSafariVC: false);
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Necesitas instalar WhatsApp."),
+          ),
+        );
       }
     } else {
       // android , web
       if (await canLaunch(whatsappURl_android)) {
         await launch(whatsappURl_android);
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Necesitas instalar WhatsApp."),
+          ),
+        );
       }
     }
   }
