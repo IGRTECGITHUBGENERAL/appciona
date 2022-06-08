@@ -1,10 +1,10 @@
+import 'dart:io';
 import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../firebaseServices/google_sign_in.dart';
 import '../inicio/agenda_page.dart';
 import '../inicio/encuestas_page.dart';
@@ -126,10 +126,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ListTile(
           leading: const Icon(Icons.message),
           title: const Text("Mensajería"),
-          onTap: () async {
-            if (!await launchUrl(Uri.parse("https://wa.me/+34605183884"))) {
-              print("Error al abrir la url");
-            }
+          onTap: () {
+            openwhatsapp();
           },
         ),
         ListTile(
@@ -178,5 +176,28 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ),
       ],
     );
+  }
+
+  openwhatsapp() async {
+    var whatsapp = "https://wa.me/+34605183884";
+    var whatsappURl_android = "whatsapp://send?phone=" + whatsapp;
+    var whatappURL_ios = "https://wa.me/$whatsapp?text=${Uri.parse("hello")}";
+    if (Platform.isIOS) {
+      // for iOS phone only
+      if (await canLaunch(whatappURL_ios)) {
+        await launch(whatappURL_ios, forceSafariVC: false);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
+    } else {
+      // android , web
+      if (await canLaunch(whatsappURl_android)) {
+        await launch(whatsappURl_android);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
+    }
   }
 }
