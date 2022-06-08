@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../firebaseServices/google_sign_in.dart';
 import '../inicio/agenda_page.dart';
@@ -125,13 +126,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ListTile(
           leading: const Icon(Icons.message),
           title: const Text("Mensajería"),
-          onTap: () => {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const MensajeriaPage(),
-              ),
-            )
+          onTap: () async {
+            if (!await launchUrl(Uri.parse("https://wa.me/+34605183884"))) {
+              print("Error al abrir la url");
+            }
           },
         ),
         ListTile(
