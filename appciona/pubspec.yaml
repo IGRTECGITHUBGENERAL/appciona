@@ -49,6 +49,7 @@ dependencies:
   flutter_speed_dial: ^6.0.0
   mobile_scanner: ^2.0.0
   cached_network_image: ^3.2.1
+  flip_card: ^0.6.0
 
 dev_dependencies:
   flutter_test:
