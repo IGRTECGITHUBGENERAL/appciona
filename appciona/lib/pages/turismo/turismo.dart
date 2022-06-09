@@ -33,7 +33,6 @@ class _TurismoPageState extends State<TurismoPage> {
   @override
   void initState() {
     _controller.markers = [];
-    _controller.addMarkers();
     super.initState();
   }
 
@@ -58,7 +57,7 @@ class _TurismoPageState extends State<TurismoPage> {
       ),
       body: isMapSelected
           ? FutureBuilder(
-              future: _controller.addMarkers(),
+              future: _controller.addMarkers(context),
               builder: (context, data) {
                 if (data.hasData) {
                   return GoogleMap(

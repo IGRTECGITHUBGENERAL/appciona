@@ -1,11 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../widgets/alerts.dart';
+
 class TurismoController {
   late List<Marker>? markers;
-  Future<bool> addMarkers() async {
+  Future<bool> addMarkers(BuildContext context) async {
     try {
       QuerySnapshot qs =
           await FirebaseFirestore.instance.collection("LugaresDeInteres").get();
@@ -19,13 +22,42 @@ class TurismoController {
                 double.parse(document["Latitud"]),
                 double.parse(document["Longitud"]),
               ),
-              infoWindow: InfoWindow(
-                title: document["Titulo"],
-              ),
-              onTap: () async {
-                if (!await launchUrl(Uri.parse(document["Link"]))) {
-                  debugPrint('No se pudo abrir el enlace');
-                }
+              onTap: () {
+                Alerts.messageBoxCustom(
+                  context,
+                  Text(document["Titulo"]),
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: CachedNetworkImage(
+                      imageUrl: document["Imagen"],
+                      placeholder: (context, url) =>
+                          Image.asset('assets/images/logo-green.png'),
+                      errorWidget: (context, url, error) =>
+                          Image.asset('assets/images/logo-green.png'),
+                    ),
+                  ),
+                  [
+                    TextButton(
+                      onPressed: () =>
+                          Navigator.of(context, rootNavigator: true).pop(),
+                      child: const Text('Cerrar'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        if (!await launchUrl(Uri.parse(document["Link"]))) {
+                          debugPrint('No se pudo abrir el enlace');
+                        }
+                      },
+                      child: const Text(
+                        'Ver más...',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0XFF007474),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
               },
             ),
           );

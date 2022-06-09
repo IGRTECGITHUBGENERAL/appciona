@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Alerts {
-  static Future<void> messageBoxCustom(BuildContext context, Widget title,
-      Widget content, List<Widget> actions) async {
+  static messageBoxCustom(BuildContext context, Widget title, Widget content,
+      List<Widget> actions) async {
     return showDialog(
       context: context,
-      barrierDismissible: false,
-      builder: (context) {
+      builder: (BuildContext context) {
         return AlertDialog(
           title: title,
           content: content,
@@ -16,7 +15,7 @@ class Alerts {
     );
   }
 
-  static Future<void> messageBoxMessage(
+  static messageBoxMessage(
       BuildContext context, String title, String content) async {
     return showDialog(
       context: context,

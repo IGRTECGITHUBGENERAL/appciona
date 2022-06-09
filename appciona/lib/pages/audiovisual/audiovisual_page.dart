@@ -1,6 +1,7 @@
 import 'package:appciona/pages/audiovisual/audiovisual_controller.dart';
 import 'package:appciona/pages/audiovisual/podcast_page.dart';
 import 'package:appciona/pages/widgets/drawer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
@@ -134,9 +135,12 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
               width: size.width * 0.30,
               child: AspectRatio(
                 aspectRatio: 16 / 9,
-                child: Image.network(
-                  img,
-                  fit: BoxFit.contain,
+                child: CachedNetworkImage(
+                  imageUrl: img,
+                  placeholder: (context, url) =>
+                      Image.asset('assets/images/podcast-icon.png'),
+                  errorWidget: (context, url, error) =>
+                      Image.asset('assets/images/podcast-icon.png'),
                 ),
               ),
             ),
