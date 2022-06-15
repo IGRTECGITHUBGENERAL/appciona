@@ -173,10 +173,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         );
       }
     } else {
-      // android , web
-      if (await canLaunch(whatsappURl_android)) {
-        await launch(whatsappURl_android);
-      } else {
+      if (!await launchUrl(Uri.parse(whatsappURl_android))) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

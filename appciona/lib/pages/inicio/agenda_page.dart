@@ -176,6 +176,7 @@ class _AgendaPageState extends State<AgendaPage> {
       child: DatePicker(
         DateTime.now(),
         initialSelectedDate: DateTime.now(),
+        daysCount: 50,
         dateTextStyle: const TextStyle(
           fontWeight: FontWeight.w700,
           color: Colors.grey,

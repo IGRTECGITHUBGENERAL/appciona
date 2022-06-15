@@ -173,7 +173,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
               ),
               width: size.width,
               decoration: const BoxDecoration(
-                color: Colors.orange,
+                color: Color(0XFF007474),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
