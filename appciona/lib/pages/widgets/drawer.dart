@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../firebaseServices/google_sign_in.dart';
 import '../inicio/agenda_page.dart';
-import '../inicio/encuestas_page.dart';
+import '../encuestas/encuestas_page.dart';
 import '../perfil/inicio_sesion_page.dart';
 import '../perfil/perfil_page.dart';
 
