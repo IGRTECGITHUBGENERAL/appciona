@@ -56,7 +56,10 @@ class _EncuestasSingleTestPageState extends State<EncuestasSingleTestPage> {
                         centerTitle: true,
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0,
+                          vertical: 5.0,
+                        ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: CachedNetworkImage(
@@ -69,10 +72,12 @@ class _EncuestasSingleTestPageState extends State<EncuestasSingleTestPage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0,
-                          vertical: 5.0,
-                        ),
+                        padding: encuesta.descripcion!.isEmpty
+                            ? const EdgeInsets.all(0)
+                            : const EdgeInsets.symmetric(
+                                horizontal: 20.0,
+                                vertical: 5.0,
+                              ),
                         child: Text('${encuesta.descripcion}'),
                       ),
                       Container(
