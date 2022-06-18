@@ -1,6 +1,7 @@
 import 'package:appciona/models/encuestas.dart';
 import 'package:appciona/pages/encuestas/encuesta_single_page.dart';
 import 'package:appciona/pages/encuestas/encuestas_controller.dart';
+import 'package:appciona/pages/encuestas/encuestas_single_page_test.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -89,7 +90,7 @@ class _EncuestasPageState extends State<EncuestasPage> {
         onTap: () => Navigator.push(
           context,
           CupertinoPageRoute(
-            builder: (context) => EncuestaSinglePage(uidEncuesta: uid),
+            builder: (context) => EncuestasSingleTestPage(uidEncuesta: uid),
           ),
         ),
         child: Container(

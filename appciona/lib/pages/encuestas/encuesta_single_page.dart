@@ -1,5 +1,6 @@
 import 'package:appciona/models/pregunta.dart';
 import 'package:appciona/pages/encuestas/encuestas_controller.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/encuestas.dart';
@@ -53,7 +54,13 @@ class _EncuestaSinglePageState extends State<EncuestaSinglePage> {
                         padding: const EdgeInsets.all(20.0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network('${encuesta.imagen}'),
+                          child: CachedNetworkImage(
+                            imageUrl: '${encuesta.imagen}',
+                            placeholder: (context, url) =>
+                                Image.asset('assets/images/logo-green.png'),
+                            errorWidget: (context, url, error) =>
+                                Image.asset('assets/images/logo-green.png'),
+                          ),
                         ),
                       ),
                       Padding(
