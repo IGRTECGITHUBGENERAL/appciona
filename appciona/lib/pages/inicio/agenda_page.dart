@@ -12,6 +12,21 @@ class AgendaPage extends StatefulWidget {
 
 class _AgendaPageState extends State<AgendaPage> {
   DateTime _selectedDate = DateTime.now();
+  var meses = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"
+  ];
+  var dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +234,15 @@ class _AgendaPageState extends State<AgendaPage> {
           Text(
             formatDate(
               DateTime.now(),
-              [DD, " ", dd, " ", MM, " ", yyyy],
+              [
+                dias[DateTime.now().weekday],
+                " ",
+                dd,
+                " ",
+                meses[DateTime.now().month - 1],
+                " ",
+                yyyy
+              ],
             ),
             style: GoogleFonts.lato(
               textStyle: const TextStyle(
