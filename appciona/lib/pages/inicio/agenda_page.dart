@@ -235,7 +235,7 @@ class _AgendaPageState extends State<AgendaPage> {
             formatDate(
               DateTime.now(),
               [
-                dias[DateTime.now().weekday],
+                dias[DateTime.now().weekday - 1],
                 " ",
                 dd,
                 " ",
