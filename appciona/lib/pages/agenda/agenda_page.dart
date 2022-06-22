@@ -1,3 +1,4 @@
+import 'package:appciona/pages/agenda/agenda_controller.dart';
 import 'package:date_format/date_format.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
@@ -12,21 +13,7 @@ class AgendaPage extends StatefulWidget {
 
 class _AgendaPageState extends State<AgendaPage> {
   DateTime _selectedDate = DateTime.now();
-  var meses = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre"
-  ];
-  var dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
+  final AgendaController _controller = AgendaController();
 
   @override
   Widget build(BuildContext context) {
@@ -235,11 +222,11 @@ class _AgendaPageState extends State<AgendaPage> {
             formatDate(
               DateTime.now(),
               [
-                dias[DateTime.now().weekday - 1],
+                _controller.dias[DateTime.now().weekday - 1],
                 " ",
                 dd,
                 " ",
-                meses[DateTime.now().month - 1],
+                _controller.meses[DateTime.now().month - 1],
                 " ",
                 yyyy
               ],

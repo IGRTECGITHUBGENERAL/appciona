@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../firebaseServices/google_sign_in.dart';
-import '../inicio/agenda_page.dart';
+import '../agenda/agenda_page.dart';
 import '../encuestas/encuestas_page.dart';
 import '../perfil/inicio_sesion_page.dart';
 import '../perfil/perfil_page.dart';
@@ -70,8 +70,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           leading: const Icon(Icons.login),
           title: const Text("Iniciar sesión"),
           onTap: () => {
-            Navigator.push(
-              context,
+            Navigator.of(context, rootNavigator: true).push(
               CupertinoPageRoute(
                 builder: (context) => const InicioSesionPage(),
               ),

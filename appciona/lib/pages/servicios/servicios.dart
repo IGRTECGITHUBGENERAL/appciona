@@ -1,9 +1,8 @@
+import 'package:appciona/models/servicio.dart';
 import 'package:appciona/pages/servicios/servicios_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ServiciosPage extends StatefulWidget {
   final Widget drawer;
@@ -18,6 +17,19 @@ class ServiciosPage extends StatefulWidget {
 
 class _ServiciosPageState extends State<ServiciosPage> {
   final ServiciosController _controller = ServiciosController();
+
+  final List<DropdownMenuItem<String>> dropDownOptions = [
+    DropdownMenuItem(
+      child: Text('Restaurantes'),
+      value: 'Restaurante',
+    ),
+    DropdownMenuItem(
+      child: Text('Hoteles'),
+      value: 'Hotel',
+    ),
+  ];
+
+  late String tipoSelected = 'Restaurante';
 
   @override
   Widget build(BuildContext context) {
@@ -44,21 +56,52 @@ class _ServiciosPageState extends State<ServiciosPage> {
             future: _controller.getServices(),
             builder: (context, data) {
               if (data.hasData) {
-                List<DocumentSnapshot> items =
-                    data.data as List<DocumentSnapshot>;
+                List<Servicio> items = data.data as List<Servicio>;
+                List<Servicio> itemsFiltered = items
+                    .where((element) => element.tipo!.startsWith(tipoSelected))
+                    .toList();
                 return Column(
                   children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade600,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      width: size.width * 0.90,
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: DropdownButton<String>(
+                        dropdownColor: Colors.orange.shade400,
+                        underline: SizedBox.shrink(),
+                        iconEnabledColor: Colors.white,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        isExpanded: true,
+                        items: dropDownOptions,
+                        value: tipoSelected,
+                        onChanged: (value) {
+                          setState(() {
+                            tipoSelected = value!;
+                          });
+                        },
+                      ),
+                    ),
                     ListView.builder(
                       primary: false,
                       shrinkWrap: true,
-                      itemCount: items.isEmpty ? 0 : items.length,
+                      itemCount:
+                          itemsFiltered.isEmpty ? 0 : itemsFiltered.length,
                       itemBuilder: (context, index) => _cardServices(
                         size,
-                        items[index]["Imagen"],
-                        items[index]["Titulo"],
-                        items[index]["Telefono"],
-                        items[index]["Direccion"],
-                        items[index]["Correo"],
+                        '${itemsFiltered[index].imagen}',
+                        '${itemsFiltered[index].titulo}',
+                        '${itemsFiltered[index].telefono}',
+                        '${itemsFiltered[index].direccion}',
+                        '${itemsFiltered[index].correo}',
                       ),
                     ),
                   ],

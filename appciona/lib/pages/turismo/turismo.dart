@@ -2,7 +2,6 @@ import 'package:appciona/pages/turismo/qr_page.dart';
 import 'package:appciona/pages/turismo/turismo_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';

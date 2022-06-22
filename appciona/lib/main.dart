@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.list,
+              Icons.restaurant,
             ),
             label: 'Servicios',
           ),
