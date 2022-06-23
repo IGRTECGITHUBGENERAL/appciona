@@ -1,4 +1,5 @@
 import 'package:appciona/pages/agenda/agenda_controller.dart';
+import 'package:appciona/pages/agenda/crear_evento_page.dart';
 import 'package:date_format/date_format.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,27 @@ class _AgendaPageState extends State<AgendaPage> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios),
         ),
+        actions: <Widget>[
+            Center(
+              child: Text('Nuevo evento',
+                style: GoogleFonts.lato(
+                  textStyle: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            IconButton(
+              icon: new Icon(Icons.add),
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CrearEventoPage()),
+                );
+              },
+            ),
+          ],
       ),
       body: SingleChildScrollView(
         child: Column(
