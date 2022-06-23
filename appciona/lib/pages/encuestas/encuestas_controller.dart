@@ -9,12 +9,12 @@ class EncuestasController {
 
   List<Pregunta> getPreguntas(Map<String, dynamic>? formulario) {
     List<Pregunta> preguntas = [];
-    Pregunta singlePregunta = Pregunta();
     formulario!.forEach((key, value) {
-      singlePregunta.pregunta = value["Pregunta"];
-      singlePregunta.respuestas = value["Respuestas"];
-      singlePregunta.tipoPregunta = value["TipoPregunta"];
-      preguntas.add(singlePregunta);
+      preguntas.add(Pregunta(
+        pregunta: value["Pregunta"],
+        respuestas: value["Respuestas"],
+        tipoPregunta: value["TipoPregunta"],
+      ));
     });
     return preguntas;
   }

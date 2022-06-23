@@ -1,7 +1,6 @@
 import 'package:appciona/models/encuestas.dart';
-import 'package:appciona/pages/encuestas/encuesta_single_page.dart';
 import 'package:appciona/pages/encuestas/encuestas_controller.dart';
-import 'package:appciona/pages/encuestas/encuestas_single_page_test.dart';
+import 'package:appciona/pages/encuestas/encuestas_single_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
