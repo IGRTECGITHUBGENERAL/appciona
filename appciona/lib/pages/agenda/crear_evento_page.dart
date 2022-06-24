@@ -32,7 +32,7 @@ class _CrearEventoPageState extends State<CrearEventoPage> {
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? timePicked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: selectedTime24Hour,
       builder: (BuildContext context, Widget? child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
