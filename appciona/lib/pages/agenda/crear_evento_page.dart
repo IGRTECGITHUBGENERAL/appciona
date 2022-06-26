@@ -72,28 +72,16 @@ class _CrearEventoPageState extends State<CrearEventoPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                TextBox(
-                  controller: tituloCtrl,
-                  label: 'Título',
-                  status: false,
-                ),
-                TextBox(
-                  controller: descripcionCtrl,
-                  label: 'Descripción',
-                  status: false,
-                ),
+                TextBox(controller: tituloCtrl, label: 'Título'),
+                TextBox(controller: descripcionCtrl, label: 'Descripción'),
                 formItemsDesign(
                   IconButton(
                       onPressed: () {
                         _selectDate(context);
                       },
                       icon: Icon(Icons.calendar_month_outlined)),
-                  TextBox(
-                    controller: fechaCtrl,
-                    //label: "${selectedDate.toLocal()}".split(' ')[0],
-                    label: "${selectedDate.toLocal()}".toString(),
-                    status: true,
-                  ),
+                  Text("${selectedDate.toLocal()}".split(' ')[0],
+                      style: TextStyle(color: const Color(0xff6f6f6f))),
                 ),
                 formItemsDesign(
                   IconButton(
@@ -101,12 +89,9 @@ class _CrearEventoPageState extends State<CrearEventoPage> {
                         _selectTime(context);
                       },
                       icon: Icon(Icons.watch_later_outlined)),
-                  TextBox(
-                    controller: horaCtrl,
-                    //label: "${selectedTime24Hour.hour} : ${selectedTime24Hour.minute}",
-                    label: "${selectedTime24Hour}".toString(),
-                    status: true,
-                  ),
+                  Text(
+                      "${selectedTime24Hour.hour} : ${selectedTime24Hour.minute}",
+                      style: TextStyle(color: const Color(0xff6f6f6f))),
                 ),
                 const SizedBox(height: 10),
                 const SizedBox(height: 20),
@@ -151,26 +136,24 @@ class _CrearEventoPageState extends State<CrearEventoPage> {
 
   save() {
     if (_formKey.currentState!.validate()) {
+      DateTime date = DateTime(selectedDate.year, selectedDate.month,
+          selectedDate.day, selectedTime24Hour.hour, selectedTime24Hour.minute);
       print("Título: ${tituloCtrl.text}");
       print("Descripción: ${descripcionCtrl.text}");
       print("Fecha: ${selectedDate.toLocal()}");
       print("Hora: ${selectedTime24Hour}");
+      print("HORA PARA FIREBASE: ${date}");
       _formKey.currentState!.reset();
     }
   }
 }
 
 class TextBox extends StatelessWidget {
-  const TextBox(
-      {Key? key,
-      required this.controller,
-      required this.label,
-      required this.status})
+  const TextBox({Key? key, required this.controller, required this.label})
       : super(key: key);
 
   final TextEditingController controller;
   final String label;
-  final bool status;
 
   @override
   Widget build(BuildContext context) {
@@ -180,11 +163,10 @@ class TextBox extends StatelessWidget {
         labelText: label,
       ),
       validator: (value) {
-        if (status == false && value!.isEmpty) {
+        if (value!.isEmpty) {
           return '$label requerido';
         }
       },
-      readOnly: status,
     );
   }
 }
