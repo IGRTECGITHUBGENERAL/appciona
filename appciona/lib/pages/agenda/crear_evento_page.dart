@@ -142,7 +142,7 @@ class _CrearEventoPageState extends State<CrearEventoPage> {
       print("Descripción: ${descripcionCtrl.text}");
       print("Fecha: ${selectedDate.toLocal()}");
       print("Hora: ${selectedTime24Hour}");
-      print("HORA PARA FIREBASE: ${date}");
+      print("FECHA Y HORA PARA FIREBASE: ${date}");
       _formKey.currentState!.reset();
     }
   }
