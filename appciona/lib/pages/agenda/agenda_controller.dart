@@ -13,5 +13,5 @@ class AgendaController {
     "Noviembre",
     "Diciembre"
   ];
-  List<String> dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
+  List<String> dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 }
