@@ -137,7 +137,7 @@ class CrearEventoController {
             ))
         .toList();
     agendas = agendas
-        .where((element) => element.Fecha!.isAfter(DateTime.now()))
+        .where((element) => element.Fecha.isAfter(DateTime.now()))
         .toList();
     print("Número de agendas: ${agendas.length}");
     for (var agenda in agendas) {

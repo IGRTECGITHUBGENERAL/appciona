@@ -56,7 +56,19 @@ class _AgendaPageState extends State<AgendaPage> {
         child: Column(
           children: [
             _fechaHoy(),
-            _barraDeDias(),
+            FutureBuilder(
+              future: _controller.obtenerFechasConEventos(),
+              builder: (context, data) {
+                if (data.hasData) {
+                  List<DateTime> fechasActivas = data.data as List<DateTime>;
+                  return _barraDeDias(fechasActivas);
+                } else if (data.hasError) {
+                  return Text('No fue posible cargar las fechas');
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -191,7 +203,7 @@ class _AgendaPageState extends State<AgendaPage> {
     );
   }
 
-  Container _barraDeDias() {
+  Container _barraDeDias(List<DateTime> fechasConEventos) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(
@@ -203,20 +215,23 @@ class _AgendaPageState extends State<AgendaPage> {
           daysCount: 50,
           dateTextStyle: const TextStyle(
             fontWeight: FontWeight.w700,
-            color: Colors.grey,
+            color: const Color(0xffFF9132),
           ),
           monthTextStyle: const TextStyle(
             fontWeight: FontWeight.w700,
-            color: Colors.grey,
+            color: const Color(0xffFF9132),
           ),
           dayTextStyle: const TextStyle(
             fontWeight: FontWeight.w700,
-            color: Colors.grey,
+            color: const Color(0xffFF9132),
           ),
           selectionColor: const Color(0XFF00BAEF), onDateChange: (date) {
         _selectedDate = date;
         setState(() {});
-      }, locale: "es_MX"),
+      },
+          locale: "es_MX",
+          activeDates: fechasConEventos,
+          deactivatedColor: Colors.grey),
     );
   }
 

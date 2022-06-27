@@ -2,12 +2,12 @@ class Agenda {
   String? UsuarioId;
   String? Titulo;
   String? Descripcion;
-  DateTime? Fecha;
+  DateTime Fecha;
 
   Agenda({
     this.UsuarioId,
     this.Titulo,
     this.Descripcion,
-    this.Fecha
+    required this.Fecha
   });
 }
