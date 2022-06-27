@@ -50,4 +50,26 @@ class AgendaController {
     }
     return fechasConEventos;
   }
+
+  Future<List<Agenda>?> obtenerAgendas(DateTime fecha) async {
+    QuerySnapshot qs = await FirebaseFirestore.instance
+        .collection("Agendas")
+        .where('usuarioUID', isEqualTo: user!.uid)
+        .get();
+    List<Agenda> agendas = [];
+    agendas = qs.docs
+        .map((e) => Agenda(
+              UsuarioId: e["usuarioUID"],
+              Titulo: e["Titulo"],
+              Descripcion: e["Descripcion"],
+              Fecha: DateTime.parse(e['Fecha'].toDate().toString()),
+            ))
+        .toList();
+    agendas = agendas
+        .where((element) =>
+            element.Fecha.isAfter(fecha) &&
+            element.Fecha.isBefore(fecha.add(Duration(days: 1))))
+        .toList();
+    return agendas;
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:appciona/models/agendas.dart';
 import 'package:appciona/pages/agenda/agenda_controller.dart';
 import 'package:appciona/pages/agenda/crear_evento_page.dart';
 import 'package:date_format/date_format.dart';
@@ -71,6 +72,38 @@ class _AgendaPageState extends State<AgendaPage> {
             ),
             const SizedBox(
               height: 20,
+            ),
+            FutureBuilder(
+              future: _controller.obtenerAgendas(_selectedDate),
+              builder: (context, data) {
+                if (data.hasData) {
+                  List<Agenda> agendas = data.data as List<Agenda>;
+                  if (agendas.isEmpty) {
+                    return Text('No hay eventos para este día');
+                  } else {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: agendas.length,
+                      itemBuilder: (context, index) {
+                        String hora =
+                            '${agendas[index].Fecha.hour} : ${agendas[index].Fecha.minute}';
+                        String dia = '${_controller.dias[agendas[index].Fecha.weekday-1]}';
+                        return _agendaPerDia(
+                            size,
+                            '${hora}',
+                            "${dia}",
+                            '${agendas[index].Titulo}',
+                            '${agendas[index].Descripcion}');
+                        //return Text('${agendas[index].Titulo}');
+                      },
+                    );
+                  }
+                } else if (data.hasError) {
+                  return Text('No fue posible cargar las fechas');
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
             ),
             _agendaPerDia(
               size,
