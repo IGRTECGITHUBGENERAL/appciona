@@ -1,3 +1,4 @@
+import 'package:appciona/pages/agenda/crear_evento_controller.dart';
 import 'package:flutter/material.dart';
 
 class CrearEventoPage extends StatefulWidget {
@@ -13,39 +14,7 @@ class _CrearEventoPageState extends State<CrearEventoPage> {
   TextEditingController descripcionCtrl = TextEditingController();
   TextEditingController fechaCtrl = TextEditingController();
   TextEditingController horaCtrl = TextEditingController();
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime24Hour = TimeOfDay.now();
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
-
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? timePicked = await showTimePicker(
-      context: context,
-      initialTime: selectedTime24Hour,
-      builder: (BuildContext context, Widget? child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child!,
-        );
-      },
-    );
-    if (timePicked != null && timePicked != selectedTime24Hour) {
-      setState(() {
-        selectedTime24Hour = timePicked;
-      });
-    }
-  }
+  CrearEventoController _controller = CrearEventoController();
 
   @override
   void dispose() {
@@ -77,25 +46,35 @@ class _CrearEventoPageState extends State<CrearEventoPage> {
                 formItemsDesign(
                   IconButton(
                       onPressed: () {
-                        _selectDate(context);
+                        _controller.selectDate(context);
                       },
                       icon: Icon(Icons.calendar_month_outlined)),
-                  Text("${selectedDate.toLocal()}".split(' ')[0],
+                  Text("${_controller.selectedDate.toLocal()}".split(' ')[0],
                       style: TextStyle(color: const Color(0xff6f6f6f))),
                 ),
                 formItemsDesign(
                   IconButton(
                       onPressed: () {
-                        _selectTime(context);
+                        _controller.selectTime(context);
                       },
                       icon: Icon(Icons.watch_later_outlined)),
                   Text(
-                      "${selectedTime24Hour.hour} : ${selectedTime24Hour.minute}",
+                      "${_controller.selectedTime24Hour.hour} : ${_controller.selectedTime24Hour.minute}",
                       style: TextStyle(color: const Color(0xff6f6f6f))),
                 ),
                 const SizedBox(height: 10),
                 const SizedBox(height: 20),
                 _bottomSend(size),
+                const SizedBox(height: 20),
+                RaisedButton(
+                  padding: const EdgeInsets.all(20),
+                  textColor: Colors.white,
+                  color: Colors.green,
+                  onPressed: () {
+                    _controller.obtenerAgendasUsuario();
+                  },
+                  child: const Text('Obtener agendas del usuario'),
+                ),
               ],
             ),
           ),
@@ -136,13 +115,7 @@ class _CrearEventoPageState extends State<CrearEventoPage> {
 
   save() {
     if (_formKey.currentState!.validate()) {
-      DateTime date = DateTime(selectedDate.year, selectedDate.month,
-          selectedDate.day, selectedTime24Hour.hour, selectedTime24Hour.minute);
-      print("Título: ${tituloCtrl.text}");
-      print("Descripción: ${descripcionCtrl.text}");
-      print("Fecha: ${selectedDate.toLocal()}");
-      print("Hora: ${selectedTime24Hour}");
-      print("FECHA Y HORA PARA FIREBASE: ${date}");
+      _controller.save(tituloCtrl.text, descripcionCtrl.text, context);
       _formKey.currentState!.reset();
     }
   }
