@@ -46,8 +46,35 @@ class CrearEventoController {
     print("FECHA Y HORA PARA FIREBASE: ${fechaHoraFirebase}");
     if (await crearEncuesta(titulo, descripcion, fechaHoraFirebase)) {
       Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Color(0XFF00BAEF),
+          elevation: 5,
+          margin: const EdgeInsets.all(10),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          content: const Text.rich(
+            TextSpan(
+              children: [
+                WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.white,
+                  ),
+                ),
+                TextSpan(
+                  text: " Evento añadido con éxito",
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
     } else {
-      showAlertDialog(context);
+      showAlertDialog(context, "Hubo un problema", "Intente nuevamente.");
     }
   }
 
@@ -74,15 +101,15 @@ class CrearEventoController {
     }
   }
 
-  showAlertDialog(BuildContext context) {
+  showAlertDialog(BuildContext context, String titulo, String contenido) {
     Widget okButton = TextButton(
       child: Text("OK"),
       onPressed: () {},
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text("Hubo un problema"),
-      content: Text("Intente nuevamente."),
+      title: Text(titulo),
+      content: Text(contenido),
       actions: [
         okButton,
       ],
