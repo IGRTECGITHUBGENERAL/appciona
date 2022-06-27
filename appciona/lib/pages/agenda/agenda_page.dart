@@ -30,26 +30,27 @@ class _AgendaPageState extends State<AgendaPage> {
           icon: const Icon(Icons.arrow_back_ios),
         ),
         actions: <Widget>[
-            Center(
-              child: Text('Nuevo evento',
-                style: GoogleFonts.lato(
-                  textStyle: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
+          Center(
+            child: Text(
+              'Nuevo evento',
+              style: GoogleFonts.lato(
+                textStyle: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            IconButton(
-              icon: new Icon(Icons.add),
-              onPressed: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CrearEventoPage()),
-                );
-              },
-            ),
-          ],
+          ),
+          IconButton(
+            icon: new Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CrearEventoPage()),
+              );
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -197,28 +198,25 @@ class _AgendaPageState extends State<AgendaPage> {
         horizontal: 20,
         vertical: 10,
       ),
-      child: DatePicker(
-        DateTime.now(),
-        initialSelectedDate: DateTime.now(),
-        daysCount: 50,
-        dateTextStyle: const TextStyle(
-          fontWeight: FontWeight.w700,
-          color: Colors.grey,
-        ),
-        monthTextStyle: const TextStyle(
-          fontWeight: FontWeight.w700,
-          color: Colors.grey,
-        ),
-        dayTextStyle: const TextStyle(
-          fontWeight: FontWeight.w700,
-          color: Colors.grey,
-        ),
-        selectionColor: const Color(0XFF00BAEF),
-        onDateChange: (date) {
-          _selectedDate = date;
-          setState(() {});
-        },
-      ),
+      child: DatePicker(DateTime.now(),
+          initialSelectedDate: DateTime.now(),
+          daysCount: 50,
+          dateTextStyle: const TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Colors.grey,
+          ),
+          monthTextStyle: const TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Colors.grey,
+          ),
+          dayTextStyle: const TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Colors.grey,
+          ),
+          selectionColor: const Color(0XFF00BAEF), onDateChange: (date) {
+        _selectedDate = date;
+        setState(() {});
+      }, locale: "es_MX"),
     );
   }
 
