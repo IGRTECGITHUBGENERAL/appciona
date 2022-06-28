@@ -1,14 +1,14 @@
 import 'package:appciona/pages/agenda/crear_editar_evento_controller.dart';
 import 'package:flutter/material.dart';
 
-class CrearEventoPage extends StatefulWidget {
-  const CrearEventoPage({Key? key}) : super(key: key);
+class CrearEditarEventoPage extends StatefulWidget {
+  const CrearEditarEventoPage({Key? key}) : super(key: key);
 
   @override
-  State<CrearEventoPage> createState() => _CrearEventoPageState();
+  State<CrearEditarEventoPage> createState() => _CrearEditarEventoPageState();
 }
 
-class _CrearEventoPageState extends State<CrearEventoPage> {
+class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController tituloCtrl = TextEditingController();
   TextEditingController descripcionCtrl = TextEditingController();

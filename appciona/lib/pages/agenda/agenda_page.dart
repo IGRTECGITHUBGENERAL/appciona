@@ -47,7 +47,7 @@ class _AgendaPageState extends State<AgendaPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CrearEventoPage()),
+                MaterialPageRoute(builder: (context) => CrearEditarEventoPage()),
               );
             },
           ),
