@@ -47,7 +47,7 @@ class _AgendaPageState extends State<AgendaPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CrearEditarEventoPage()),
+                MaterialPageRoute(builder: (context) => CrearEditarEventoPage(isEditing: false)),
               );
             },
           ),
@@ -93,7 +93,8 @@ class _AgendaPageState extends State<AgendaPage> {
                             '${hora}',
                             "${dia}",
                             '${agendas[index].Titulo}',
-                            '${agendas[index].Descripcion}');
+                            '${agendas[index].Descripcion}',
+                            agendas[index]);
                         //return Text('${agendas[index].Titulo}');
                       },
                     );
@@ -105,52 +106,6 @@ class _AgendaPageState extends State<AgendaPage> {
                 }
               },
             ),
-            _agendaPerDia(
-              size,
-              formatDate(
-                DateTime.now(),
-                [dd],
-              ),
-              'Sab',
-              '',
-              '',
-            ),
-            _agendaPerDia(
-              size,
-              formatDate(
-                DateTime.now().add(
-                  const Duration(days: 1),
-                ),
-                [dd],
-              ),
-              'Dom',
-              '',
-              '',
-            ),
-            _agendaPerDia(
-              size,
-              formatDate(
-                DateTime.now().add(
-                  const Duration(days: 2),
-                ),
-                [dd],
-              ),
-              'Lun',
-              '',
-              '',
-            ),
-            _agendaPerDia(
-              size,
-              formatDate(
-                DateTime.now().add(
-                  const Duration(days: 3),
-                ),
-                [dd],
-              ),
-              'Mar',
-              'San Silvestre virtual',
-              '12:00 PM.',
-            ),
           ],
         ),
       ),
@@ -158,7 +113,7 @@ class _AgendaPageState extends State<AgendaPage> {
   }
 
   Container _agendaPerDia(
-      Size size, String noDia, String dia, String actividad, String hora) {
+      Size size, String noDia, String dia, String actividad, String hora, Agenda agenda) {
     return Container(
       padding: const EdgeInsets.symmetric(
         vertical: 10,
@@ -255,7 +210,10 @@ class _AgendaPageState extends State<AgendaPage> {
                     color: const Color(0xff7B91A3),
                     icon: new Icon(Icons.create_outlined),
                     onPressed: () {
-                      
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CrearEditarEventoPage(isEditing: true, agendaInfo: agenda)),
+                      );
                     },
                   ),
                 ],

@@ -1,8 +1,15 @@
+import 'package:appciona/models/agendas.dart';
 import 'package:appciona/pages/agenda/crear_editar_evento_controller.dart';
 import 'package:flutter/material.dart';
 
 class CrearEditarEventoPage extends StatefulWidget {
-  const CrearEditarEventoPage({Key? key}) : super(key: key);
+  final bool isEditing;
+  final Agenda? agendaInfo;
+  const CrearEditarEventoPage({
+    Key? key,
+    required this.isEditing,
+    this.agendaInfo,
+  }) : super(key: key);
 
   @override
   State<CrearEditarEventoPage> createState() => _CrearEditarEventoPageState();
@@ -15,6 +22,31 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
   TextEditingController fechaCtrl = TextEditingController();
   TextEditingController horaCtrl = TextEditingController();
   CrearEditarEventoController _controller = CrearEditarEventoController();
+
+  save() {
+    if (_formKey.currentState!.validate()) {
+      if (widget.isEditing) {
+        //TODO Update evento
+      } else {
+        _controller.save(tituloCtrl.text, descripcionCtrl.text, context);
+        _formKey.currentState!.reset();
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    tituloCtrl = TextEditingController(
+        text: widget.isEditing ? widget.agendaInfo!.Titulo : '');
+    descripcionCtrl = TextEditingController(
+        text: widget.isEditing ? widget.agendaInfo!.Descripcion : '');
+    _controller.selectedDate =
+        widget.isEditing ? widget.agendaInfo!.Fecha : DateTime.now();
+    _controller.selectedTime24Hour = widget.isEditing
+        ? TimeOfDay(hour: widget.agendaInfo!.Fecha.hour, minute: widget.agendaInfo!.Fecha.minute)
+        : TimeOfDay.now();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -31,7 +63,9 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('Nuevo evento'),
+        title: widget.isEditing
+            ? const Text('Editar evento')
+            : const Text('Crear evento'),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -96,8 +130,14 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
           ),
           child: Container(
             padding:
-                const EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-            child: const Text(
+                const EdgeInsets.symmetric(horizontal: 60.0, vertical: 15.0),
+            child: widget.isEditing ? Text(
+              'Guardar cambios',
+              style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ) : Text(
               'Crear',
               style: TextStyle(
                   fontSize: 16.0,
@@ -111,13 +151,6 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
         );
       },
     );
-  }
-
-  save() {
-    if (_formKey.currentState!.validate()) {
-      _controller.save(tituloCtrl.text, descripcionCtrl.text, context);
-      _formKey.currentState!.reset();
-    }
   }
 }
 
