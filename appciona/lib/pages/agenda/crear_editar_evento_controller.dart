@@ -36,7 +36,7 @@ class CrearEditarEventoController {
     }
   }
 
-  void save(String titulo, String descripcion, BuildContext context) async {
+  void save(String titulo, String descripcion, BuildContext context, bool edicion, String? uid) async {
     fechaHoraFirebase = DateTime(selectedDate.year, selectedDate.month,
         selectedDate.day, selectedTime24Hour.hour, selectedTime24Hour.minute);
     print("Título: ${titulo}");
@@ -44,37 +44,72 @@ class CrearEditarEventoController {
     print("Fecha: ${selectedDate.toLocal()}");
     print("Hora: ${selectedTime24Hour}");
     print("FECHA Y HORA PARA FIREBASE: ${fechaHoraFirebase}");
-    if (await crearEncuesta(titulo, descripcion, fechaHoraFirebase)) {
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Color(0XFF00BAEF),
-          elevation: 5,
-          margin: const EdgeInsets.all(10),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          content: const Text.rich(
-            TextSpan(
-              children: [
-                WidgetSpan(
-                  alignment: PlaceholderAlignment.middle,
-                  child: Icon(
-                    Icons.check,
-                    color: Colors.white,
+    if(edicion){
+      if(await actulizarEvento(titulo, descripcion, fechaHoraFirebase, uid)) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Color(0XFF00BAEF),
+            elevation: 5,
+            margin: const EdgeInsets.all(10),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            content: const Text.rich(
+              TextSpan(
+                children: [
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                TextSpan(
-                  text: " Evento añadido con éxito",
-                ),
-              ],
+                  TextSpan(
+                    text: " Evento modificado con éxito",
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    } else {
-      showAlertDialog(context, "Hubo un problema", "Intente nuevamente.");
+        );
+      }else {
+        showAlertDialog(context, "Hubo un problema", "Intente nuevamente.");
+      }
+    }else{
+      if (await crearEncuesta(titulo, descripcion, fechaHoraFirebase)) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Color(0XFF00BAEF),
+            elevation: 5,
+            margin: const EdgeInsets.all(10),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            content: const Text.rich(
+              TextSpan(
+                children: [
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Icon(
+                      Icons.check,
+                      color: Colors.white,
+                    ),
+                  ),
+                  TextSpan(
+                    text: " Evento añadido con éxito",
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      } else {
+        showAlertDialog(context, "Hubo un problema", "Intente nuevamente.");
+      }
     }
   }
 
@@ -143,6 +178,23 @@ class CrearEditarEventoController {
     for (var agenda in agendas) {
       print(
           "Titulo: ${agenda.Titulo} Descripción: ${agenda.Descripcion} Fecha: ${agenda.Fecha}");
+    }
+  }
+
+  Future<bool> actulizarEvento(String titulo, String descripcion,
+      DateTime fechaHoraFirebase, String? uid) async {
+    bool result = false;
+    final db = FirebaseFirestore.instance.collection('Agendas').doc(uid);
+    try {
+      await db.update({
+        'Titulo': descripcion,
+        'Descripcion': descripcion,
+        'Fecha': fechaHoraFirebase
+      }).then((value) => result = true)
+        .catchError((error) => result = false);
+      return result;
+    } catch (e) {
+      return result;
     }
   }
 }

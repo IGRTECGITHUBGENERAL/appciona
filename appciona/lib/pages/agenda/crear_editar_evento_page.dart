@@ -26,9 +26,15 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
   save() {
     if (_formKey.currentState!.validate()) {
       if (widget.isEditing) {
-        //TODO Update evento
+        _controller.save(
+          tituloCtrl.text,
+          descripcionCtrl.text,
+          context,
+          widget.isEditing,
+          widget.agendaInfo!.uid);
       } else {
-        _controller.save(tituloCtrl.text, descripcionCtrl.text, context);
+        _controller.save(
+            tituloCtrl.text, descripcionCtrl.text, context, widget.isEditing, null);
         _formKey.currentState!.reset();
       }
     }
@@ -43,7 +49,9 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
     _controller.selectedDate =
         widget.isEditing ? widget.agendaInfo!.Fecha : DateTime.now();
     _controller.selectedTime24Hour = widget.isEditing
-        ? TimeOfDay(hour: widget.agendaInfo!.Fecha.hour, minute: widget.agendaInfo!.Fecha.minute)
+        ? TimeOfDay(
+            hour: widget.agendaInfo!.Fecha.hour,
+            minute: widget.agendaInfo!.Fecha.minute)
         : TimeOfDay.now();
     super.initState();
   }
@@ -131,19 +139,21 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
           child: Container(
             padding:
                 const EdgeInsets.symmetric(horizontal: 60.0, vertical: 15.0),
-            child: widget.isEditing ? Text(
-              'Guardar cambios',
-              style: TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ) : Text(
-              'Crear',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
+            child: widget.isEditing
+                ? Text(
+                    'Guardar cambios',
+                    style: TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  )
+                : Text(
+                    'Crear',
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
           ),
           onPressed: () {
             save();
