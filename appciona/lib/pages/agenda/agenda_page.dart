@@ -47,7 +47,9 @@ class _AgendaPageState extends State<AgendaPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CrearEditarEventoPage(isEditing: false)),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        CrearEditarEventoPage(isEditing: false)),
               );
             },
           ),
@@ -87,7 +89,8 @@ class _AgendaPageState extends State<AgendaPage> {
                       itemBuilder: (context, index) {
                         String hora =
                             '${agendas[index].Fecha.hour} : ${agendas[index].Fecha.minute}';
-                        String dia = '${_controller.dias[agendas[index].Fecha.weekday-1]}';
+                        String dia =
+                            '${_controller.dias[agendas[index].Fecha.weekday - 1]}';
                         return _agendaPerDia(
                             size,
                             '${hora}',
@@ -112,8 +115,8 @@ class _AgendaPageState extends State<AgendaPage> {
     );
   }
 
-  Container _agendaPerDia(
-      Size size, String noDia, String dia, String actividad, String hora, Agenda agenda) {
+  Container _agendaPerDia(Size size, String noDia, String dia, String actividad,
+      String hora, Agenda agenda) {
     return Container(
       padding: const EdgeInsets.symmetric(
         vertical: 10,
@@ -179,7 +182,8 @@ class _AgendaPageState extends State<AgendaPage> {
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(actividad, 
+                        Text(
+                          actividad,
                           style: GoogleFonts.lato(
                             textStyle: const TextStyle(
                               fontSize: 16,
@@ -188,7 +192,8 @@ class _AgendaPageState extends State<AgendaPage> {
                             ),
                           ),
                         ),
-                        Text(hora,
+                        Text(
+                          hora,
                           style: GoogleFonts.lato(
                             textStyle: const TextStyle(
                               fontSize: 16,
@@ -212,8 +217,12 @@ class _AgendaPageState extends State<AgendaPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => CrearEditarEventoPage(isEditing: true, agendaInfo: agenda)),
-                      );
+                        MaterialPageRoute(
+                            builder: (context) => CrearEditarEventoPage(
+                                isEditing: true, agendaInfo: agenda)),
+                      ).then((value) {
+                        setState(() {});
+                      });
                     },
                   ),
                 ],
@@ -224,7 +233,8 @@ class _AgendaPageState extends State<AgendaPage> {
                     color: const Color(0xff7B91A3),
                     icon: new Icon(Icons.delete),
                     onPressed: () {
-                      
+                      _controller.eliminarEvento(agenda.uid);
+                      setState(() {});
                     },
                   ),
                 ],

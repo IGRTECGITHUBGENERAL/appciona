@@ -74,4 +74,16 @@ class AgendaController {
         .toList();
     return agendas;
   }
+
+  Future<bool> eliminarEvento(String? uid) async {
+    bool result = false;
+
+    try{    
+      final db = FirebaseFirestore.instance.collection('Agendas').doc(uid);
+      db.delete().then((value) => result = true).catchError((error) => result = false);
+      return result;
+    }catch(error) {
+      return result;
+    }
+  }
 }

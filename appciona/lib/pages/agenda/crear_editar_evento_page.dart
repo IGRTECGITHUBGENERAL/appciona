@@ -108,15 +108,6 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
                 const SizedBox(height: 20),
                 _bottomSend(size),
                 const SizedBox(height: 20),
-                RaisedButton(
-                  padding: const EdgeInsets.all(20),
-                  textColor: Colors.white,
-                  color: Colors.green,
-                  onPressed: () {
-                    _controller.obtenerAgendasUsuario();
-                  },
-                  child: const Text('Obtener agendas del usuario'),
-                ),
               ],
             ),
           ),
