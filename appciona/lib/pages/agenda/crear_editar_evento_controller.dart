@@ -187,7 +187,7 @@ class CrearEditarEventoController {
     final db = FirebaseFirestore.instance.collection('Agendas').doc(uid);
     try {
       await db.update({
-        'Titulo': descripcion,
+        'Titulo': titulo,
         'Descripcion': descripcion,
         'Fecha': fechaHoraFirebase
       }).then((value) => result = true)
