@@ -36,6 +36,7 @@ class AgendaController {
         .get();
     List<Agenda> agendas = qs.docs
         .map((e) => Agenda(
+              uid: e.id,
               UsuarioId: e["usuarioUID"],
               Titulo: e["Titulo"],
               Descripcion: e["Descripcion"],
@@ -59,6 +60,7 @@ class AgendaController {
     List<Agenda> agendas = [];
     agendas = qs.docs
         .map((e) => Agenda(
+              uid: e.id,
               UsuarioId: e["usuarioUID"],
               Titulo: e["Titulo"],
               Descripcion: e["Descripcion"],

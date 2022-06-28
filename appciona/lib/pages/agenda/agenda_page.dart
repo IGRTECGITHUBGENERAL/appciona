@@ -224,12 +224,54 @@ class _AgendaPageState extends State<AgendaPage> {
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(actividad),
-                        Text(hora),
+                        Text(actividad, 
+                          style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xff7B91A3),
+                            ),
+                          ),
+                        ),
+                        Text(hora,
+                          style: GoogleFonts.lato(
+                            textStyle: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xff7B91A3),
+                            ),
+                          ),
+                        ),
                       ],
                     )
                   : const SizedBox.shrink(),
             ),
+          ),
+          Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  IconButton(
+                    color: const Color(0xff7B91A3),
+                    icon: new Icon(Icons.create_outlined),
+                    onPressed: () {
+                      
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  IconButton(
+                    color: const Color(0xff7B91A3),
+                    icon: new Icon(Icons.delete),
+                    onPressed: () {
+                      
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
