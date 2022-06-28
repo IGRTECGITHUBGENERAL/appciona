@@ -1,6 +1,6 @@
 import 'package:appciona/models/agendas.dart';
 import 'package:appciona/pages/agenda/agenda_controller.dart';
-import 'package:appciona/pages/agenda/crear_evento_page.dart';
+import 'package:appciona/pages/agenda/crear_editar_evento_page.dart';
 import 'package:date_format/date_format.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';

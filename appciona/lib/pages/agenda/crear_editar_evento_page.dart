@@ -1,4 +1,4 @@
-import 'package:appciona/pages/agenda/crear_evento_controller.dart';
+import 'package:appciona/pages/agenda/crear_editar_evento_controller.dart';
 import 'package:flutter/material.dart';
 
 class CrearEventoPage extends StatefulWidget {
@@ -14,7 +14,7 @@ class _CrearEventoPageState extends State<CrearEventoPage> {
   TextEditingController descripcionCtrl = TextEditingController();
   TextEditingController fechaCtrl = TextEditingController();
   TextEditingController horaCtrl = TextEditingController();
-  CrearEventoController _controller = CrearEventoController();
+  CrearEditarEventoController _controller = CrearEditarEventoController();
 
   @override
   void dispose() {
