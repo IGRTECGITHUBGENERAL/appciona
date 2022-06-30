@@ -9,8 +9,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../firebaseServices/google_sign_in.dart';
 import '../agenda/agenda_page.dart';
 import '../encuestas/encuestas_page.dart';
-import '../perfil/login_page.dart';
-import '../perfil/perfil_page.dart';
+import '../account/login/login_page.dart';
+import '../account/perfil_page.dart';
 
 class DrawerWidget extends StatefulWidget {
   final int userState;
@@ -73,7 +73,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           onTap: () => {
             Navigator.of(context, rootNavigator: true).push(
               CupertinoPageRoute(
-                builder: (context) => const InicioSesionPage(),
+                builder: (context) => const LoginPage(),
               ),
             )
           },

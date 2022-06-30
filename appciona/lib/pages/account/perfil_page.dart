@@ -1,4 +1,4 @@
-import 'package:appciona/pages/perfil/perfil_controller.dart';
+import 'package:appciona/pages/account/perfil_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +6,7 @@ class PerfilPage extends StatefulWidget {
   const PerfilPage({Key? key}) : super(key: key);
 
   @override
-  _PerfilPageState createState() => _PerfilPageState();
+  State<PerfilPage> createState() => _PerfilPageState();
 }
 
 class _PerfilPageState extends State<PerfilPage> {

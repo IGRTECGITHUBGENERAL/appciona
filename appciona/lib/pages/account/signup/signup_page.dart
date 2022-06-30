@@ -2,16 +2,16 @@ import 'package:appciona/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../firebaseServices/auth_services.dart';
+import '../../../firebaseServices/auth_services.dart';
 
-class RegistroPage extends StatefulWidget {
-  const RegistroPage({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
-  State<RegistroPage> createState() => _RegistroPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _RegistroPageState extends State<RegistroPage> {
+class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
 
   TextEditingController nameCtrl = TextEditingController();
@@ -53,10 +53,10 @@ class _RegistroPageState extends State<RegistroPage> {
   }
 
   signUp() async {
-    setState(() {
-      singin = true;
-    });
     if (_keyForm.currentState!.validate()) {
+      setState(() {
+        singin = true;
+      });
       AuthServices as = AuthServices();
       UserCredential? user = await as.authSignUp(emailCtrl.text, passCtrl.text);
       if (user != null) {
@@ -77,10 +77,10 @@ class _RegistroPageState extends State<RegistroPage> {
           }
         }
       }
+      setState(() {
+        singin = false;
+      });
     }
-    setState(() {
-      singin = false;
-    });
   }
 
   @override

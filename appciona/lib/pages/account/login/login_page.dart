@@ -1,39 +1,36 @@
-import 'package:appciona/pages/perfil/registro_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:appciona/pages/account/recover/recover_password_page.dart';
+import 'package:appciona/pages/account/signup/signup_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../firebaseServices/auth_services.dart';
-import '../widgets/alerts.dart';
+import '../../widgets/alerts.dart';
+import 'login_controller.dart';
 
-class InicioSesionPage extends StatefulWidget {
-  const InicioSesionPage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<InicioSesionPage> createState() => _InicioSesionPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _InicioSesionPageState extends State<InicioSesionPage> {
+class _LoginPageState extends State<LoginPage> {
+  final LoginController _controller = LoginController();
   late bool loginIng = false;
   final GlobalKey<FormState> _keyForm = GlobalKey();
 
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController passCtrl = TextEditingController();
 
-  void signIn() async {
+  void login() async {
     if (_keyForm.currentState!.validate()) {
       setState(() {
         loginIng = true;
       });
-      if (_keyForm.currentState!.validate()) {
-        AuthServices as = AuthServices();
-        UserCredential? uc = await as.singIn(emailCtrl.text, passCtrl.text);
-        if (uc != null) {
-          Navigator.pop(context);
-        } else {
-          Alerts.messageBoxMessage(context, 'Verifica tus datos',
-              'Los datos que ingresaste son erróneos');
-        }
+      if (await _controller.login(emailCtrl.text, passCtrl.text)) {
+        Navigator.pop(context);
+      } else {
+        Alerts.messageBoxMessage(context, 'Verifica tus datos',
+            'Los datos que ingresaste son erróneos');
       }
       setState(() {
         loginIng = false;
@@ -110,7 +107,7 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
                     height: 20,
                   ),
                   ElevatedButton(
-                    onPressed: signIn,
+                    onPressed: login,
                     style: ElevatedButton.styleFrom(
                       elevation: 10,
                       padding: EdgeInsets.zero,
@@ -145,7 +142,12 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => const RecoverPasswordPage(),
+                      ),
+                    ),
                     child: const Text('¿Olvidaste tu contraseña?'),
                   ),
                   Container(
@@ -165,7 +167,7 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
-                          builder: (context) => const RegistroPage(),
+                          builder: (context) => const SignUpPage(),
                         ),
                       ),
                     },
