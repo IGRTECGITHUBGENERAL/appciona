@@ -247,6 +247,7 @@ class _AgendaPageState extends State<AgendaPage> {
                           onPressed: () {
                             _controller.eliminarEvento(agenda.uid);
                             Navigator.of(context, rootNavigator: true).pop();
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => AgendaPage()));
                             setState(() {});
                           },
                         )
