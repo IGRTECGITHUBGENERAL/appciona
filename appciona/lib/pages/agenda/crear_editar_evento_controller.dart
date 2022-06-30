@@ -1,4 +1,5 @@
 import 'package:appciona/models/agendas.dart';
+import 'package:appciona/pages/agenda/agenda_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,8 @@ class CrearEditarEventoController {
     if(edicion){
       if(await actulizarEvento(titulo, descripcion, fechaHoraFirebase, uid)) {
         Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AgendaPage()));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Color(0XFF00BAEF),
@@ -80,6 +83,8 @@ class CrearEditarEventoController {
     }else{
       if (await crearEncuesta(titulo, descripcion, fechaHoraFirebase)) {
         Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AgendaPage()));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Color(0XFF00BAEF),
