@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../widgets/alerts.dart';
+import '../../widgets/alerts.dart';
 
-class TurismoController {
+class LugaresInteresController {
   late List<Marker>? markers;
   Future<bool> addMarkers(BuildContext context) async {
     try {

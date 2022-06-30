@@ -10,12 +10,12 @@ class InicioSesionPage extends StatefulWidget {
   const InicioSesionPage({Key? key}) : super(key: key);
 
   @override
-  _InicioSesionPageState createState() => _InicioSesionPageState();
+  State<InicioSesionPage> createState() => _InicioSesionPageState();
 }
 
 class _InicioSesionPageState extends State<InicioSesionPage> {
   late bool loginIng = false;
-  GlobalKey<FormState> _keyForm = GlobalKey();
+  final GlobalKey<FormState> _keyForm = GlobalKey();
 
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController passCtrl = TextEditingController();
@@ -143,6 +143,10 @@ class _InicioSesionPageState extends State<InicioSesionPage> {
                               ),
                       ),
                     ),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text('¿Olvidaste tu contraseña?'),
                   ),
                   Container(
                     width: size.width * 0.60,

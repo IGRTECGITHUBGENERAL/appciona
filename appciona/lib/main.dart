@@ -1,12 +1,11 @@
 import 'package:appciona/pages/audiovisual/audiovisual_page.dart';
-import 'package:appciona/pages/inicio/inicio_page.dart';
-import 'package:appciona/pages/servicios/servicios.dart';
-import 'package:appciona/pages/turismo/turismo.dart';
+import 'package:appciona/pages/turismo/turismo_main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'pages/ultimas_noticias/ultimas_noticias_page.dart';
 import 'pages/widgets/drawer.dart';
 
 void main() {
@@ -71,25 +70,18 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.white,
         activeColor: const Color(0XFF00BAEF),
         inactiveColor: Colors.black,
-        //onTap: (index) => setState(() => {_currentIndex = index}),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.home_outlined,
+              Icons.newspaper,
             ),
-            label: 'Inicio',
+            label: 'Últimas noticias',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.play_circle_outline,
             ),
             label: 'Audiovisual',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.restaurant,
-            ),
-            label: 'Servicios',
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -103,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
         switch (index) {
           case 0:
             return CupertinoTabView(
-              builder: (context) => InicioPage(
+              builder: (context) => UltimasNoticias(
                 drawer: DrawerWidget(
                   userState: widget.userState,
                 ),
@@ -119,15 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           case 2:
             return CupertinoTabView(
-              builder: (context) => ServiciosPage(
-                drawer: DrawerWidget(
-                  userState: widget.userState,
-                ),
-              ),
-            );
-          case 3:
-            return CupertinoTabView(
-              builder: (context) => TurismoPage(
+              builder: (context) => TurismoMainPage(
                 drawer: DrawerWidget(
                   userState: widget.userState,
                 ),
@@ -135,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           default:
             return CupertinoTabView(
-              builder: (context) => InicioPage(
+              builder: (context) => UltimasNoticias(
                 drawer: DrawerWidget(
                   userState: widget.userState,
                 ),

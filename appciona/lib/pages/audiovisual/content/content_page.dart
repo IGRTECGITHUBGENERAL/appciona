@@ -1,24 +1,24 @@
-import 'package:appciona/pages/audiovisual/podcast_controller.dart';
+import 'package:appciona/pages/audiovisual/content/content_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class PodcastPage extends StatefulWidget {
+class ContentPage extends StatefulWidget {
   final String documentID;
-  const PodcastPage({
+  const ContentPage({
     Key? key,
     required this.documentID,
   }) : super(key: key);
 
   @override
-  State<PodcastPage> createState() => _PodcastPageState();
+  State<ContentPage> createState() => _ContentPageState();
 }
 
-class _PodcastPageState extends State<PodcastPage> {
-  final PodcastController _controller = PodcastController();
+class _ContentPageState extends State<ContentPage> {
+  final ContentController _controller = ContentController();
 
-  void _launchPodcast(String url) async {
+  void _launchContent(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
       debugPrint('No se pudo acceder al sitio.');
     }
@@ -92,7 +92,7 @@ class _PodcastPageState extends State<PodcastPage> {
                           FloatingActionButton(
                             backgroundColor: Colors.white,
                             tooltip: 'Reproducir podcast',
-                            onPressed: () => _launchPodcast(doc["Link"]),
+                            onPressed: () => _launchContent(doc["Link"]),
                             child: const Icon(
                               Icons.play_arrow,
                               color: Colors.orange,

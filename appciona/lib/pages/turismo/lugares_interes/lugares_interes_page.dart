@@ -1,5 +1,5 @@
-import 'package:appciona/pages/turismo/qr_page.dart';
-import 'package:appciona/pages/turismo/turismo_controller.dart';
+import 'package:appciona/pages/turismo/qr/qr_page.dart';
+import 'package:appciona/pages/turismo/lugares_interes/lugares_interes_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,18 +8,16 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class TurismoPage extends StatefulWidget {
-  final Widget drawer;
-  const TurismoPage({
+class LugaresInteresPage extends StatefulWidget {
+  const LugaresInteresPage({
     Key? key,
-    required this.drawer,
   }) : super(key: key);
 
   @override
-  _TurismoPageState createState() => _TurismoPageState();
+  State<LugaresInteresPage> createState() => _LugaresInteresPageState();
 }
 
-class _TurismoPageState extends State<TurismoPage> {
+class _LugaresInteresPageState extends State<LugaresInteresPage> {
   String qrValue = "Codigo Qr";
   bool isMapSelected = false;
 
@@ -27,7 +25,7 @@ class _TurismoPageState extends State<TurismoPage> {
     target: LatLng(37.9101298, -6.8306072),
     zoom: 15,
   );
-  final TurismoController _controller = TurismoController();
+  final LugaresInteresController _controller = LugaresInteresController();
 
   @override
   void initState() {
@@ -42,17 +40,18 @@ class _TurismoPageState extends State<TurismoPage> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text("Turismo"),
+        title: const Text("Lugares de interés"),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
         actions: [
           Image.asset(
             'assets/images/logo-green.png',
             fit: BoxFit.contain,
           )
         ],
-      ),
-      drawer: Drawer(
-        child: widget.drawer,
       ),
       body: isMapSelected
           ? FutureBuilder(

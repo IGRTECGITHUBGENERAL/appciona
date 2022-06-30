@@ -22,7 +22,7 @@ class _QRPageState extends State<QRPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: const Text('QR'),
+        title: const Text('Códigos QR'),
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),

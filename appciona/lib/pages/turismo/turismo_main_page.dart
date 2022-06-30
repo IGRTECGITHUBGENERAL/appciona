@@ -1,19 +1,21 @@
-import 'package:appciona/pages/audiovisual/podcast/podcasts_page.dart';
+import 'package:appciona/pages/turismo/lugares_interes/lugares_interes_page.dart';
+import 'package:appciona/pages/turismo/qr/qr_page.dart';
+import 'package:appciona/pages/turismo/restaurantes_hoteles/restaurantes_hoteles_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AudiovisualPage extends StatefulWidget {
+class TurismoMainPage extends StatefulWidget {
   final Widget drawer;
-  const AudiovisualPage({
+  const TurismoMainPage({
     Key? key,
     required this.drawer,
   }) : super(key: key);
 
   @override
-  State<AudiovisualPage> createState() => _AudiovisualPageState();
+  State<TurismoMainPage> createState() => _TurismoMainPageState();
 }
 
-class _AudiovisualPageState extends State<AudiovisualPage> {
+class _TurismoMainPageState extends State<TurismoMainPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -21,7 +23,7 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        title: const Text('Audiovisual'),
+        title: const Text("Turismo"),
         centerTitle: true,
         actions: [
           Image.asset(
@@ -48,33 +50,37 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                     children: [
                       _turismoImageCard(
                         size,
-                        'assets/icons/podcast_colors.png',
-                        'Podcasts',
-                        const PodcastsPage(),
+                        'assets/icons/lugares_interes_colors.png',
+                        'Lugares de interés',
+                        const LugaresInteresPage(),
                       ),
                       _turismoImageCard(
                         size,
-                        'assets/icons/radio_directo_colors.png',
-                        'Radio en vivo',
-                        const PodcastsPage(),
+                        'assets/icons/senderismo_colors.png',
+                        'Senderismo',
+                        const LugaresInteresPage(),
                       ),
                       _turismoImageCard(
                         size,
-                        'assets/icons/directo_colors.png',
-                        'En directo',
-                        const PodcastsPage(),
+                        'assets/icons/restaurant_colors.png',
+                        'Restaurantes',
+                        const RestaurantesHotelesPage(
+                          tipo: 'Restaurante',
+                        ),
                       ),
                       _turismoImageCard(
                         size,
-                        'assets/icons/videos_colors.png',
-                        'Videos',
-                        const PodcastsPage(),
+                        'assets/icons/hotel_colors.png',
+                        'Hoteles',
+                        const RestaurantesHotelesPage(
+                          tipo: 'Hotel',
+                        ),
                       ),
                       _turismoImageCard(
                         size,
-                        'assets/icons/imagen_colors.png',
-                        'Imágenes',
-                        const PodcastsPage(),
+                        'assets/icons/qr_colors.png',
+                        'Códigos QR',
+                        const QRPage(),
                       ),
                     ],
                   ),

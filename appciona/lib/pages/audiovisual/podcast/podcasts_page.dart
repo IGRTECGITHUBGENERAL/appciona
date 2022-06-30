@@ -1,22 +1,22 @@
-import 'package:appciona/pages/inicio/inicio_controller.dart';
+import 'package:appciona/pages/audiovisual/podcast/podcasts_controller.dart';
+import 'package:appciona/pages/audiovisual/content/content_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class InicioPage extends StatefulWidget {
-  final Widget drawer;
-  const InicioPage({
+class PodcastsPage extends StatefulWidget {
+  const PodcastsPage({
     Key? key,
-    required this.drawer,
   }) : super(key: key);
 
   @override
-  _InicioPageState createState() => _InicioPageState();
+  State<PodcastsPage> createState() => _PodcastsPageState();
 }
 
-class _InicioPageState extends State<InicioPage> {
-  final InicioController _controller = InicioController();
+class _PodcastsPageState extends State<PodcastsPage> {
+  final PodcastsController _controller = PodcastsController();
 
   @override
   void initState() {
@@ -30,7 +30,11 @@ class _InicioPageState extends State<InicioPage> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text('Últimas noticias'),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios_new),
+        ),
+        title: const Text('Audiovisual'),
         centerTitle: true,
         actions: [
           Image.asset(
@@ -39,19 +43,15 @@ class _InicioPageState extends State<InicioPage> {
           )
         ],
       ),
-      drawer: Drawer(
-        child: widget.drawer,
-      ),
-      body: SingleChildScrollView(
-        child: Center(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+            children: [
               const SizedBox(
                 height: 10,
               ),
               FutureBuilder(
-                future: _controller.getNoticias(),
+                future: _controller.getPodcast(),
                 builder: (context, data) {
                   if (data.hasData) {
                     List<DocumentSnapshot> documents =
@@ -59,16 +59,18 @@ class _InicioPageState extends State<InicioPage> {
                     return ListView.builder(
                       primary: false,
                       shrinkWrap: true,
-                      itemCount: documents.isEmpty ? 0 : documents.length,
+                      itemCount: documents.isEmpty
+                          ? 0
+                          : documents.length > 20
+                              ? 20
+                              : documents.length,
                       itemBuilder: (context, index) {
-                        Timestamp t = documents[index]["Fecha"];
+                        Timestamp t = documents[index]["FechaPublicacion"];
                         DateTime d = t.toDate();
                         return _newCard(
                           size,
                           documents[index]["Imagen"],
                           documents[index]["Titulo"],
-                          documents[index]["Subtitulo"],
-                          documents[index]["Texto"],
                           formatDate(
                             d,
                             [
@@ -79,6 +81,7 @@ class _InicioPageState extends State<InicioPage> {
                               yyyy,
                             ],
                           ),
+                          documents[index].id,
                         );
                       },
                     );
@@ -98,8 +101,8 @@ class _InicioPageState extends State<InicioPage> {
     );
   }
 
-  Container _newCard(Size size, String img, String title, String subtitle,
-      String text, String fecha) {
+  Container _newCard(
+      Size size, String img, String desc, String fecha, String documentID) {
     return Container(
       width: size.width * 0.90,
       padding: const EdgeInsets.all(5),
@@ -110,24 +113,32 @@ class _InicioPageState extends State<InicioPage> {
         boxShadow: [
           BoxShadow(
             color: Colors.grey,
-            blurRadius: 6,
+            spreadRadius: 0,
+            blurRadius: 3,
           ),
         ],
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () => Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => ContentPage(
+              documentID: documentID,
+            ),
+          ),
+        ),
         child: Row(
           children: [
             SizedBox(
-              width: size.width * 0.50,
+              width: size.width * 0.30,
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: CachedNetworkImage(
                   imageUrl: img,
                   placeholder: (context, url) =>
-                      Image.asset('assets/images/logo-green.png'),
+                      Image.asset('assets/icons/podcast_mono.png'),
                   errorWidget: (context, url, error) =>
-                      Image.asset('assets/images/logo-green.png'),
+                      Image.asset('assets/icons/podcast_mono.png'),
                 ),
               ),
             ),
@@ -139,7 +150,7 @@ class _InicioPageState extends State<InicioPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      title,
+                      desc,
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -147,29 +158,16 @@ class _InicioPageState extends State<InicioPage> {
                       ),
                       textAlign: TextAlign.left,
                     ),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
+                    SizedBox(
+                      width: size.width,
+                      child: Text(
+                        'Fecha de publlicación: $fecha',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.left,
                       ),
-                      textAlign: TextAlign.left,
-                    ),
-                    Text(
-                      text,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                    Text(
-                      fecha,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 10,
-                      ),
-                      textAlign: TextAlign.right,
                     ),
                   ],
                 ),

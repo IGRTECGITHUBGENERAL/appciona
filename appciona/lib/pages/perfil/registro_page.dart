@@ -1,20 +1,18 @@
 import 'package:appciona/models/user_model.dart';
-import 'package:appciona/pages/inicio/inicio_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../firebaseServices/auth_services.dart';
-import '../widgets/drawer.dart';
 
 class RegistroPage extends StatefulWidget {
   const RegistroPage({Key? key}) : super(key: key);
 
   @override
-  _RegistroPageState createState() => _RegistroPageState();
+  State<RegistroPage> createState() => _RegistroPageState();
 }
 
 class _RegistroPageState extends State<RegistroPage> {
-  GlobalKey<FormState> _keyForm = GlobalKey();
+  final GlobalKey<FormState> _keyForm = GlobalKey();
 
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController surnameCtrl = TextEditingController();

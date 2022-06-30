@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:appciona/pages/servicios/servicios.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../firebaseServices/google_sign_in.dart';
 import '../agenda/agenda_page.dart';
 import '../encuestas/encuestas_page.dart';
-import '../perfil/inicio_sesion_page.dart';
+import '../perfil/login_page.dart';
 import '../perfil/perfil_page.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -127,6 +128,18 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               context,
               CupertinoPageRoute(
                 builder: (context) => const EncuestasPage(),
+              ),
+            )
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.live_help),
+          title: const Text("Servicios"),
+          onTap: () => {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => const ServiciosPage(),
               ),
             )
           },

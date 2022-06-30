@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class InicioController {
-  Future<dynamic> getNoticias() async {
+class PodcastsController {
+  Future<dynamic> getPodcast() async {
     QuerySnapshot qs = await FirebaseFirestore.instance
-        .collection('Noticias')
-        .orderBy("Fecha")
+        .collection('Podcast')
+        .orderBy("FechaPublicacion")
         .get();
     List<DocumentSnapshot> documents = qs.docs;
     return documents;
