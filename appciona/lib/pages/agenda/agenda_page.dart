@@ -1,6 +1,7 @@
 import 'package:appciona/models/agendas.dart';
 import 'package:appciona/pages/agenda/agenda_controller.dart';
 import 'package:appciona/pages/agenda/crear_editar_evento_page.dart';
+import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:date_format/date_format.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
@@ -233,8 +234,23 @@ class _AgendaPageState extends State<AgendaPage> {
                     color: const Color(0xff7B91A3),
                     icon: new Icon(Icons.delete),
                     onPressed: () {
-                      _controller.eliminarEvento(agenda.uid);
-                      setState(() {});
+                      Alerts.messageBoxCustom(context, Text('Eliminar evento'),
+                          Text('¿Está seguro de eliminar el evento?'), <Widget>[
+                        TextButton(
+                          child: Text("Cancelar"),
+                          onPressed: () {
+                            Navigator.of(context, rootNavigator: true).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text("Confirmar"),
+                          onPressed: () {
+                            _controller.eliminarEvento(agenda.uid);
+                            Navigator.of(context, rootNavigator: true).pop();
+                            setState(() {});
+                          },
+                        )
+                      ]);
                     },
                   ),
                 ],
