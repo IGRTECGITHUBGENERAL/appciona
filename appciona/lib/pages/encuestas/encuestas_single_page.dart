@@ -1,3 +1,5 @@
+import 'package:appciona/config/palette.dart';
+import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -21,6 +23,26 @@ class EncuestasSingleTestPage extends StatefulWidget {
 class _EncuestasSingleTestPageState extends State<EncuestasSingleTestPage> {
   final EncuestasController _controller = EncuestasController();
   final _formKey = GlobalKey<FormBuilderState>();
+
+  void submit() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      print(_formKey.currentState!.value);
+      Alerts.messageBoxLoading(context, 'Enviando respuestas');
+      await Future.delayed(
+        const Duration(seconds: 2),
+      );
+      Navigator.of(context, rootNavigator: true).pop();
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Palette.appcionaSecondaryColor,
+          content:
+              Text("¡Gracias por tu opinión! Respuestas enviadas con éxito"),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,14 +143,7 @@ class _EncuestasSingleTestPageState extends State<EncuestasSingleTestPage> {
                         style: ElevatedButton.styleFrom(
                           primary: const Color(0XFF007474),
                         ),
-                        onPressed: () {
-                          _formKey.currentState!.save();
-                          if (_formKey.currentState!.validate()) {
-                            print(_formKey.currentState!.value);
-                          } else {
-                            print("validation failed");
-                          }
-                        },
+                        onPressed: submit,
                         child: const Text(
                           "Enviar mis respuestas",
                           style: TextStyle(color: Colors.white),

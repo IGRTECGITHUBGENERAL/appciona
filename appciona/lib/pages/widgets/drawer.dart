@@ -73,11 +73,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           leading: const Icon(Icons.login),
           title: const Text("Iniciar sesión"),
           onTap: () => {
-            Navigator.of(context, rootNavigator: true).push(
-              CupertinoPageRoute(
-                builder: (context) => const LoginPage(),
-              ),
-            )
+            Navigator.of(context, rootNavigator: true)
+                .push(
+                  CupertinoPageRoute(
+                    builder: (context) => const LoginPage(),
+                  ),
+                )
+                .then((value) => setState(() {}))
           },
         ),
       ],
@@ -105,7 +107,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   "${info.email}",
                   textAlign: TextAlign.center,
                 ),
-                onTap: () => {},
               );
             } else if (snapshot.hasData) {
               return const ListTile(

@@ -28,7 +28,7 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        elevation: 2,
         backgroundColor: Colors.white,
         title: const Text('Últimas noticias'),
         centerTitle: true,

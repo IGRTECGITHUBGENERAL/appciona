@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/turismo/qr/qr_page.dart';
 import 'package:appciona/pages/turismo/lugares_interes/lugares_interes_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -126,6 +127,7 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
             child: Padding(
               padding: const EdgeInsets.only(left: 25.0),
               child: FloatingActionButton.extended(
+                backgroundColor: Palette.appcionaSecondaryColor,
                 icon: isMapSelected
                     ? const Icon(Icons.newspaper_outlined)
                     : const Icon(Icons.map),
