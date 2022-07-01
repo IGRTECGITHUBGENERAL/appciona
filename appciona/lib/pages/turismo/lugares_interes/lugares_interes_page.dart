@@ -125,6 +125,29 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
                 isMapSelected ? Alignment.bottomLeft : Alignment.bottomRight,
             child: Padding(
               padding: const EdgeInsets.only(left: 25.0),
+              child: FloatingActionButton.extended(
+                icon: isMapSelected
+                    ? const Icon(Icons.newspaper_outlined)
+                    : const Icon(Icons.map),
+                onPressed: () => setState(() {
+                  isMapSelected = !isMapSelected;
+                }),
+                label: isMapSelected
+                    ? const Text("Cambiar a cards")
+                    : const Text("Cambiar a mapa"),
+              ),
+            ),
+          ),
+        ],
+      ),
+      /*
+      floatingActionButton: Stack(
+        children: [
+          Align(
+            alignment:
+                isMapSelected ? Alignment.bottomLeft : Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 25.0),
               child: SpeedDial(
                 backgroundColor: Colors.orange.shade600,
                 animatedIcon: AnimatedIcons.menu_close,
@@ -163,7 +186,7 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
             ),
           ),
         ],
-      ),
+      ),*/
     );
   }
 

@@ -11,6 +11,7 @@ import '../agenda/agenda_page.dart';
 import '../encuestas/encuestas_page.dart';
 import '../account/login/login_page.dart';
 import '../account/perfil_page.dart';
+import 'drawer_controller.dart';
 
 class DrawerWidget extends StatefulWidget {
   final int userState;
@@ -21,6 +22,8 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
+  final DrawerWidgetController _controller = DrawerWidgetController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -89,16 +92,34 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           padding: const EdgeInsets.all(50.0),
           child: Image.asset('assets/images/logo-green.png'),
         ),
-        ListTile(
-          leading: const Icon(Icons.person),
-          title: const Text("Perfil"),
-          onTap: () => {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const PerfilPage(),
-              ),
-            )
+        FutureBuilder(
+          future: _controller.getUserInfo(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              InfoUser info = snapshot.data as InfoUser;
+              return ListTile(
+                title: Text(
+                  "¡Bienvenido ${info.nombre}!",
+                  textAlign: TextAlign.center,
+                ),
+                subtitle: Text(
+                  "${info.email}",
+                  textAlign: TextAlign.center,
+                ),
+                onTap: () => {},
+              );
+            } else if (snapshot.hasData) {
+              return const ListTile(
+                title: Text(
+                  "¡Bienvenido!",
+                  textAlign: TextAlign.center,
+                ),
+              );
+            } else {
+              return const ListTile(
+                title: LinearProgressIndicator(),
+              );
+            }
           },
         ),
         ListTile(
