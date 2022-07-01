@@ -137,41 +137,6 @@ class _EncuestasSingleTestPageState extends State<EncuestasSingleTestPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      /*
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: MaterialButton(
-                              color: Theme.of(context).colorScheme.secondary,
-                              child: const Text(
-                                "Submit",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              onPressed: () {
-                                _formKey.currentState!.save();
-                                if (_formKey.currentState!.validate()) {
-                                  print(_formKey.currentState!.value);
-                                } else {
-                                  print("validation failed");
-                                }
-                              },
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Expanded(
-                            child: MaterialButton(
-                              color: Theme.of(context).colorScheme.secondary,
-                              child: const Text(
-                                "Reset",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              onPressed: () {
-                                _formKey.currentState!.reset();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),*/
                     ],
                   ),
                 ),

@@ -140,53 +140,6 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
           ),
         ],
       ),
-      /*
-      floatingActionButton: Stack(
-        children: [
-          Align(
-            alignment:
-                isMapSelected ? Alignment.bottomLeft : Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 25.0),
-              child: SpeedDial(
-                backgroundColor: Colors.orange.shade600,
-                animatedIcon: AnimatedIcons.menu_close,
-                foregroundColor: Colors.white,
-                children: [
-                  SpeedDialChild(
-                    onTap: () => Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => const QRPage(),
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.qr_code,
-                      color: Color(0XFF007474),
-                    ),
-                    label: 'QR',
-                  ),
-                  SpeedDialChild(
-                    onTap: () => setState(() {
-                      isMapSelected = !isMapSelected;
-                    }),
-                    child: isMapSelected
-                        ? const Icon(
-                            Icons.newspaper,
-                            color: Color(0XFF007474),
-                          )
-                        : const Icon(
-                            Icons.map_rounded,
-                            color: Color(0XFF007474),
-                          ),
-                    label: 'Mapa',
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),*/
     );
   }
 

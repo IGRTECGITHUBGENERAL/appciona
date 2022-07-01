@@ -15,6 +15,23 @@ class Alerts {
     );
   }
 
+  static messageBoxLoading(BuildContext context, String title) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              CircularProgressIndicator(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   static messageBoxMessage(
       BuildContext context, String title, String content) async {
     return showDialog(

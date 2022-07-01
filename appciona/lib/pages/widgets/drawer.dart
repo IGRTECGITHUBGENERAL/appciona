@@ -10,7 +10,6 @@ import '../../firebaseServices/google_sign_in.dart';
 import '../agenda/agenda_page.dart';
 import '../encuestas/encuestas_page.dart';
 import '../account/login/login_page.dart';
-import '../account/perfil_page.dart';
 import 'drawer_controller.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -154,7 +153,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.live_help),
+          leading: const ImageIcon(
+            AssetImage('assets/icons/servicios_mono.png'),
+          ),
           title: const Text("Servicios"),
           onTap: () => {
             Navigator.push(
