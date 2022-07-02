@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/audiovisual/podcast/podcasts_controller.dart';
 import 'package:appciona/pages/audiovisual/content/content_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -32,9 +33,17 @@ class _PodcastsPageState extends State<PodcastsPage> {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios_new),
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Palette.appcionaPrimaryColor,
+          ),
         ),
-        title: const Text('Audiovisual'),
+        title: const Text(
+          'Audiovisual',
+          style: TextStyle(
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
         centerTitle: true,
         actions: [
           Image.asset(

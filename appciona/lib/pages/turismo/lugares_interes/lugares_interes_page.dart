@@ -41,11 +41,19 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text("Lugares de interés"),
+        title: const Text(
+          "Lugares de interés",
+          style: TextStyle(
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Palette.appcionaPrimaryColor,
+          ),
         ),
         actions: [
           Image.asset(

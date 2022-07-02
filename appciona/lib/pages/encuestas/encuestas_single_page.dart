@@ -77,13 +77,17 @@ class _EncuestasSingleTestPageState extends State<EncuestasSingleTestPage> {
                         backgroundColor: Colors.white,
                         leading: IconButton(
                           onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.arrow_back_ios_new),
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new,
+                            color: Palette.appcionaPrimaryColor,
+                          ),
                         ),
                         title: Text(
                           '${encuesta.titulo}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
+                            color: Palette.appcionaPrimaryColor,
                           ),
                         ),
                         centerTitle: true,

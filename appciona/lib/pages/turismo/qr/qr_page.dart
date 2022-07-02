@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,11 +23,19 @@ class _QRPageState extends State<QRPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: const Text('Códigos QR'),
+        title: const Text(
+          'Códigos QR',
+          style: TextStyle(
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Palette.appcionaPrimaryColor,
+          ),
         ),
         actions: [
           IconButton(

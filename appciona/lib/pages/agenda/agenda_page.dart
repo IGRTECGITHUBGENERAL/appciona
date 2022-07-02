@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/models/agendas.dart';
 import 'package:appciona/pages/agenda/agenda_controller.dart';
 import 'package:appciona/pages/agenda/crear_editar_evento_page.dart';
@@ -26,10 +27,18 @@ class _AgendaPageState extends State<AgendaPage> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text("Agenda"),
+        title: const Text(
+          "Agenda",
+          style: TextStyle(
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Palette.appcionaPrimaryColor,
+          ),
         ),
         actions: <Widget>[
           Center(
@@ -39,18 +48,25 @@ class _AgendaPageState extends State<AgendaPage> {
                 textStyle: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
+                  color: Palette.appcionaSecondaryColor,
                 ),
               ),
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.add),
+            icon: const Icon(
+              Icons.add,
+              color: Palette.appcionaSecondaryColor,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        const CrearEditarEventoPage(isEditing: false)),
+                  builder: (context) =>
+                      const CrearEditarEventoPage(isEditing: false),
+                ),
+              ).then(
+                (value) => setState(() {}),
               );
             },
           ),
@@ -120,6 +136,7 @@ class _AgendaPageState extends State<AgendaPage> {
     return Container(
       padding: const EdgeInsets.symmetric(
         vertical: 10,
+        horizontal: 8.0,
       ),
       width: size.width * 0.9,
       child: Row(
@@ -129,7 +146,7 @@ class _AgendaPageState extends State<AgendaPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: const EdgeInsets.only(right: 20),
+                margin: const EdgeInsets.only(right: 5.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -208,6 +225,7 @@ class _AgendaPageState extends State<AgendaPage> {
             ),
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Row(
                 children: <Widget>[
@@ -220,9 +238,7 @@ class _AgendaPageState extends State<AgendaPage> {
                         MaterialPageRoute(
                             builder: (context) => CrearEditarEventoPage(
                                 isEditing: true, agendaInfo: agenda)),
-                      ).then((value) {
-                        setState(() {});
-                      });
+                      ).then((value) => setState(() {}));
                     },
                   ),
                 ],
@@ -230,33 +246,37 @@ class _AgendaPageState extends State<AgendaPage> {
               Row(
                 children: <Widget>[
                   IconButton(
-                    color: const Color(0xff7B91A3),
+                    color: Colors.red.shade400,
                     icon: const Icon(Icons.delete),
                     onPressed: () {
                       Alerts.messageBoxCustom(
-                          context,
-                          const Text('Eliminar evento'),
-                          const Text('¿Está seguro de eliminar el evento?'), <
-                              Widget>[
-                        TextButton(
-                          child: const Text("Cancelar"),
-                          onPressed: () {
-                            Navigator.of(context, rootNavigator: true).pop();
-                          },
-                        ),
-                        TextButton(
-                          child: const Text("Confirmar"),
-                          onPressed: () {
-                            _controller.eliminarEvento(agenda.uid);
-                            Navigator.of(context, rootNavigator: true).pop();
-                            Navigator.push(
+                        context,
+                        const Text('Eliminar evento'),
+                        const Text('¿Está seguro de eliminar el evento?'),
+                        <Widget>[
+                          TextButton(
+                            child: const Text("Cancelar"),
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text("Confirmar"),
+                            onPressed: () {
+                              _controller.eliminarEvento(agenda.uid);
+                              Navigator.of(context, rootNavigator: true).pop();
+                              Navigator.pop(context);
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const AgendaPage()));
-                            setState(() {});
-                          },
-                        )
-                      ]);
+                                  builder: (context) => const AgendaPage(),
+                                ),
+                              );
+                              setState(() {});
+                            },
+                          )
+                        ],
+                      );
                     },
                   ),
                 ],

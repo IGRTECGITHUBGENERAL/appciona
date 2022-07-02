@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/models/encuestas.dart';
 import 'package:appciona/pages/encuestas/encuestas_controller.dart';
 import 'package:appciona/pages/encuestas/encuestas_single_page.dart';
@@ -28,11 +29,19 @@ class _EncuestasPageState extends State<EncuestasPage> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text("Encuestas"),
+        title: const Text(
+          "Encuestas",
+          style: TextStyle(
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Palette.appcionaPrimaryColor,
+          ),
         ),
         actions: [
           Image.asset(
@@ -93,7 +102,6 @@ class _EncuestasPageState extends State<EncuestasPage> {
           ),
         ),
         child: Container(
-          width: size.width * 0.95,
           margin: const EdgeInsets.symmetric(
             vertical: 10,
           ),
@@ -118,6 +126,7 @@ class _EncuestasPageState extends State<EncuestasPage> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: CachedNetworkImage(
+                  width: size.width * 0.70,
                   imageUrl: urlImg,
                   placeholder: (context, url) =>
                       Image.asset('assets/images/logo-green.png'),

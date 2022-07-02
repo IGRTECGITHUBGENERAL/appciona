@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/models/servicio.dart';
 import 'package:appciona/pages/servicios/servicios_controller.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
@@ -90,7 +91,19 @@ class _ServiciosPageState extends State<ServiciosPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        title: const Text("Servicios"),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
+        title: const Text(
+          "Servicios",
+          style: TextStyle(
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
         centerTitle: true,
         actions: [
           Image.asset(

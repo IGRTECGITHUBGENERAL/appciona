@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:flutter/material.dart';
 
@@ -64,7 +65,16 @@ class _RecoverPasswordPageState extends State<RecoverPasswordPage> {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
+        title: const Text(
+          'Recuperar contraseña',
+          style: TextStyle(
+            color: Palette.appcionaPrimaryColor,
+          ),
         ),
       ),
       body: SafeArea(

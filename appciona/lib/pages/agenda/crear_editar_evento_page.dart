@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/models/agendas.dart';
 import 'package:appciona/pages/agenda/crear_editar_evento_controller.dart';
 import 'package:flutter/material.dart';
@@ -26,15 +27,11 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
   save() {
     if (_formKey.currentState!.validate()) {
       if (widget.isEditing) {
-        _controller.save(
-          tituloCtrl.text,
-          descripcionCtrl.text,
-          context,
-          widget.isEditing,
-          widget.agendaInfo!.uid);
+        _controller.save(tituloCtrl.text, descripcionCtrl.text, context,
+            widget.isEditing, widget.agendaInfo!.uid);
       } else {
-        _controller.save(
-            tituloCtrl.text, descripcionCtrl.text, context, widget.isEditing, null);
+        _controller.save(tituloCtrl.text, descripcionCtrl.text, context,
+            widget.isEditing, null);
         _formKey.currentState!.reset();
       }
     }
@@ -72,8 +69,25 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: widget.isEditing
-            ? const Text('Editar evento')
-            : const Text('Crear evento'),
+            ? const Text(
+                'Editar evento',
+                style: TextStyle(
+                  color: Palette.appcionaPrimaryColor,
+                ),
+              )
+            : const Text(
+                'Crear evento',
+                style: TextStyle(
+                  color: Palette.appcionaPrimaryColor,
+                ),
+              ),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -90,19 +104,19 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
                       onPressed: () {
                         _controller.selectDate(context);
                       },
-                      icon: Icon(Icons.calendar_month_outlined)),
+                      icon: const Icon(Icons.calendar_month_outlined)),
                   Text("${_controller.selectedDate.toLocal()}".split(' ')[0],
-                      style: TextStyle(color: const Color(0xff6f6f6f))),
+                      style: const TextStyle(color: Color(0xff6f6f6f))),
                 ),
                 formItemsDesign(
                   IconButton(
                       onPressed: () {
                         _controller.selectTime(context);
                       },
-                      icon: Icon(Icons.watch_later_outlined)),
+                      icon: const Icon(Icons.watch_later_outlined)),
                   Text(
                       "${_controller.selectedTime24Hour.hour} : ${_controller.selectedTime24Hour.minute}",
-                      style: TextStyle(color: const Color(0xff6f6f6f))),
+                      style: const TextStyle(color: Color(0xff6f6f6f))),
                 ),
                 const SizedBox(height: 10),
                 const SizedBox(height: 20),
@@ -131,14 +145,14 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 60.0, vertical: 15.0),
             child: widget.isEditing
-                ? Text(
+                ? const Text(
                     'Guardar cambios',
                     style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   )
-                : Text(
+                : const Text(
                     'Crear',
                     style: TextStyle(
                         fontSize: 16.0,
@@ -180,7 +194,7 @@ class TextBox extends StatelessWidget {
 
 formItemsDesign(icon, item) {
   return Padding(
-    padding: EdgeInsets.symmetric(vertical: 7),
+    padding: const EdgeInsets.symmetric(vertical: 7),
     child: Card(child: ListTile(leading: icon, title: item)),
   );
 }

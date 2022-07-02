@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/models/hotel_restaurante.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flip_card/flip_card.dart';
@@ -30,9 +31,24 @@ class _RestaurantesHotelesPageState extends State<RestaurantesHotelesPage> {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Palette.appcionaPrimaryColor,
+          ),
         ),
-        title: Text("${widget.tipo}s"),
+        title: widget.tipo == "Hotel"
+            ? Text(
+                "${widget.tipo}es",
+                style: const TextStyle(
+                  color: Palette.appcionaPrimaryColor,
+                ),
+              )
+            : Text(
+                "${widget.tipo}s",
+                style: const TextStyle(
+                  color: Palette.appcionaPrimaryColor,
+                ),
+              ),
         centerTitle: true,
         actions: [
           Image.asset(

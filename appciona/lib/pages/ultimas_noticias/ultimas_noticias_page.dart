@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/ultimas_noticias/ultimas_noticias_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,7 +31,12 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text('Últimas noticias'),
+        title: const Text(
+          'Últimas noticias',
+          style: TextStyle(
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
         centerTitle: true,
         actions: [
           Image.asset(
@@ -38,6 +44,9 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
             fit: BoxFit.contain,
           )
         ],
+        iconTheme: const IconThemeData(
+          color: Palette.appcionaPrimaryColor,
+        ),
       ),
       drawer: Drawer(
         child: widget.drawer,

@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/turismo/lugares_interes/lugares_interes_page.dart';
 import 'package:appciona/pages/turismo/qr/qr_page.dart';
 import 'package:appciona/pages/turismo/restaurantes_hoteles/restaurantes_hoteles_page.dart';
@@ -23,7 +24,12 @@ class _TurismoMainPageState extends State<TurismoMainPage> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text("Turismo"),
+        title: const Text(
+          "Turismo",
+          style: TextStyle(
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
         centerTitle: true,
         actions: [
           Image.asset(
@@ -31,6 +37,9 @@ class _TurismoMainPageState extends State<TurismoMainPage> {
             fit: BoxFit.contain,
           )
         ],
+        iconTheme: const IconThemeData(
+          color: Palette.appcionaPrimaryColor,
+        ),
       ),
       drawer: Drawer(
         child: widget.drawer,

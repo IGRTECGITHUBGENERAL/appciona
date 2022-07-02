@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/servicios/servicios.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -70,17 +71,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           child: Image.asset('assets/images/logo-green.png'),
         ),
         ListTile(
-          leading: const Icon(Icons.login),
+          leading: const Icon(
+            Icons.login,
+            color: Palette.appcionaSecondaryColor,
+          ),
           title: const Text("Iniciar sesión"),
-          onTap: () => {
-            Navigator.of(context, rootNavigator: true)
-                .push(
-                  CupertinoPageRoute(
-                    builder: (context) => const LoginPage(),
-                  ),
-                )
-                .then((value) => setState(() {}))
-          },
+          onTap: () => Navigator.of(context, rootNavigator: true)
+              .push(
+                CupertinoPageRoute(
+                  builder: (context) => const LoginPage(),
+                ),
+              )
+              .then(
+                (value) => setState(() {}),
+              ),
         ),
       ],
     );
@@ -123,14 +127,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.whatsapp),
+          leading: const Icon(
+            Icons.whatsapp,
+            color: Palette.appcionaPrimaryColor,
+          ),
           title: const Text("Mensajería"),
           onTap: () {
             openwhatsapp();
           },
         ),
         ListTile(
-          leading: const Icon(Icons.book),
+          leading: const Icon(
+            Icons.book,
+            color: Palette.appcionaPrimaryColor,
+          ),
           title: const Text("Agenda"),
           onTap: () => {
             Navigator.push(
@@ -142,7 +152,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.question_answer_outlined),
+          leading: const Icon(
+            Icons.question_answer_outlined,
+            color: Palette.appcionaPrimaryColor,
+          ),
           title: const Text("Encuestas"),
           onTap: () => {
             Navigator.push(
@@ -156,6 +169,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ListTile(
           leading: const ImageIcon(
             AssetImage('assets/icons/servicios_mono.png'),
+            color: Palette.appcionaPrimaryColor,
           ),
           title: const Text("Servicios"),
           onTap: () => {
@@ -168,7 +182,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.logout),
+          leading: const Icon(
+            Icons.logout,
+            color: Palette.appcionaSecondaryColor,
+          ),
           title: const Text("Cerrar sesión"),
           onTap: () async {
             try {

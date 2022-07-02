@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/audiovisual/podcast/podcasts_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,12 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text('Audiovisual'),
+        title: const Text(
+          'Audiovisual',
+          style: TextStyle(
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
         centerTitle: true,
         actions: [
           Image.asset(
@@ -29,6 +35,9 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
             fit: BoxFit.contain,
           )
         ],
+        iconTheme: const IconThemeData(
+          color: Palette.appcionaPrimaryColor,
+        ),
       ),
       drawer: Drawer(
         child: widget.drawer,

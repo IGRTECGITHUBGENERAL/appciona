@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -98,12 +99,16 @@ class _SignUpPageState extends State<SignUpPage> {
         elevation: 0,
         title: const Text(
           'Registrarse',
+          style: TextStyle(
+            color: Palette.appcionaPrimaryColor,
+          ),
         ),
         centerTitle: true,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(
             Icons.arrow_back_ios,
+            color: Palette.appcionaPrimaryColor,
           ),
         ),
       ),
@@ -134,6 +139,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   TextInputType.text,
                   TextInputAction.next,
                   false,
+                  Icons.person,
                 ),
                 _textBox(
                   size,
@@ -142,6 +148,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   TextInputType.text,
                   TextInputAction.next,
                   false,
+                  Icons.person_outline,
                 ),
                 _textBox(
                   size,
@@ -150,6 +157,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   TextInputType.emailAddress,
                   TextInputAction.next,
                   false,
+                  Icons.email,
                 ),
                 _textBox(
                   size,
@@ -158,6 +166,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   TextInputType.text,
                   TextInputAction.next,
                   false,
+                  Icons.card_membership,
                 ),
                 _textBox(
                   size,
@@ -166,6 +175,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   TextInputType.visiblePassword,
                   TextInputAction.next,
                   true,
+                  Icons.lock,
                 ),
                 _textBox(
                   size,
@@ -174,6 +184,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   TextInputType.visiblePassword,
                   TextInputAction.done,
                   true,
+                  Icons.lock_outline,
                 ),
                 ElevatedButton(
                   onPressed: singin ? null : signUp,
@@ -231,10 +242,15 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Container _textBox(Size size, String labelText, TextEditingController ctrl,
-      TextInputType tit, TextInputAction tia, bool isPassword) {
+      TextInputType tit, TextInputAction tia, bool isPassword, IconData icon) {
     return Container(
       width: size.width * 0.75,
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.all(5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        color: Palette.appcionaPrimaryColor.shade100,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
       child: TextFormField(
         controller: ctrl,
         textInputAction: tia,
@@ -247,40 +263,16 @@ class _SignUpPageState extends State<SignUpPage> {
             return null;
           }
         },
+        style: const TextStyle(
+          color: Palette.appcionaPrimaryColor,
+        ),
         decoration: InputDecoration(
+          icon: Icon(icon),
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-          labelText: labelText,
-          labelStyle: const TextStyle(
-            color: Color(0XFF007474),
+          hintText: labelText,
+          hintStyle: TextStyle(
+            color: Palette.appcionaPrimaryColor.shade400,
             fontWeight: FontWeight.bold,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              width: 2,
-              color: Color(0XFF005059),
-            ),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              width: 2,
-              color: Color(0XFF005059),
-            ),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              width: 2,
-              color: Color(0XFF005059),
-            ),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              width: 2,
-              color: Colors.red.shade900,
-            ),
-            borderRadius: BorderRadius.circular(5),
           ),
           border: InputBorder.none,
         ),

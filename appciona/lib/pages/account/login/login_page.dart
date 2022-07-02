@@ -29,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
       });
       if (await _controller.login(emailCtrl.text, passCtrl.text)) {
         Navigator.pop(context);
-        Navigator.pop(context);
       } else {
         Alerts.messageBoxMessage(context, 'Verifica tus datos',
             'Los datos que ingresaste son erróneos');
@@ -66,9 +65,19 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+        title: const Text(
+          'Iniciar sesión',
+          style: TextStyle(
+            color: Palette.appcionaPrimaryColor,
+          ),
+        ),
+        centerTitle: true,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Palette.appcionaPrimaryColor,
+          ),
         ),
       ),
       body: SafeArea(
