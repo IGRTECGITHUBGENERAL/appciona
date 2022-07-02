@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:appciona/models/sugerencia.dart';
+import 'package:appciona/models/servicio.dart';
 import 'package:appciona/pages/servicios/servicios_controller.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:file_picker/file_picker.dart';
@@ -27,7 +27,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
   void submit() async {
     if (_keyForm.currentState!.validate()) {
       Alerts.messageBoxLoading(context, 'Enviando');
-      Sugerencia sugg = Sugerencia();
+      Servicio sugg = Servicio();
 
       if (file != null) {
         String? urlFile = await _controller.uploadFile(file, titleCtrl.text);
@@ -35,6 +35,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
           sugg.titulo = titleCtrl.text;
           sugg.descripcion = descrCtrl.text;
           sugg.archivo = urlFile;
+          sugg.revisado = false;
           if (await _controller.createSuggestion(sugg)) {
             Navigator.of(context, rootNavigator: true).pop();
             Navigator.pop(context);

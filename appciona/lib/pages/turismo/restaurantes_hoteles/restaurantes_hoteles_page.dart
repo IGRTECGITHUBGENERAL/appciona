@@ -1,4 +1,4 @@
-import 'package:appciona/models/servicio.dart';
+import 'package:appciona/models/hotel_restaurante.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +47,8 @@ class _RestaurantesHotelesPageState extends State<RestaurantesHotelesPage> {
             future: _controller.getServices(widget.tipo),
             builder: (context, data) {
               if (data.hasData) {
-                List<Servicio> items = data.data as List<Servicio>;
+                List<HotelRestaurante> items =
+                    data.data as List<HotelRestaurante>;
                 return Column(
                   children: [
                     const SizedBox(

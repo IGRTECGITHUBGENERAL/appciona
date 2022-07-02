@@ -44,13 +44,13 @@ class _AgendaPageState extends State<AgendaPage> {
             ),
           ),
           IconButton(
-            icon: new Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        CrearEditarEventoPage(isEditing: false)),
+                        const CrearEditarEventoPage(isEditing: false)),
               );
             },
           ),
@@ -67,9 +67,9 @@ class _AgendaPageState extends State<AgendaPage> {
                   List<DateTime> fechasActivas = data.data as List<DateTime>;
                   return _barraDeDias(fechasActivas);
                 } else if (data.hasError) {
-                  return Text('No fue posible cargar las fechas');
+                  return const Text('No fue posible cargar las fechas');
                 } else {
-                  return CircularProgressIndicator();
+                  return const LinearProgressIndicator();
                 }
               },
             ),
@@ -82,7 +82,7 @@ class _AgendaPageState extends State<AgendaPage> {
                 if (data.hasData) {
                   List<Agenda> agendas = data.data as List<Agenda>;
                   if (agendas.isEmpty) {
-                    return Text('No hay eventos para este día');
+                    return const Text('No hay eventos para este día');
                   } else {
                     return ListView.builder(
                       shrinkWrap: true,
@@ -91,22 +91,21 @@ class _AgendaPageState extends State<AgendaPage> {
                         String hora =
                             '${agendas[index].Fecha.hour} : ${agendas[index].Fecha.minute}';
                         String dia =
-                            '${_controller.dias[agendas[index].Fecha.weekday - 1]}';
+                            _controller.dias[agendas[index].Fecha.weekday - 1];
                         return _agendaPerDia(
                             size,
-                            '${hora}',
-                            "${dia}",
+                            hora,
+                            dia,
                             '${agendas[index].Titulo}',
                             '${agendas[index].Descripcion}',
                             agendas[index]);
-                        //return Text('${agendas[index].Titulo}');
                       },
                     );
                   }
                 } else if (data.hasError) {
-                  return Text('No fue posible cargar las fechas');
+                  return const Text('No fue posible cargar las fechas');
                 } else {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
               },
             ),
@@ -189,7 +188,7 @@ class _AgendaPageState extends State<AgendaPage> {
                             textStyle: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: const Color(0xff7B91A3),
+                              color: Color(0xff7B91A3),
                             ),
                           ),
                         ),
@@ -199,7 +198,7 @@ class _AgendaPageState extends State<AgendaPage> {
                             textStyle: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: const Color(0xff7B91A3),
+                              color: Color(0xff7B91A3),
                             ),
                           ),
                         ),
@@ -214,7 +213,7 @@ class _AgendaPageState extends State<AgendaPage> {
                 children: <Widget>[
                   IconButton(
                     color: const Color(0xff7B91A3),
-                    icon: new Icon(Icons.create_outlined),
+                    icon: const Icon(Icons.create_outlined),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -232,22 +231,28 @@ class _AgendaPageState extends State<AgendaPage> {
                 children: <Widget>[
                   IconButton(
                     color: const Color(0xff7B91A3),
-                    icon: new Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     onPressed: () {
-                      Alerts.messageBoxCustom(context, Text('Eliminar evento'),
-                          Text('¿Está seguro de eliminar el evento?'), <Widget>[
+                      Alerts.messageBoxCustom(
+                          context,
+                          const Text('Eliminar evento'),
+                          const Text('¿Está seguro de eliminar el evento?'), <
+                              Widget>[
                         TextButton(
-                          child: Text("Cancelar"),
+                          child: const Text("Cancelar"),
                           onPressed: () {
                             Navigator.of(context, rootNavigator: true).pop();
                           },
                         ),
                         TextButton(
-                          child: Text("Confirmar"),
+                          child: const Text("Confirmar"),
                           onPressed: () {
                             _controller.eliminarEvento(agenda.uid);
                             Navigator.of(context, rootNavigator: true).pop();
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => AgendaPage()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AgendaPage()));
                             setState(() {});
                           },
                         )
@@ -275,15 +280,15 @@ class _AgendaPageState extends State<AgendaPage> {
           daysCount: 50,
           dateTextStyle: const TextStyle(
             fontWeight: FontWeight.w700,
-            color: const Color(0xffFF9132),
+            color: Color(0xffFF9132),
           ),
           monthTextStyle: const TextStyle(
             fontWeight: FontWeight.w700,
-            color: const Color(0xffFF9132),
+            color: Color(0xffFF9132),
           ),
           dayTextStyle: const TextStyle(
             fontWeight: FontWeight.w700,
-            color: const Color(0xffFF9132),
+            color: Color(0xffFF9132),
           ),
           selectionColor: const Color(0XFF00BAEF), onDateChange: (date) {
         _selectedDate = date;

@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:appciona/models/sugerencia.dart';
+import 'package:appciona/models/servicio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class ServiciosController {
-  Future<bool> createSuggestion(Sugerencia sugerencia) async {
+  Future<bool> createSuggestion(Servicio sugerencia) async {
     try {
       CollectionReference alimentoReference =
           FirebaseFirestore.instance.collection('Vending');
@@ -15,6 +15,7 @@ class ServiciosController {
         'Titulo': sugerencia.titulo,
         'Descripcion': sugerencia.descripcion,
         'Archivo': sugerencia.archivo,
+        'Revisado': sugerencia.revisado,
         'uid': uidGen,
       });
       return true;

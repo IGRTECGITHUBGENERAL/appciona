@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/account/recover/recover_password_page.dart';
 import 'package:appciona/pages/account/signup/signup_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
         loginIng = true;
       });
       if (await _controller.login(emailCtrl.text, passCtrl.text)) {
+        Navigator.pop(context);
         Navigator.pop(context);
       } else {
         Alerts.messageBoxMessage(context, 'Verifica tus datos',
@@ -88,13 +90,13 @@ class _LoginPageState extends State<LoginPage> {
                     height: size.height * 0.10,
                   ),
                   _textBox(
-                    size,
-                    'Correo electrónico',
-                    emailCtrl,
-                    TextInputType.emailAddress,
-                    TextInputAction.next,
-                    false,
-                  ),
+                      size,
+                      'Correo electrónico',
+                      emailCtrl,
+                      TextInputType.emailAddress,
+                      TextInputAction.next,
+                      false,
+                      Icons.email),
                   _textBox(
                     size,
                     'Contraseña',
@@ -102,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                     TextInputType.visiblePassword,
                     TextInputAction.done,
                     true,
+                    Icons.password,
                   ),
                   const SizedBox(
                     height: 20,
@@ -186,10 +189,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Container _textBox(Size size, String labelText, TextEditingController ctrl,
-      TextInputType tit, TextInputAction tia, bool isPassword) {
+      TextInputType tit, TextInputAction tia, bool isPassword, IconData icon) {
     return Container(
+      decoration: BoxDecoration(
+        color: Palette.appcionaSecondaryColor.shade200,
+        borderRadius: BorderRadius.circular(10),
+      ),
       width: size.width * 0.75,
       margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: TextFormField(
         textInputAction: tia,
         keyboardType: tit,
@@ -198,41 +206,19 @@ class _LoginPageState extends State<LoginPage> {
         validator: (value) {
           return value!.isEmpty ? 'El campo está vacío' : null;
         },
+        style: TextStyle(color: Palette.appcionaSecondaryColor.shade700),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-          labelText: labelText,
-          labelStyle: const TextStyle(
-            color: Color(0XFF007474),
-            fontWeight: FontWeight.bold,
+          icon: Icon(
+            icon,
+            color: Colors.brown,
           ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              width: 2,
-              color: Color(0XFF005059),
-            ),
-            borderRadius: BorderRadius.circular(5),
+          hintText: labelText,
+          hintStyle: TextStyle(
+            color: Palette.appcionaSecondaryColor.shade600,
+            fontWeight: FontWeight.w500,
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              width: 2,
-              color: Color(0XFF005059),
-            ),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              width: 2,
-              color: Color(0XFF005059),
-            ),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              width: 2,
-              color: Colors.red.shade900,
-            ),
-            borderRadius: BorderRadius.circular(5),
-          ),
+          errorStyle: const TextStyle(fontWeight: FontWeight.bold),
           border: InputBorder.none,
         ),
       ),

@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:appciona/models/encuestas.dart';
+import 'package:appciona/models/respuestas_encuestas.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -6,6 +9,24 @@ import '../../models/pregunta.dart';
 
 class EncuestasController {
   final User? user = FirebaseAuth.instance.currentUser;
+
+  Future<bool> sendAnswers(RespuestasEncuestas respuestas) async {
+    try {
+      CollectionReference respuestasEncuestasReference =
+          FirebaseFirestore.instance.collection('RespuestasEncuestas');
+      //String uidGen = getRandomString(20);
+      await respuestasEncuestasReference.doc().set({
+        'uidUsuario': respuestas.uidUsuario,
+        'uidEncuesta': respuestas.uidEncuesta,
+        'Revisado': respuestas.revisado,
+        'Respuestas': respuestas.respuestas,
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 
   List<Pregunta> getPreguntas(Map<String, dynamic>? formulario) {
     List<Pregunta> preguntas = [];
@@ -65,4 +86,17 @@ class EncuestasController {
   }
 
   Future<dynamic> getFormsNotAnswered() async {}
+
+  String getRandomString(int length) {
+    const characters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
+    Random random = Random();
+    return String.fromCharCodes(
+      Iterable.generate(
+        length,
+        (_) => characters.codeUnitAt(
+          random.nextInt(characters.length),
+        ),
+      ),
+    );
+  }
 }

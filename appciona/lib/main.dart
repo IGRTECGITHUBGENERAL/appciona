@@ -1,3 +1,4 @@
+import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/audiovisual/audiovisual_page.dart';
 import 'package:appciona/pages/turismo/turismo_main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'AppCiona',
       theme: ThemeData(
-        primarySwatch: Colors.grey,
+        primarySwatch: Palette.appcionaPrimaryColor,
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),

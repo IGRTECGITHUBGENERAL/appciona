@@ -1,6 +1,8 @@
 import 'package:appciona/config/palette.dart';
+import 'package:appciona/models/respuestas_encuestas.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -27,20 +29,29 @@ class _EncuestasSingleTestPageState extends State<EncuestasSingleTestPage> {
   void submit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      print(_formKey.currentState!.value);
+      final User? usr = FirebaseAuth.instance.currentUser;
+      RespuestasEncuestas respuestas = RespuestasEncuestas(
+        uidUsuario: usr!.uid,
+        uidEncuesta: widget.uidEncuesta,
+        revisado: false,
+        respuestas: _formKey.currentState!.value,
+      );
       Alerts.messageBoxLoading(context, 'Enviando respuestas');
-      await Future.delayed(
-        const Duration(seconds: 2),
-      );
-      Navigator.of(context, rootNavigator: true).pop();
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Palette.appcionaSecondaryColor,
-          content:
-              Text("¡Gracias por tu opinión! Respuestas enviadas con éxito"),
-        ),
-      );
+      if (await _controller.sendAnswers(respuestas)) {
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Palette.appcionaSecondaryColor,
+            content:
+                Text("¡Gracias por tu opinión! Respuestas enviadas con éxito"),
+          ),
+        );
+      } else {
+        Navigator.of(context, rootNavigator: true).pop();
+        Alerts.messageBoxMessage(context, 'Ups',
+            'Hubo un error al subir tus respuestas, por favor, intentalo más tarde.');
+      }
     }
   }
 
