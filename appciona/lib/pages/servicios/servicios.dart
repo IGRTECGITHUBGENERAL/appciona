@@ -59,6 +59,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
         sugg.titulo = titleCtrl.text;
         sugg.descripcion = descrCtrl.text;
         sugg.archivo = '';
+        sugg.revisado = false;
         if (await _controller.createSuggestion(sugg)) {
           Navigator.of(context, rootNavigator: true).pop();
           Navigator.pop(context);

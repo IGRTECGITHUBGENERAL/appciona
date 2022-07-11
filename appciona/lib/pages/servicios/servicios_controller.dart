@@ -9,7 +9,7 @@ class ServiciosController {
   Future<bool> createSuggestion(Servicio sugerencia) async {
     try {
       CollectionReference alimentoReference =
-          FirebaseFirestore.instance.collection('Vending');
+          FirebaseFirestore.instance.collection('Servicios');
       String uidGen = getRandomString(20);
       await alimentoReference.doc(uidGen).set({
         'Titulo': sugerencia.titulo,
@@ -29,7 +29,7 @@ class ServiciosController {
     try {
       var file = File(imagen!.path);
       final Reference storageReference =
-          FirebaseStorage.instance.ref().child("Vending");
+          FirebaseStorage.instance.ref().child("Servicios");
 
       TaskSnapshot taskSnapshot = await storageReference
           .child("$nombre${getRandomString(10)}.jpg")
