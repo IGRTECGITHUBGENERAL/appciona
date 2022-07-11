@@ -56,41 +56,11 @@ class _SenderismoSinglePageState extends State<SenderismoSinglePage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      SizedBox(
-                        width: size.width * 0.90,
-                        child: Text(
-                          '${item.titulo}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Palette.appcionaPrimaryColor,
-                            fontSize: 22,
-                          ),
-                        ),
-                      ),
+                      _carouselImgs(size, imagenes),
+                      _titulo(size, item),
                       _descripcionTecnica(size, item),
                       _map(item, size),
-                      _carouselImgs(size, imagenes),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        width: size.width * 0.90,
-                        child: Column(
-                          children: [
-                            Text(
-                              'Descripción',
-                              style: TextStyle(
-                                color: Palette.appcionaSecondaryColor.shade800,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                              ),
-                            ),
-                            const Divider(
-                              color: Palette.appcionaSecondaryColor,
-                              thickness: 1,
-                            ),
-                            Text('${item.descripcion}'),
-                          ],
-                        ),
-                      ),
+                      _descripcion(size, item),
                     ],
                   ),
                 ),
@@ -106,6 +76,44 @@ class _SenderismoSinglePageState extends State<SenderismoSinglePage> {
             }
           },
         ),
+      ),
+    );
+  }
+
+  SizedBox _titulo(Size size, Senderismo item) {
+    return SizedBox(
+      width: size.width * 0.90,
+      child: Text(
+        '${item.titulo}',
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Palette.appcionaPrimaryColor,
+          fontSize: 22,
+        ),
+      ),
+    );
+  }
+
+  Container _descripcion(Size size, Senderismo item) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      width: size.width * 0.90,
+      child: Column(
+        children: [
+          Text(
+            'Descripción',
+            style: TextStyle(
+              color: Palette.appcionaSecondaryColor.shade800,
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
+            ),
+          ),
+          const Divider(
+            color: Palette.appcionaSecondaryColor,
+            thickness: 1,
+          ),
+          Text('${item.descripcion}'),
+        ],
       ),
     );
   }

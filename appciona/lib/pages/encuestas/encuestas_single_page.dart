@@ -30,27 +30,33 @@ class _EncuestasSingleTestPageState extends State<EncuestasSingleTestPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       final User? usr = FirebaseAuth.instance.currentUser;
-      RespuestasEncuestas respuestas = RespuestasEncuestas(
-        uidUsuario: usr!.uid,
-        uidEncuesta: widget.uidEncuesta,
-        revisado: false,
-        respuestas: _formKey.currentState!.value,
-      );
-      Alerts.messageBoxLoading(context, 'Enviando respuestas');
-      if (await _controller.sendAnswers(respuestas)) {
-        Navigator.of(context, rootNavigator: true).pop();
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Palette.appcionaSecondaryColor,
-            content:
-                Text("¡Gracias por tu opinión! Respuestas enviadas con éxito"),
-          ),
-        );
+      if (_formKey.currentState!.value.containsValue(null)) {
+        Alerts.messageBoxMessage(context, '¡Espere!',
+            'Por favor, responda todas las preguntas para poder enviar el formulario');
       } else {
-        Navigator.of(context, rootNavigator: true).pop();
-        Alerts.messageBoxMessage(context, 'Ups',
-            'Hubo un error al subir tus respuestas, por favor, intentalo más tarde.');
+        RespuestasEncuestas respuestas = RespuestasEncuestas(
+          uidUsuario: usr!.uid,
+          uidEncuesta: widget.uidEncuesta,
+          revisado: false,
+          respuestas: _formKey.currentState!.value,
+        );
+
+        Alerts.messageBoxLoading(context, 'Enviando respuestas');
+        if (await _controller.sendAnswers(respuestas)) {
+          Navigator.of(context, rootNavigator: true).pop();
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Palette.appcionaSecondaryColor,
+              content: Text(
+                  "¡Gracias por tu opinión! Respuestas enviadas con éxito"),
+            ),
+          );
+        } else {
+          Navigator.of(context, rootNavigator: true).pop();
+          Alerts.messageBoxMessage(context, 'Ups',
+              'Hubo un error al subir tus respuestas, por favor, intentalo más tarde.');
+        }
       }
     }
   }

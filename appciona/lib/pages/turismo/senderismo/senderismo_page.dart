@@ -132,9 +132,11 @@ class _SenderismoPageState extends State<SenderismoPage> {
                 decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
+                margin: const EdgeInsets.only(right: 5),
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
                   child: CachedNetworkImage(
+                    fit: BoxFit.cover,
                     imageUrl:
                         '${_controller.itemSenderismo[index].imagenes!.first}',
                     placeholder: (context, url) =>

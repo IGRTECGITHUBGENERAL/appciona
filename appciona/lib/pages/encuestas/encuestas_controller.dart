@@ -14,7 +14,6 @@ class EncuestasController {
     try {
       CollectionReference respuestasEncuestasReference =
           FirebaseFirestore.instance.collection('RespuestasEncuestas');
-      //String uidGen = getRandomString(20);
       await respuestasEncuestasReference.doc().set({
         'uidUsuario': respuestas.uidUsuario,
         'uidEncuesta': respuestas.uidEncuesta,
@@ -59,11 +58,12 @@ class EncuestasController {
     }
   }
 
-  Future<dynamic> getForms() async {
+  Future<List<Encuestas>> getForms() async {
+    List<Encuestas> encuestas = [];
     try {
       QuerySnapshot qs =
           await FirebaseFirestore.instance.collection('Encuestas').get();
-      List<Encuestas> encuestas = qs.docs
+      encuestas = qs.docs
           .map(
             (e) => Encuestas(
               uid: e.id,
@@ -73,19 +73,25 @@ class EncuestasController {
             ),
           )
           .toList();
-      DocumentSnapshot qsUser = await FirebaseFirestore.instance
+      QuerySnapshot qsUser = await FirebaseFirestore.instance
           .collection('RespuestasEncuestas')
-          .doc(user!.uid)
+          .where("uidUsuario", isEqualTo: user!.uid)
           .get();
-      if (!qsUser.exists) {
-        return encuestas;
+      if (qsUser.docs.isNotEmpty) {
+        List<String> uidEncuestas = [];
+        for (DocumentSnapshot doc in qsUser.docs) {
+          uidEncuestas.add(doc["uidEncuesta"]);
+        }
+        for (String uid in uidEncuestas) {
+          encuestas.removeWhere((element) => element.uid == uid);
+        }
       }
+      return encuestas;
     } catch (e) {
       print(e);
+      return encuestas;
     }
   }
-
-  Future<dynamic> getFormsNotAnswered() async {}
 
   String getRandomString(int length) {
     const characters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
