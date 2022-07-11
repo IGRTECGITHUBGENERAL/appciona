@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class RestaurantesHotelesController {
   Future<List<HotelRestaurante>> getServices(String tipoSelected) async {
     QuerySnapshot qs =
-        await FirebaseFirestore.instance.collection('Servicios').get();
+        await FirebaseFirestore.instance.collection('Turismo').get();
     List<DocumentSnapshot> documents = qs.docs;
     return documents
         .map(

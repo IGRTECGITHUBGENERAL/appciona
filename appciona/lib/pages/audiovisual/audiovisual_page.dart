@@ -1,7 +1,9 @@
 import 'package:appciona/config/palette.dart';
-import 'package:appciona/pages/audiovisual/podcast/podcasts_page.dart';
+import 'package:appciona/pages/audiovisual/media/media_controller.dart';
+import 'package:appciona/pages/audiovisual/media/media_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AudiovisualPage extends StatefulWidget {
   final Widget drawer;
@@ -59,31 +61,72 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                         size,
                         'assets/icons/podcast_colors.png',
                         'Podcasts',
-                        const PodcastsPage(),
+                        () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => const MediaPage(
+                              type: 'Podcast',
+                              iconAssetPlaceholder:
+                                  'assets/icons/podcast_colors.png',
+                            ),
+                          ),
+                        ),
                       ),
                       _turismoImageCard(
                         size,
                         'assets/icons/radio_directo_colors.png',
                         'Radio en vivo',
-                        const PodcastsPage(),
+                        () async {
+                          if (!await launchUrl(
+                              Uri.parse('https://radiocortegana.net/'))) {
+                            print('error');
+                          }
+                        },
                       ),
                       _turismoImageCard(
                         size,
                         'assets/icons/directo_colors.png',
                         'En directo',
-                        const PodcastsPage(),
+                        () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => const MediaPage(
+                              type: 'Streaming',
+                              iconAssetPlaceholder:
+                                  'assets/icons/directo_colors.png',
+                            ),
+                          ),
+                        ),
                       ),
                       _turismoImageCard(
                         size,
                         'assets/icons/videos_colors.png',
                         'Videos',
-                        const PodcastsPage(),
+                        () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => const MediaPage(
+                              type: 'Podcast',
+                              iconAssetPlaceholder:
+                                  'assets/icons/videos_colors.png',
+                            ),
+                          ),
+                        ),
                       ),
                       _turismoImageCard(
                         size,
                         'assets/icons/imagen_colors.png',
                         'Imágenes',
-                        const PodcastsPage(),
+                        () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => const MediaPage(
+                              type: 'Podcast',
+                              iconAssetPlaceholder:
+                                  'assets/icons/imagen_colors.png',
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -97,14 +140,11 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
   }
 
   Card _turismoImageCard(
-      Size size, String image, String title, Widget widgetPage) {
+      Size size, String image, String title, void Function()? onTap) {
     return Card(
       elevation: 7,
       child: InkWell(
-        onTap: () => Navigator.push(
-          context,
-          CupertinoPageRoute(builder: (context) => widgetPage),
-        ),
+        onTap: onTap,
         child: Container(
           width: size.width * 0.43,
           padding: const EdgeInsets.all(5.0),

@@ -1,5 +1,5 @@
 import 'package:appciona/config/palette.dart';
-import 'package:appciona/pages/audiovisual/podcast/podcasts_controller.dart';
+import 'package:appciona/pages/audiovisual/media/media_controller.dart';
 import 'package:appciona/pages/audiovisual/content/content_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,17 +7,21 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PodcastsPage extends StatefulWidget {
-  const PodcastsPage({
+class MediaPage extends StatefulWidget {
+  final String type;
+  final String iconAssetPlaceholder;
+  const MediaPage({
     Key? key,
+    required this.type,
+    required this.iconAssetPlaceholder,
   }) : super(key: key);
 
   @override
-  State<PodcastsPage> createState() => _PodcastsPageState();
+  State<MediaPage> createState() => _MediaPageState();
 }
 
-class _PodcastsPageState extends State<PodcastsPage> {
-  final PodcastsController _controller = PodcastsController();
+class _MediaPageState extends State<MediaPage> {
+  final MediaController _controller = MediaController();
 
   @override
   void initState() {
@@ -38,9 +42,9 @@ class _PodcastsPageState extends State<PodcastsPage> {
             color: Palette.appcionaPrimaryColor,
           ),
         ),
-        title: const Text(
-          'Audiovisual',
-          style: TextStyle(
+        title: Text(
+          widget.type,
+          style: const TextStyle(
             color: Palette.appcionaPrimaryColor,
           ),
         ),
@@ -60,7 +64,7 @@ class _PodcastsPageState extends State<PodcastsPage> {
                 height: 10,
               ),
               FutureBuilder(
-                future: _controller.getPodcast(),
+                future: _controller.getMedia(widget.type),
                 builder: (context, data) {
                   if (data.hasData) {
                     List<DocumentSnapshot> documents =
@@ -145,9 +149,9 @@ class _PodcastsPageState extends State<PodcastsPage> {
                 child: CachedNetworkImage(
                   imageUrl: img,
                   placeholder: (context, url) =>
-                      Image.asset('assets/icons/podcast_mono.png'),
+                      Image.asset(widget.iconAssetPlaceholder),
                   errorWidget: (context, url, error) =>
-                      Image.asset('assets/icons/podcast_mono.png'),
+                      Image.asset(widget.iconAssetPlaceholder),
                 ),
               ),
             ),
