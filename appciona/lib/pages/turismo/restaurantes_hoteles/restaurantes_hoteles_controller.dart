@@ -1,14 +1,14 @@
-import 'package:appciona/models/hotel_restaurante.dart';
+import 'package:appciona/models/turismo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RestaurantesHotelesController {
-  Future<List<HotelRestaurante>> getServices(String tipoSelected) async {
+  Future<List<Turismo>> getServices(String tipoSelected) async {
     QuerySnapshot qs =
         await FirebaseFirestore.instance.collection('Turismo').get();
     List<DocumentSnapshot> documents = qs.docs;
     return documents
         .map(
-          (e) => HotelRestaurante(
+          (e) => Turismo(
             correo: e['Correo'],
             direccion: e['Direccion'],
             imagen: e['Imagen'],

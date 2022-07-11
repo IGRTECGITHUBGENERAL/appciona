@@ -2,6 +2,7 @@ import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/turismo/lugares_interes/lugares_interes_page.dart';
 import 'package:appciona/pages/turismo/qr/qr_page.dart';
 import 'package:appciona/pages/turismo/restaurantes_hoteles/restaurantes_hoteles_page.dart';
+import 'package:appciona/pages/turismo/senderismo/senderismo_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -67,7 +68,10 @@ class _TurismoMainPageState extends State<TurismoMainPage> {
                         size,
                         'assets/icons/senderismo_colors.png',
                         'Senderismo',
-                        const LugaresInteresPage(),
+                        const SenderismoPage(
+                          assetImagePlaceholder:
+                              'assets/icons/senderismo_colors.png',
+                        ),
                       ),
                       _turismoImageCard(
                         size,

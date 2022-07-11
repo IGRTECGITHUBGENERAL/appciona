@@ -1,4 +1,4 @@
-class HotelRestaurante {
+class Turismo {
   String? correo;
   String? direccion;
   String? imagen;
@@ -7,7 +7,7 @@ class HotelRestaurante {
   String? tipo;
   String? titulo;
 
-  HotelRestaurante({
+  Turismo({
     this.correo,
     this.direccion,
     this.imagen,

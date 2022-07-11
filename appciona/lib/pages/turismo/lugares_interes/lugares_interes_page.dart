@@ -1,11 +1,8 @@
 import 'package:appciona/config/palette.dart';
-import 'package:appciona/pages/turismo/qr/qr_page.dart';
 import 'package:appciona/pages/turismo/lugares_interes/lugares_interes_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,7 +16,6 @@ class LugaresInteresPage extends StatefulWidget {
 }
 
 class _LugaresInteresPageState extends State<LugaresInteresPage> {
-  String qrValue = "Codigo Qr";
   bool isMapSelected = false;
 
   final _initialCameraPosition = const CameraPosition(

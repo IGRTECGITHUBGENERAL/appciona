@@ -37,22 +37,23 @@ class CrearEditarEventoController {
     }
   }
 
-  void save(String titulo, String descripcion, BuildContext context, bool edicion, String? uid) async {
+  void save(String titulo, String descripcion, BuildContext context,
+      bool edicion, String? uid) async {
     fechaHoraFirebase = DateTime(selectedDate.year, selectedDate.month,
         selectedDate.day, selectedTime24Hour.hour, selectedTime24Hour.minute);
-    print("Título: ${titulo}");
-    print("Descripción: ${descripcion}");
-    print("Fecha: ${selectedDate.toLocal()}");
-    print("Hora: ${selectedTime24Hour}");
-    print("FECHA Y HORA PARA FIREBASE: ${fechaHoraFirebase}");
-    if(edicion){
-      if(await actulizarEvento(titulo, descripcion, fechaHoraFirebase, uid)) {
+    if (edicion) {
+      if (await actulizarEvento(titulo, descripcion, fechaHoraFirebase, uid)) {
         Navigator.pop(context);
         Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => AgendaPage()));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AgendaPage(),
+          ),
+        );
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Color(0XFF00BAEF),
+            backgroundColor: const Color(0XFF00BAEF),
             elevation: 5,
             margin: const EdgeInsets.all(10),
             behavior: SnackBarBehavior.floating,
@@ -77,14 +78,15 @@ class CrearEditarEventoController {
             ),
           ),
         );
-      }else {
+      } else {
         showAlertDialog(context, "Hubo un problema", "Intente nuevamente.");
       }
-    }else{
+    } else {
       if (await crearEncuesta(titulo, descripcion, fechaHoraFirebase)) {
         Navigator.pop(context);
         Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => AgendaPage()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => AgendaPage()));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Color(0XFF00BAEF),
@@ -191,12 +193,14 @@ class CrearEditarEventoController {
     bool result = false;
     final db = FirebaseFirestore.instance.collection('Agendas').doc(uid);
     try {
-      await db.update({
-        'Titulo': titulo,
-        'Descripcion': descripcion,
-        'Fecha': fechaHoraFirebase
-      }).then((value) => result = true)
-        .catchError((error) => result = false);
+      await db
+          .update({
+            'Titulo': titulo,
+            'Descripcion': descripcion,
+            'Fecha': fechaHoraFirebase
+          })
+          .then((value) => result = true)
+          .catchError((error) => result = false);
       return result;
     } catch (e) {
       return result;
