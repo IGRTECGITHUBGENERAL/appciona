@@ -128,14 +128,18 @@ class _RestaurantesHotelesPageState extends State<RestaurantesHotelesPage> {
             children: [
               SizedBox(
                 width: size.width * 0.40,
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: CachedNetworkImage(
-                    imageUrl: img,
-                    placeholder: (context, url) =>
-                        Image.asset('assets/images/logo-green.png'),
-                    errorWidget: (context, url, error) =>
-                        Image.asset('assets/images/logo-green.png'),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: img,
+                      placeholder: (context, url) =>
+                          Image.asset('assets/images/logo-green.png'),
+                      errorWidget: (context, url, error) =>
+                          Image.asset('assets/images/logo-green.png'),
+                    ),
                   ),
                 ),
               ),

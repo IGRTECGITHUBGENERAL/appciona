@@ -88,17 +88,22 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
                     child: SingleChildScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
                       controller: _scCtrl,
-                      child: Column(
-                        children: [
-                          ListView.builder(
-                            shrinkWrap: true,
-                            primary: false,
-                            itemCount: _controller.noticias.length,
-                            itemBuilder: (context, index) {
-                              return _cardNoticia(size, index);
-                            },
-                          ),
-                        ],
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: size.height - 90,
+                        ),
+                        child: Column(
+                          children: [
+                            ListView.builder(
+                              shrinkWrap: true,
+                              primary: false,
+                              itemCount: _controller.noticias.length,
+                              itemBuilder: (context, index) {
+                                return _cardNoticia(size, index);
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -78,9 +78,7 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                         'Radio en vivo',
                         () async {
                           if (!await launchUrl(
-                              Uri.parse('https://radiocortegana.net/'))) {
-                            print('error');
-                          }
+                              Uri.parse('https://radiocortegana.net/'))) {}
                         },
                       ),
                       _turismoImageCard(

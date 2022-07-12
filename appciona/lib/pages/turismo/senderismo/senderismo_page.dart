@@ -90,21 +90,26 @@ class _SenderismoPageState extends State<SenderismoPage> {
                       physics: const AlwaysScrollableScrollPhysics(),
                       controller: _scCtrl,
                       child: Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            SizedBox(
-                              width: size.width * 0.90,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                primary: false,
-                                itemCount: _controller.itemSenderismo.length,
-                                itemBuilder: (context, index) {
-                                  return _cardInterest(size, index);
-                                },
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: size.height - 90,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              SizedBox(
+                                width: size.width * 0.90,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  itemCount: _controller.itemSenderismo.length,
+                                  itemBuilder: (context, index) {
+                                    return _cardInterest(size, index);
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
