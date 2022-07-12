@@ -55,7 +55,7 @@ class _SenderismoPageState extends State<SenderismoPage> {
         elevation: 2,
         backgroundColor: Colors.white,
         title: const Text(
-          "Lugares de interés",
+          "Senderismo",
           style: TextStyle(
             color: Palette.appcionaPrimaryColor,
           ),

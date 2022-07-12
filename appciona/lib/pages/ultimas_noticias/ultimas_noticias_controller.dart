@@ -7,6 +7,7 @@ class UltimasNoticiasController {
         .orderBy("Fecha")
         .get();
     List<DocumentSnapshot> documents = qs.docs;
+    print(documents.first.data());
     return documents;
   }
 }
