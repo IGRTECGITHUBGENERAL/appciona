@@ -87,9 +87,11 @@ class _SenderismoPageState extends State<SenderismoPage> {
                 : RefreshIndicator(
                     onRefresh: _getInitData,
                     child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       controller: _scCtrl,
                       child: Center(
                         child: Column(
+                          mainAxisSize: MainAxisSize.max,
                           children: [
                             SizedBox(
                               width: size.width * 0.90,

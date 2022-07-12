@@ -1,4 +1,4 @@
-class Noticias {
+class Noticia {
   String? categoria;
   String? titulo;
   DateTime? fecha;
@@ -7,7 +7,7 @@ class Noticias {
   String? texto;
   String? link;
 
-  Noticias({
+  Noticia({
     this.categoria,
     this.titulo,
     this.fecha,
