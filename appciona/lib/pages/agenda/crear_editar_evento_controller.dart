@@ -82,7 +82,7 @@ class CrearEditarEventoController {
         showAlertDialog(context, "Hubo un problema", "Intente nuevamente.");
       }
     } else {
-      if (await crearEncuesta(titulo, descripcion, fechaHoraFirebase)) {
+      if (await crearEvento(titulo, descripcion, fechaHoraFirebase)) {
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.push(
@@ -120,7 +120,7 @@ class CrearEditarEventoController {
     }
   }
 
-  Future<bool> crearEncuesta(
+  Future<bool> crearEvento(
       String titulo, String descripcion, DateTime fechaHoraFirebase) async {
     bool result = false;
 
