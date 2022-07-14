@@ -30,8 +30,10 @@ class _ServiciosPageState extends State<ServiciosPage> {
       _controller.sugg.descripcion = descrCtrl.text;
       _controller.sugg.revisado = false;
       String result = await _controller.createDoc();
+      if (!mounted) return;
       Navigator.of(context, rootNavigator: true).pop();
       if (result.startsWith(_controller.docCreationSuccessful)) {
+        Navigator.pop(context);
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
