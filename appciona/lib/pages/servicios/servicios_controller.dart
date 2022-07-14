@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -16,6 +17,7 @@ class ServiciosController {
         'Descripcion': sugerencia.descripcion,
         'Archivo': sugerencia.archivo,
         'Revisado': sugerencia.revisado,
+        'Ubicacion': jsonDecode(jsonEncode(sugerencia.ubicacion)),
         'uid': uidGen,
       });
       return true;

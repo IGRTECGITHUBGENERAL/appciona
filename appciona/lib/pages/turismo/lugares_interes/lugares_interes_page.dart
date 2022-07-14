@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LugaresInteresPage extends StatefulWidget {
@@ -23,6 +24,16 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
     zoom: 15,
   );
   final LugaresInteresController _controller = LugaresInteresController();
+
+  void changeView() async {
+    if (await Permission.location.status.isDenied) {
+      await Permission.location.request();
+    } else {
+      setState(() {
+        isMapSelected = !isMapSelected;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -135,9 +146,7 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
                 icon: isMapSelected
                     ? const Icon(Icons.newspaper_outlined)
                     : const Icon(Icons.map),
-                onPressed: () => setState(() {
-                  isMapSelected = !isMapSelected;
-                }),
+                onPressed: changeView,
                 label: isMapSelected
                     ? const Text("Cambiar a cards")
                     : const Text("Cambiar a mapa"),

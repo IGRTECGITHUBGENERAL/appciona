@@ -6,6 +6,8 @@ import 'package:appciona/pages/servicios/servicios_controller.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ServiciosPage extends StatefulWidget {
   const ServiciosPage({
@@ -25,10 +27,19 @@ class _ServiciosPageState extends State<ServiciosPage> {
 
   late File? file;
 
+  bool enviarCoord = false;
+
   void submit() async {
     if (_keyForm.currentState!.validate()) {
       Alerts.messageBoxLoading(context, 'Enviando');
       Servicio sugg = Servicio();
+
+      if (enviarCoord) {
+        if (await Permission.location.status.isDenied) {
+          await Permission.location.request();
+          submit();
+        }
+      }
 
       if (file != null) {
         String? urlFile = await _controller.uploadFile(file, titleCtrl.text);
@@ -37,12 +48,20 @@ class _ServiciosPageState extends State<ServiciosPage> {
           sugg.descripcion = descrCtrl.text;
           sugg.archivo = urlFile;
           sugg.revisado = false;
+          if (enviarCoord) {
+            Position position = await Geolocator.getCurrentPosition(
+                desiredAccuracy: LocationAccuracy.high);
+            sugg.ubicacion = {
+              'Latitud': position.latitude.toString(),
+              'Longitud': position.longitude.toString(),
+            };
+          }
           if (await _controller.createSuggestion(sugg)) {
             Navigator.of(context, rootNavigator: true).pop();
             Navigator.pop(context);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text("¡Sugerencia o queja enviado con éxito!"),
+                content: Text("¡Sugerencia o incidencia enviado con éxito!"),
               ),
             );
           } else {
@@ -60,12 +79,20 @@ class _ServiciosPageState extends State<ServiciosPage> {
         sugg.descripcion = descrCtrl.text;
         sugg.archivo = '';
         sugg.revisado = false;
+        if (enviarCoord) {
+          Position position = await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.high);
+          sugg.ubicacion = {
+            'Latitud': position.latitude.toString(),
+            'Longitud': position.longitude.toString(),
+          };
+        }
         if (await _controller.createSuggestion(sugg)) {
           Navigator.of(context, rootNavigator: true).pop();
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text("¡Sugerencia o queja enviado con éxito!"),
+              content: Text("¡Sugerencia o incidencia enviado con éxito!"),
             ),
           );
         } else {
@@ -124,7 +151,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
                     height: 20,
                   ),
                   const Text(
-                    'Manda tu queja o sugerencia',
+                    'Manda tu incidencia o sugerencia',
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -135,107 +162,139 @@ class _ServiciosPageState extends State<ServiciosPage> {
                       thickness: 1,
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.orange.shade200,
-                    ),
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 15,
-                    ),
-                    child: Column(
+                  _titulo(size),
+                  _descripcion(size),
+                  _archivo(size),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: size.width * 0.75,
-                          margin: const EdgeInsets.only(top: 20, bottom: 5),
-                          child: Text(
-                            'Coloca un titulo que nos permita identificar tu sugerencia de la mejor forma.',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.brown.shade800,
-                            ),
-                          ),
+                        Checkbox(
+                          value: enviarCoord,
+                          onChanged: (value) {
+                            enviarCoord = !enviarCoord;
+                            setState(() {});
+                          },
                         ),
-                        _textBox(size, 'Titulo', titleCtrl, TextInputType.text,
-                            TextInputAction.next, false),
+                        const Text('Enviar mi ubicación actual.'),
                       ],
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.orange.shade200,
-                    ),
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 15,
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: size.width * 0.75,
-                          margin: const EdgeInsets.only(top: 20, bottom: 5),
-                          child: Text(
-                            'La descripción es muy importante para nosotros, pues es tu opinión, detalla al máximo posible el inconveniente.',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.brown.shade800,
-                            ),
-                          ),
-                        ),
-                        _textBox(size, 'Descripcion', descrCtrl,
-                            TextInputType.text, TextInputAction.done, true),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.orange.shade200,
-                    ),
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 15,
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: size.width * 0.75,
-                          margin: const EdgeInsets.only(top: 20, bottom: 5),
-                          child: Text(
-                            'Si así lo requieres, adjunta un archivo para complementar la sugerencia.',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.brown.shade800,
-                            ),
-                          ),
-                        ),
-                        _file(size),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: const Color(0XFF007474),
-                    ),
-                    onPressed: submit,
-                    child: const Text(
-                      "Enviar",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                  _btnEnviar(size),
                 ],
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  ElevatedButton _btnEnviar(Size size) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: const Color(0XFF007474),
+      ),
+      onPressed: submit,
+      child: SizedBox(
+        width: size.width * 0.60,
+        child: const Text(
+          "Enviar",
+          style: TextStyle(color: Colors.white),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
+  Container _archivo(Size size) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.orange.shade200,
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 15,
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: size.width * 0.75,
+            margin: const EdgeInsets.only(top: 20, bottom: 5),
+            child: Text(
+              'Si así lo requieres, adjunta un archivo para complementar la sugerencia.',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.brown.shade800,
+              ),
+            ),
+          ),
+          _file(size),
+        ],
+      ),
+    );
+  }
+
+  Container _descripcion(Size size) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.orange.shade200,
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 15,
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: size.width * 0.75,
+            margin: const EdgeInsets.only(top: 20, bottom: 5),
+            child: Text(
+              'La descripción es muy importante para nosotros, pues es tu opinión, detalla al máximo posible el inconveniente.',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.brown.shade800,
+              ),
+            ),
+          ),
+          _textBox(size, 'Descripcion', descrCtrl, TextInputType.text,
+              TextInputAction.done, true),
+        ],
+      ),
+    );
+  }
+
+  Container _titulo(Size size) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.orange.shade200,
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 15,
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: size.width * 0.75,
+            margin: const EdgeInsets.only(top: 20, bottom: 5),
+            child: Text(
+              'Coloca un titulo que nos permita identificar tu sugerencia de la mejor forma.',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.brown.shade800,
+              ),
+            ),
+          ),
+          _textBox(size, 'Titulo', titleCtrl, TextInputType.text,
+              TextInputAction.next, false),
+        ],
       ),
     );
   }
@@ -249,10 +308,14 @@ class _ServiciosPageState extends State<ServiciosPage> {
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
         onTap: () async {
-          FilePickerResult? result = await FilePicker.platform.pickFiles();
-          if (result != null) {
-            file = File('${result.files.single.path}');
-            setState(() {});
+          if (await Permission.storage.status.isDenied) {
+            await Permission.storage.request();
+          } else {
+            FilePickerResult? result = await FilePicker.platform.pickFiles();
+            if (result != null) {
+              file = File('${result.files.single.path}');
+              setState(() {});
+            }
           }
         },
         child: Container(
