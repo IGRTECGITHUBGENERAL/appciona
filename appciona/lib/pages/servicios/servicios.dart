@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:appciona/config/palette.dart';
-import 'package:appciona/models/servicio.dart';
 import 'package:appciona/pages/servicios/servicios_controller.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ServiciosPage extends StatefulWidget {
@@ -25,81 +23,30 @@ class _ServiciosPageState extends State<ServiciosPage> {
   late TextEditingController titleCtrl;
   late TextEditingController descrCtrl;
 
-  late File? file;
-
-  bool enviarCoord = false;
-
-  void submit() async {
+  void submitForm() async {
     if (_keyForm.currentState!.validate()) {
       Alerts.messageBoxLoading(context, 'Enviando');
-      Servicio sugg = Servicio();
-
-      if (enviarCoord) {
-        if (await Permission.location.status.isDenied) {
-          await Permission.location.request();
-          submit();
-        }
-      }
-
-      if (file != null) {
-        String? urlFile = await _controller.uploadFile(file, titleCtrl.text);
-        if (urlFile != null) {
-          sugg.titulo = titleCtrl.text;
-          sugg.descripcion = descrCtrl.text;
-          sugg.archivo = urlFile;
-          sugg.revisado = false;
-          if (enviarCoord) {
-            Position position = await Geolocator.getCurrentPosition(
-                desiredAccuracy: LocationAccuracy.high);
-            sugg.ubicacion = {
-              'Latitud': position.latitude.toString(),
-              'Longitud': position.longitude.toString(),
-            };
-          }
-          if (await _controller.createSuggestion(sugg)) {
-            Navigator.of(context, rootNavigator: true).pop();
-            Navigator.pop(context);
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("¡Sugerencia o incidencia enviado con éxito!"),
-              ),
-            );
-          } else {
-            Navigator.of(context, rootNavigator: true).pop();
-            Alerts.messageBoxMessage(context, 'Ups',
-                'Hubo un error al enviar tu sugerencia, inténtalo más tarde.');
-          }
-        } else {
-          Navigator.of(context, rootNavigator: true).pop();
-          Alerts.messageBoxMessage(context, 'Ups',
-              'Hubo un error al subir el archivo, intentelo más tarde.');
-        }
-      } else {
-        sugg.titulo = titleCtrl.text;
-        sugg.descripcion = descrCtrl.text;
-        sugg.archivo = '';
-        sugg.revisado = false;
-        if (enviarCoord) {
-          Position position = await Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.high);
-          sugg.ubicacion = {
-            'Latitud': position.latitude.toString(),
-            'Longitud': position.longitude.toString(),
-          };
-        }
-        if (await _controller.createSuggestion(sugg)) {
-          Navigator.of(context, rootNavigator: true).pop();
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("¡Sugerencia o incidencia enviado con éxito!"),
-            ),
-          );
-        } else {
-          Navigator.of(context, rootNavigator: true).pop();
-          Alerts.messageBoxMessage(context, 'Ups',
-              'Hubo un error al enviar tu sugerencia, inténtalo más tarde.');
-        }
+      _controller.sugg.titulo = titleCtrl.text;
+      _controller.sugg.descripcion = descrCtrl.text;
+      _controller.sugg.revisado = false;
+      String result = await _controller.createDoc();
+      Navigator.of(context, rootNavigator: true).pop();
+      if (result.startsWith(_controller.docCreationSuccessful)) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("¡Sugerencia o incidencia enviado con éxito!"),
+          ),
+        );
+      } else if (result.startsWith(_controller.docServiceCreationFailed)) {
+        Alerts.messageBoxMessage(context, 'Ups',
+            'Hubo un error al enviar tu sugerencia, inténtalo más tarde.');
+      } else if (result.startsWith(_controller.fileUploadFailed)) {
+        Alerts.messageBoxMessage(context, 'Ups',
+            'Hubo un error al subir el archivo, intentelo más tarde.');
+      } else if (result.startsWith(_controller.getPositionFailed)) {
+        Alerts.messageBoxMessage(context, 'Ups',
+            'Hubo un error al obtener tu posición, intentelo más tarde.');
       }
     }
   }
@@ -108,7 +55,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
   void initState() {
     titleCtrl = TextEditingController(text: '');
     descrCtrl = TextEditingController(text: '');
-    file = null;
+    _controller.file = null;
     super.initState();
   }
 
@@ -170,10 +117,20 @@ class _ServiciosPageState extends State<ServiciosPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Checkbox(
-                          value: enviarCoord,
-                          onChanged: (value) {
-                            enviarCoord = !enviarCoord;
-                            setState(() {});
+                          value: _controller.enviarCoord,
+                          onChanged: (value) async {
+                            if (await Permission.location.isGranted) {
+                              _controller.enviarCoord =
+                                  !_controller.enviarCoord;
+                              setState(() {});
+                            } else {
+                              await Permission.location.request();
+                              if (await Permission.location.isGranted) {
+                                _controller.enviarCoord =
+                                    !_controller.enviarCoord;
+                                setState(() {});
+                              }
+                            }
                           },
                         ),
                         const Text('Enviar mi ubicación actual.'),
@@ -195,7 +152,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
       style: ElevatedButton.styleFrom(
         primary: const Color(0XFF007474),
       ),
-      onPressed: submit,
+      onPressed: submitForm,
       child: SizedBox(
         width: size.width * 0.60,
         child: const Text(
@@ -313,7 +270,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
           } else {
             FilePickerResult? result = await FilePicker.platform.pickFiles();
             if (result != null) {
-              file = File('${result.files.single.path}');
+              _controller.file = File('${result.files.single.path}');
               setState(() {});
             }
           }
@@ -332,8 +289,8 @@ class _ServiciosPageState extends State<ServiciosPage> {
                 width: 10,
               ),
               Expanded(
-                child: file != null
-                    ? Text(file!.path.split('/').last)
+                child: _controller.file != null
+                    ? Text(_controller.file!.path.split('/').last)
                     : const Text('Ningún archivo seleccionado'),
               ),
             ],

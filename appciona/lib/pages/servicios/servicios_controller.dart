@@ -5,44 +5,76 @@ import 'dart:math';
 import 'package:appciona/models/servicio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:path/path.dart' as p;
 
 class ServiciosController {
-  Future<bool> createSuggestion(Servicio sugerencia) async {
+  final String fileUploadFailed = "File_Upload_Failed";
+  final String getPositionFailed = "Get_Position_Failed";
+  final String docServiceCreationFailed = "Doc_Service_Creation_Failed";
+  final String docCreationSuccessful = "Doc_Creation_Successful";
+
+  Servicio sugg = Servicio();
+  late File? file;
+  bool enviarCoord = false;
+
+  Future<String> createDoc() async {
     try {
+      if (file != null) {
+        sugg.archivo = await uploadFile(file, sugg.titulo!);
+        if (sugg.archivo!.startsWith(fileUploadFailed)) return fileUploadFailed;
+      } else {
+        sugg.archivo = "";
+      }
+      if (enviarCoord) {
+        try {
+          Position position = await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.high);
+          sugg.ubicacion = {
+            'Latitud': position.latitude.toString(),
+            'Longitud': position.longitude.toString(),
+          };
+        } catch (e) {
+          return getPositionFailed;
+        }
+      } else {
+        sugg.ubicacion = {
+          'Latitud': '',
+          'Longitud': '',
+        };
+      }
       CollectionReference alimentoReference =
           FirebaseFirestore.instance.collection('Servicios');
       String uidGen = getRandomString(20);
       await alimentoReference.doc(uidGen).set({
-        'Titulo': sugerencia.titulo,
-        'Descripcion': sugerencia.descripcion,
-        'Archivo': sugerencia.archivo,
-        'Revisado': sugerencia.revisado,
-        'Ubicacion': jsonDecode(jsonEncode(sugerencia.ubicacion)),
+        'Titulo': sugg.titulo,
+        'Descripcion': sugg.descripcion,
+        'Archivo': sugg.archivo,
+        'Revisado': sugg.revisado,
+        'Ubicacion': jsonDecode(jsonEncode(sugg.ubicacion)),
         'uid': uidGen,
       });
-      return true;
-    } catch (ex) {
-      print('Error al crear: $ex');
-      return false;
+      return docCreationSuccessful;
+    } catch (e) {
+      return docServiceCreationFailed;
     }
   }
 
-  Future<String?> uploadFile(File? imagen, String nombre) async {
+  Future<String> uploadFile(File? archivo, String nombre) async {
     try {
-      var file = File(imagen!.path);
+      var file = File(archivo!.path);
       final Reference storageReference =
           FirebaseStorage.instance.ref().child("Servicios");
-
       TaskSnapshot taskSnapshot = await storageReference
-          .child("$nombre${getRandomString(10)}.jpg")
+          .child("$nombre${getRandomString(10)}.${p.extension(archivo.path)}")
           .putFile(file);
 
-      var downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
 
       return downloadUrl;
     } catch (ex) {
-      print('Error al subir imagen: $ex');
-      return null;
+      print('Error al subir archivo: $ex');
+      return fileUploadFailed;
     }
   }
 
