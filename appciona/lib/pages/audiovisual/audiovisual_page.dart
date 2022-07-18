@@ -1,6 +1,7 @@
 import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/audiovisual/media/media_controller.dart';
 import 'package:appciona/pages/audiovisual/media/media_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,6 +18,21 @@ class AudiovisualPage extends StatefulWidget {
 }
 
 class _AudiovisualPageState extends State<AudiovisualPage> {
+  String radioUrl = "";
+
+  Future<void> getRadioUrl() async {
+    QuerySnapshot qs =
+        await FirebaseFirestore.instance.collection("Radio").limit(1).get();
+    radioUrl = qs.docs.first["Link"];
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getRadioUrl();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -77,8 +93,9 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                         'assets/icons/radio_directo_colors.png',
                         'Radio en vivo',
                         () async {
-                          if (!await launchUrl(
-                              Uri.parse('https://radiocortegana.net/'))) {}
+                          if (radioUrl.isNotEmpty) {
+                            if (!await launchUrl(Uri.parse(radioUrl))) {}
+                          }
                         },
                       ),
                       _turismoImageCard(

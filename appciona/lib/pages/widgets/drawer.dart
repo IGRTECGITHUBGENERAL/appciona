@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/servicios/servicios.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,20 @@ class DrawerWidget extends StatefulWidget {
 
 class _DrawerWidgetState extends State<DrawerWidget> {
   final DrawerWidgetController _controller = DrawerWidgetController();
+  String numberMensajeria = "";
+
+  Future<void> getWhatsappNumber() async {
+    QuerySnapshot ds =
+        await FirebaseFirestore.instance.collection("WhatSapp").get();
+    numberMensajeria = ds.docs.first["Telefono"];
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getWhatsappNumber();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -208,14 +223,23 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     );
   }
 
-  openwhatsapp() async {
-    var whatsapp = "https://wa.me/+34605183884";
-    var whatsappURl_android = "whatsapp://send?phone=" + whatsapp;
-    var whatappURL_ios = "https://wa.me/$whatsapp?text=${Uri.parse("hello")}";
-    if (Platform.isIOS) {
-      // for iOS phone only
-      if (await canLaunch(whatappURL_ios)) {
-        await launch(whatappURL_ios, forceSafariVC: false);
+  void openwhatsapp() async {
+    if (numberMensajeria.isNotEmpty) {
+      var whatsapp = "https://wa.me/+$numberMensajeria";
+      var whatsappURlAndroid = "whatsapp://send?phone=$whatsapp";
+      var whatappURLIos = "https://wa.me/$whatsapp?text=${Uri.parse("hello")}";
+      if (Platform.isIOS) {
+        if (!await launchUrl(Uri.parse(whatappURLIos))) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Necesitas instalar WhatsApp."),
+            ),
+          );
+        }
+        /*
+      if (await canLaunch(whatappURLIos)) {
+        await launch(whatappURLIos, forceSafariVC: false);
       } else {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -223,15 +247,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             content: Text("Necesitas instalar WhatsApp."),
           ),
         );
-      }
-    } else {
-      if (!await launchUrl(Uri.parse(whatsappURl_android))) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Necesitas instalar WhatsApp."),
-          ),
-        );
+      }*/
+      } else {
+        if (!await launchUrl(Uri.parse(whatsappURlAndroid))) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Necesitas instalar WhatsApp."),
+            ),
+          );
+        }
       }
     }
   }
