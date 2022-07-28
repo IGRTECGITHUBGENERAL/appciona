@@ -74,7 +74,7 @@ class _SignUpPageState extends State<SignUpPage> {
           UserCredential? uc = await as.singIn(emailCtrl.text, passCtrl.text);
           if (uc != null) {
             int counter = 0;
-            Navigator.of(context).popUntil((route) => counter++ >= 3);
+            Navigator.of(context).popUntil((route) => counter++ >= 2);
           }
         }
       }

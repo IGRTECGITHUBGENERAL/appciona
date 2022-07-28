@@ -50,7 +50,6 @@ class UsersModel {
             'apellidos': apellidos,
             'correo': correo,
             'dni': dni,
-            'pass': pass,
           })
           .then((value) => result = true)
           .catchError((error) => result = false);
