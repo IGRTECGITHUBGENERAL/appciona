@@ -1,10 +1,12 @@
 import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/audiovisual/audiovisual_page.dart';
 import 'package:appciona/pages/turismo/turismo_main_page.dart';
+import 'package:appciona/test_pushnotifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 import 'pages/ultimas_noticias/ultimas_noticias_page.dart';
 import 'pages/widgets/drawer.dart';
@@ -21,33 +23,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'AppCiona',
-      theme: ThemeData(
-        primarySwatch: Palette.appcionaPrimaryColor,
-      ),
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, data) {
-          if (data.connectionState == ConnectionState.waiting) {
-            return const MyHomePage(
-              userState: 2,
-            );
-          } else if (data.hasData) {
-            return const MyHomePage(
-              userState: 1,
-            );
-          } else if (data.hasError) {
-            return const MyHomePage(
-              userState: 0,
-            );
-          } else {
-            return const MyHomePage(
-              userState: 0,
-            );
-          }
-        },
+    return OverlaySupport(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'AppCiona',
+        theme: ThemeData(
+          primarySwatch: Palette.appcionaPrimaryColor,
+        ),
+        home: const PushNotificationHomePage()
+        /*
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, data) {
+            if (data.connectionState == ConnectionState.waiting) {
+              return const MyHomePage(
+                userState: 2,
+              );
+            } else if (data.hasData) {
+              return const MyHomePage(
+                userState: 1,
+              );
+            } else if (data.hasError) {
+              return const MyHomePage(
+                userState: 0,
+              );
+            } else {
+              return const MyHomePage(
+                userState: 0,
+              );
+            }
+          },
+        ),
+        */
       ),
     );
   }

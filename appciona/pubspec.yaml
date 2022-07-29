@@ -20,6 +20,7 @@ dependencies:
   file_picker: ^5.0.0
   firebase_auth: ^3.6.1
   firebase_core: ^1.20.0
+  firebase_messaging: ^12.0.1
   firebase_storage: ^10.3.4
   flip_card: ^0.6.0
   flutter:
@@ -33,6 +34,7 @@ dependencies:
   google_sign_in: ^5.4.0
   intl: ^0.17.0
   mobile_scanner: ^2.0.0
+  overlay_support: ^2.0.1
   permission_handler: ^10.0.0
   provider: ^6.0.3
   url_launcher: ^6.1.5
