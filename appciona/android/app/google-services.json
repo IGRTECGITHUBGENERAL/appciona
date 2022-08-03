@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "27940180392-qg2affa8k7vffoq074l427dq606qrvf5.apps.googleusercontent.com",
+          "client_id": "27940180392-gm5757m7re15anigs2j2ech93fddci6v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.igrtec.appciona",
+            "certificate_hash": "5236776f3139d4c305e9d026a19d50aec5a9ce57"
+          }
+        },
+        {
+          "client_id": "27940180392-lggqnp7tlc0kknp78jup3g5l2a2mbjc6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.igrtec.appciona",
@@ -37,6 +45,13 @@
             {
               "client_id": "27940180392-h9h25924s7pabjigt6bujmdrsuhiaaj6.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "27940180392-juh1evhsj02fodmn8s9gd01cmgek8ont.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.igrtec.appciona"
+              }
             }
           ]
         }
