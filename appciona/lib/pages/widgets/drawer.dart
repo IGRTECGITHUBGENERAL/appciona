@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:appciona/config/palette.dart';
+import 'package:appciona/pages/mensajeria/mensajeria_page.dart';
 import 'package:appciona/pages/servicios/servicios.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -143,12 +144,17 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ),
         ListTile(
           leading: const Icon(
-            Icons.whatsapp,
+            CupertinoIcons.mail,
             color: Palette.appcionaPrimaryColor,
           ),
           title: const Text("Mensajería"),
-          onTap: () {
-            openwhatsapp();
+          onTap: () => {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => const MensajeriaPage(),
+              ),
+            )
           },
         ),
         ListTile(

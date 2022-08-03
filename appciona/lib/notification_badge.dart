@@ -1,10 +1,8 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 
 class NotificationBadge extends StatelessWidget {
   final int totalNotification;
-  NotificationBadge({Key? key, required this.totalNotification})
+  const NotificationBadge({Key? key, required this.totalNotification})
       : super(key: key);
 
   @override
@@ -12,7 +10,7 @@ class NotificationBadge extends StatelessWidget {
     return Container(
       width: 40,
       height: 40,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.orange,
         shape: BoxShape.circle,
       ),
