@@ -1,4 +1,6 @@
 import 'package:appciona/config/palette.dart';
+import 'package:appciona/pages/mensajeria/mensajeria_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,10 +12,26 @@ class MensajeriaPage extends StatefulWidget {
 }
 
 class _MensajeriaPageState extends State<MensajeriaPage> {
+  final MensajeriaController _controller = MensajeriaController();
   final TextEditingController _messageCtrl = TextEditingController();
+
+  Future sendMessage() async {
+    if (_messageCtrl.text.isNotEmpty) {
+      await _controller.sendMessage(_messageCtrl.text).then(
+            (value) => _messageCtrl.clear(),
+          );
+    }
+    setState(() {});
+  }
+
+  Future initChatRoom() async {
+    await _controller.initChatRoom();
+    setState(() {});
+  }
 
   @override
   void initState() {
+    initChatRoom();
     super.initState();
   }
 
@@ -74,8 +92,36 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
                       color: Palette.appcionaPrimaryColor,
                     ),
                   ),
+                  StreamBuilder(
+                    stream: _controller.messageStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        QuerySnapshot data = snapshot.data as QuerySnapshot;
+                        return ListView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.only(bottom: 70, top: 16),
+                          itemCount: data.docs.length,
+                          reverse: true,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot ds = data.docs[index];
+                            if (ds["Remitente"] == _controller.myUid) {
+                              return _userMessage(ds["Mensaje"]);
+                            } else {
+                              return _adminMessage(ds["Mensaje"]);
+                            }
+                          },
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
+                  /*
                   _adminMessage(),
-                  _userMessage(),
+                  _userMessage(),*/
                   const SizedBox(
                     height: 70,
                   ),
@@ -92,7 +138,7 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
                     Expanded(
                       child: _textBox(
                         size,
-                        'Mensaje',
+                        'Escribe tu mensaje',
                         _messageCtrl,
                         TextInputType.multiline,
                         TextInputAction.send,
@@ -101,7 +147,7 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 5.0),
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: sendMessage,
                         icon: const Icon(
                           CupertinoIcons.arrow_right_circle_fill,
                           color: Palette.appcionaSecondaryColor,
@@ -119,7 +165,7 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
     );
   }
 
-  Widget _userMessage() {
+  Widget _userMessage(String mensaje) {
     return Row(
       children: [
         Expanded(
@@ -143,7 +189,7 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
               ],
             ),
             child: Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+              mensaje,
             ),
           ),
         ),
@@ -165,7 +211,7 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
     );
   }
 
-  Widget _adminMessage() {
+  Widget _adminMessage(String mensaje) {
     return Row(
       children: [
         Container(
@@ -196,9 +242,9 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
                 ),
               ],
             ),
-            child: const Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-              style: TextStyle(color: Colors.white),
+            child: Text(
+              mensaje,
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ),
