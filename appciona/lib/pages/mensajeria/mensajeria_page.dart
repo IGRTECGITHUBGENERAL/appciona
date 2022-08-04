@@ -92,38 +92,9 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
                       color: Palette.appcionaPrimaryColor,
                     ),
                   ),
-                  StreamBuilder(
-                    stream: _controller.messageStream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        QuerySnapshot data = snapshot.data as QuerySnapshot;
-                        return ListView.builder(
-                          primary: false,
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.only(bottom: 70, top: 16),
-                          itemCount: data.docs.length,
-                          reverse: true,
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot ds = data.docs[index];
-                            if (ds["Remitente"] == _controller.myUid) {
-                              return _userMessage(ds["Mensaje"]);
-                            } else {
-                              return _adminMessage(ds["Mensaje"]);
-                            }
-                          },
-                        );
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    },
-                  ),
-                  /*
-                  _adminMessage(),
-                  _userMessage(),*/
+                  _mensajeria(),
                   const SizedBox(
-                    height: 70,
+                    height: 10,
                   ),
                 ],
               ),
@@ -162,6 +133,36 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
           ],
         ),
       ),
+    );
+  }
+
+  StreamBuilder<dynamic> _mensajeria() {
+    return StreamBuilder(
+      stream: _controller.messageStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          QuerySnapshot data = snapshot.data as QuerySnapshot;
+          return ListView.builder(
+            primary: false,
+            shrinkWrap: true,
+            padding: const EdgeInsets.only(bottom: 70, top: 16),
+            itemCount: data.docs.length,
+            reverse: true,
+            itemBuilder: (context, index) {
+              DocumentSnapshot ds = data.docs[index];
+              if (ds["Remitente"] == _controller.myUid) {
+                return _userMessage(ds["Mensaje"]);
+              } else {
+                return _adminMessage(ds["Mensaje"]);
+              }
+            },
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 

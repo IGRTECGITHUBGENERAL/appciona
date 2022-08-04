@@ -54,7 +54,7 @@ class _LoadingPageState extends State<LoadingPage> {
         if (notification != null) {
           showSimpleNotification(
             Text(_notificationInfo!.title!),
-            leading: NotificationBadge(totalNotification: 1),
+            leading: const NotificationBadge(totalNotification: 1),
             subtitle: Text(_notificationInfo!.body!),
             background: Colors.cyan.shade700,
             duration: const Duration(seconds: 2),

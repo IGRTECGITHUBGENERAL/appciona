@@ -14,15 +14,17 @@ class MensajeriaController {
       myUid = userInfo!.uid;
       roomID = "${myUid}_admin";
     }
-    messageStream = FirebaseFirestore.instance
-        .collection("Mensajeria")
-        .doc(roomID)
-        .collection("Chats")
-        .orderBy("ts", descending: true)
-        .snapshots();
+    try {
+      messageStream = FirebaseFirestore.instance
+          .collection("Mensajeria")
+          .doc(roomID)
+          .collection("Chats")
+          .orderBy("ts", descending: true)
+          .snapshots();
+    } catch (e) {
+      print('Error en la obtención de mensajes:\n$e');
+    }
   }
-
-  Future<void> getMessages() async {}
 
   Future<void> sendMessage(String mensaje) async {
     if (messageId.isEmpty) {
@@ -34,29 +36,31 @@ class MensajeriaController {
         .collection("Chats")
         .doc(messageId);
     DateTime ts = DateTime.now();
-    await docRef.set(
-      {
-        "Mensaje": mensaje,
-        "Remitente": myUid,
-        "ts": ts,
-      },
-    ).then(
-      (value) async {
-        await updateLastMessageSend(
-          {
-            "UltimoMensaje": mensaje,
-            "UltimoRemitente": myUid,
-            "ts": ts,
-          },
-        ).then((value) => messageId = "");
-      },
-    );
+    try {
+      await docRef.set(
+        {
+          "Mensaje": mensaje,
+          "Remitente": myUid,
+          "ts": ts,
+        },
+      );
+      await updateLastMessageSend(
+        {
+          "UltimoMensaje": mensaje,
+          "UltimoRemitente": myUid,
+          "ts": ts,
+        },
+      );
+    } catch (e) {
+      print('Error en la creacion de un mensaje nuevo:\n$e');
+    }
+    messageId = "";
   }
 
   Future updateLastMessageSend(Map<String, dynamic> data) async {
     DocumentReference docRef =
         FirebaseFirestore.instance.collection("Mensajeria").doc(roomID);
-    await docRef.update(data);
+    await docRef.set(data);
   }
 
   String getRandomString(int length) {
