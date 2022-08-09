@@ -55,7 +55,6 @@ class UsersModel {
           .catchError((error) => result = false);
       return result;
     } catch (e) {
-      print('->ERROR:$e\n\n\n\n\n\n');
       return result;
     }
   }

@@ -3,16 +3,15 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-//https://www.youtube.com/watch?v=2d1fslyxBjQ
 class MensajeriaController {
   late Stream messageStream;
-  late String roomID, messageId = "", myUid = "";
+  late String roomID = "", messageId = "", myUid = "";
   User? userInfo = FirebaseAuth.instance.currentUser;
 
   Future<void> initChatRoom() async {
     if (userInfo != null) {
       myUid = userInfo!.uid;
-      roomID = "${myUid}_admin";
+      roomID = myUid;
     }
     try {
       messageStream = FirebaseFirestore.instance

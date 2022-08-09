@@ -3,6 +3,7 @@ import 'package:appciona/pages/mensajeria/mensajeria_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class MensajeriaPage extends StatefulWidget {
   const MensajeriaPage({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class MensajeriaPage extends StatefulWidget {
 class _MensajeriaPageState extends State<MensajeriaPage> {
   final MensajeriaController _controller = MensajeriaController();
   final TextEditingController _messageCtrl = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   Future sendMessage() async {
     if (_messageCtrl.text.isNotEmpty) {
@@ -22,10 +24,81 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
           );
     }
     setState(() {});
+    _scrollController.animateTo(
+      0.0,
+      curve: Curves.easeOut,
+      duration: const Duration(milliseconds: 300),
+    );
   }
 
   Future initChatRoom() async {
     await _controller.initChatRoom();
+    DocumentReference chatsReference = FirebaseFirestore.instance
+        .collection("Mensajeria")
+        .doc(_controller.roomID);
+    chatsReference.snapshots().listen(
+      ((event) {
+        String last = event.get("UltimoRemitente");
+        if (last != _controller.myUid) {
+          showOverlayNotification(
+            (context) {
+              return Card(
+                child: SafeArea(
+                  child: ListTile(
+                    leading: Image.asset('assets/images/logo-green.png'),
+                    title: const Text(
+                      "Appciona",
+                      style: TextStyle(
+                        color: Palette.appcionaPrimaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                    subtitle: Text(
+                      event.get("UltimoMensaje"),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                      ),
+                    ),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MensajeriaPage(),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+            duration: const Duration(seconds: 5),
+          );
+          /*
+          showSimpleNotification(
+            const Text(
+              "Appciona",
+              style: TextStyle(
+                color: Palette.appcionaPrimaryColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+            leading: Image.asset('assets/images/logo-green.png'),
+            subtitle: Text(
+              event.get("UltimoMensaje"),
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+              ),
+            ),
+            background: Colors.white,
+            duration: const Duration(seconds: 5),
+            elevation: 5,
+            slideDismiss: true,
+          );*/
+        }
+      }),
+    );
     setState(() {});
   }
 
@@ -68,6 +141,8 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
         child: Stack(
           children: [
             SingleChildScrollView(
+              reverse: true,
+              controller: _scrollController,
               child: Column(
                 children: [
                   Image.asset(
@@ -116,11 +191,11 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 5.0),
+                      padding: const EdgeInsets.only(bottom: 5.0, right: 5.0),
                       child: IconButton(
                         onPressed: sendMessage,
                         icon: const Icon(
-                          CupertinoIcons.arrow_right_circle_fill,
+                          Icons.send,
                           color: Palette.appcionaSecondaryColor,
                           size: 40,
                         ),
@@ -269,6 +344,7 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
         style: TextStyle(color: Palette.appcionaPrimaryColor.shade700),
         minLines: 1,
         maxLines: 4,
+        onEditingComplete: sendMessage,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
           hintText: labelText,

@@ -148,6 +148,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             color: Palette.appcionaPrimaryColor,
           ),
           title: const Text("Mensajería"),
+          /*
+          trailing: Container(
+            padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 5.0),
+            decoration: BoxDecoration(
+              color: Palette.appcionaPrimaryColor.shade100,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Text('1'),
+          ),*/
           onTap: () => {
             Navigator.push(
               context,

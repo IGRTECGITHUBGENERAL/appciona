@@ -16,9 +16,11 @@ class NotificationBadge extends StatelessWidget {
       ),
       child: Center(
         child: Padding(
-          padding: EdgeInsets.all(8),
-          child: Text("$totalNotification",
-              style: TextStyle(color: Colors.white, fontSize: 20)),
+          padding: const EdgeInsets.all(8),
+          child: Text(
+            "$totalNotification",
+            style: const TextStyle(color: Colors.black, fontSize: 16),
+          ),
         ),
       ),
     );
