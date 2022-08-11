@@ -11,7 +11,11 @@ class MensajeriaController {
   Future<void> initChatRoom() async {
     if (userInfo != null) {
       myUid = userInfo!.uid;
-      myName = userInfo!.displayName.toString();
+      DocumentSnapshot qs = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userInfo!.uid)
+          .get();
+      myName = '${qs["nombre"]} ${qs["apellidos"]}';
       roomID = myUid;
     }
     try {
@@ -49,6 +53,7 @@ class MensajeriaController {
           "UltimoMensaje": mensaje,
           "UltimoRemitente": myName,
           "ts": ts,
+          "ChatDe": myName,
         },
       );
     } catch (e) {

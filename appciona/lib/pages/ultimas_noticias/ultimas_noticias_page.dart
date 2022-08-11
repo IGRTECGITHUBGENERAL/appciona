@@ -1,7 +1,6 @@
 import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/ultimas_noticias/ultimas_noticias_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 
