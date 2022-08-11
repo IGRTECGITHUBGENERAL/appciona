@@ -7,6 +7,9 @@ class UsersModel {
   final String correo;
   final String dni;
   final String pass;
+  final String ciudad;
+  final String rol;
+  final String telefono;
 
   UsersModel(
     this.uid,
@@ -15,6 +18,9 @@ class UsersModel {
     this.correo,
     this.dni,
     this.pass,
+    this.ciudad,
+    this.rol,
+    this.telefono,
   );
 
   CollectionReference users = FirebaseFirestore.instance.collection('Users');
@@ -29,7 +35,9 @@ class UsersModel {
             'apellidos': apellidos,
             'correo': correo,
             'dni': dni,
-            'pass': pass,
+            'ciudad': ciudad,
+            'rol': rol,
+            'telefono': telefono,
           })
           .then((value) => result = true)
           .catchError((error) => result = false);
@@ -50,6 +58,9 @@ class UsersModel {
             'apellidos': apellidos,
             'correo': correo,
             'dni': dni,
+            'ciudad': ciudad,
+            'rol': rol,
+            'telefono': telefono,
           })
           .then((value) => result = true)
           .catchError((error) => result = false);

@@ -39,7 +39,7 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
     chatsReference.snapshots().listen(
       ((event) {
         String last = event.get("UltimoRemitente");
-        if (last != _controller.myUid) {
+        if (last != _controller.myName) {
           showOverlayNotification(
             (context) {
               return Card(
@@ -225,13 +225,15 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
             reverse: true,
             itemBuilder: (context, index) {
               DocumentSnapshot ds = data.docs[index];
-              if (ds["Remitente"] == _controller.myUid) {
+              if (ds["Remitente"] == _controller.myName) {
                 return _userMessage(ds["Mensaje"]);
               } else {
                 return _adminMessage(ds["Mensaje"]);
               }
             },
           );
+        } else if (snapshot.hasError) {
+          return const SizedBox.shrink();
         } else {
           return const Center(
             child: CircularProgressIndicator(),

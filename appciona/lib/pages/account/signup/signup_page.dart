@@ -1,7 +1,11 @@
 import 'package:appciona/config/palette.dart';
 import 'package:appciona/models/user_model.dart';
+import 'package:appciona/pages/account/signup/signup_controller.dart';
+import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../firebaseServices/auth_services.dart';
 
@@ -14,73 +18,76 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _keyForm = GlobalKey();
+  final SignUpController _controller = SignUpController();
 
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController surnameCtrl = TextEditingController();
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController dniCtrl = TextEditingController();
+  TextEditingController telCtrl = TextEditingController();
   TextEditingController passCtrl = TextEditingController();
   TextEditingController passPassCtrl = TextEditingController();
 
   bool singin = false;
 
+  void getCiudades() async {
+    await _controller.getCiudades().then((value) => setState(() {}));
+  }
+
   @override
   void initState() {
-    nameCtrl = TextEditingController()
-      ..addListener(() {
-        setState(() {});
-      });
-    surnameCtrl = TextEditingController()
-      ..addListener(() {
-        setState(() {});
-      });
-    emailCtrl = TextEditingController()
-      ..addListener(() {
-        setState(() {});
-      });
-    dniCtrl = TextEditingController()
-      ..addListener(() {
-        setState(() {});
-      });
-    passCtrl = TextEditingController()
-      ..addListener(() {
-        setState(() {});
-      });
-    passPassCtrl = TextEditingController()
-      ..addListener(() {
-        setState(() {});
-      });
+    nameCtrl = TextEditingController(text: '');
+    surnameCtrl = TextEditingController(text: '');
+    emailCtrl = TextEditingController(text: '');
+    dniCtrl = TextEditingController(text: '');
+    passCtrl = TextEditingController(text: '');
+    passPassCtrl = TextEditingController(text: '');
+    telCtrl = TextEditingController(text: '');
+    getCiudades();
     super.initState();
   }
 
   signUp() async {
     if (_keyForm.currentState!.validate()) {
-      setState(() {
-        singin = true;
-      });
-      AuthServices as = AuthServices();
-      UserCredential? user = await as.authSignUp(emailCtrl.text, passCtrl.text);
-      if (user != null) {
-        UsersModel register = UsersModel(
-          user.user!.uid,
-          nameCtrl.text,
-          surnameCtrl.text,
-          emailCtrl.text,
-          dniCtrl.text,
-          passCtrl.text,
-        );
-        bool result = await register.agregarUsuarioFirestore();
-        if (result) {
-          UserCredential? uc = await as.singIn(emailCtrl.text, passCtrl.text);
-          if (uc != null) {
-            int counter = 0;
-            Navigator.of(context).popUntil((route) => counter++ >= 2);
+      if (_controller.ciudadSelected!.startsWith('Mi ciudad')) {
+        Alerts.messageBoxMessage(context, 'Ups',
+            'Por favor selecciona la ciudad a la que perteneces');
+      } else {
+        setState(() {
+          singin = true;
+        });
+        AuthServices as = AuthServices();
+        await as
+            .authSignUp(emailCtrl.text, passCtrl.text)
+            .then((UserCredential? user) async {
+          if (user != null) {
+            UsersModel register = UsersModel(
+              user.user!.uid,
+              nameCtrl.text,
+              surnameCtrl.text,
+              emailCtrl.text,
+              dniCtrl.text,
+              passCtrl.text,
+              _controller.ciudadSelected.toString(),
+              "Usuario",
+              telCtrl.text,
+            );
+            await register.agregarUsuarioFirestore().then((result) async {
+              if (result) {
+                await as.singIn(emailCtrl.text, passCtrl.text).then((uc) {
+                  if (uc != null) {
+                    int counter = 0;
+                    Navigator.of(context).popUntil((route) => counter++ >= 2);
+                  }
+                });
+              }
+            });
           }
-        }
+        });
+        setState(() {
+          singin = false;
+        });
       }
-      setState(() {
-        singin = false;
-      });
     }
   }
 
@@ -170,6 +177,15 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 _textBox(
                   size,
+                  'Teléfono',
+                  telCtrl,
+                  TextInputType.phone,
+                  TextInputAction.next,
+                  false,
+                  Icons.phone,
+                ),
+                _textBox(
+                  size,
                   'Contraseña',
                   passCtrl,
                   TextInputType.visiblePassword,
@@ -182,60 +198,108 @@ class _SignUpPageState extends State<SignUpPage> {
                   'Confirme contraseña',
                   passPassCtrl,
                   TextInputType.visiblePassword,
-                  TextInputAction.done,
+                  TextInputAction.next,
                   true,
                   Icons.lock_outline,
                 ),
-                ElevatedButton(
-                  onPressed: singin ? null : signUp,
-                  style: ElevatedButton.styleFrom(
-                    elevation: 10,
-                    padding: EdgeInsets.zero,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(0XFFFF8C29),
-                          Color.fromARGB(255, 243, 93, 34),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Container(
-                      height: 40,
-                      width: size.width * 0.6,
-                      alignment: Alignment.center,
-                      child: singin
-                          ? RichText(
-                              text: const TextSpan(
-                                children: [
-                                  TextSpan(text: 'REGISTRANDO...  '),
-                                  WidgetSpan(
-                                    alignment: PlaceholderAlignment.middle,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : const Text(
-                              'REGISTRARME',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                    ),
-                  ),
-                ),
+                _dropdown(size),
+                _btnRegistrar(size),
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Container _dropdown(Size size) {
+    return Container(
+      width: size.width * 0.75,
+      margin: const EdgeInsets.all(5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        color: Palette.appcionaPrimaryColor.shade100,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.location_city,
+            color: Palette.appcionaPrimaryColor.shade400,
+          ),
+          const SizedBox(
+            width: 25,
+          ),
+          Expanded(
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                style: const TextStyle(
+                  color: Palette.appcionaPrimaryColor,
+                  fontSize: 16,
+                ),
+                focusColor: Colors.black,
+                isExpanded: true,
+                hint: const Text('Mi ciudad'),
+                value: _controller.ciudadSelected,
+                items: _controller.listCiudades,
+                onChanged: (String? value) {
+                  setState(() {
+                    _controller.ciudadSelected = value;
+                  });
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  ElevatedButton _btnRegistrar(Size size) {
+    return ElevatedButton(
+      onPressed: singin ? null : signUp,
+      style: ElevatedButton.styleFrom(
+        elevation: 10,
+        padding: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+      child: Ink(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [
+              Color(0XFFFF8C29),
+              Color.fromARGB(255, 243, 93, 34),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Container(
+          height: 40,
+          width: size.width * 0.6,
+          alignment: Alignment.center,
+          child: singin
+              ? RichText(
+                  text: const TextSpan(
+                    children: [
+                      TextSpan(text: 'REGISTRANDO...  '),
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : const Text(
+                  'REGISTRARME',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
         ),
       ),
     );
@@ -257,6 +321,15 @@ class _SignUpPageState extends State<SignUpPage> {
         keyboardType: tit,
         obscureText: isPassword,
         validator: (value) {
+          if (tit == TextInputType.phone &&
+              !value!.contains(RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$'))) {
+            return "Formato de número inválido";
+          }
+          if (isPassword && passCtrl.text != passPassCtrl.text) {
+            return "Las contraseñas no coinciden";
+          } else if (isPassword && passCtrl.text.length < 6) {
+            return "La contraseña debe tener al menos 6 caracteres";
+          }
           if (value!.isEmpty) {
             return "Campo necesario";
           } else {

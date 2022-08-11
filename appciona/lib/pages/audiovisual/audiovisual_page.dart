@@ -113,6 +113,7 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                           ),
                         ),
                       ),
+                      /*
                       _turismoImageCard(
                         size,
                         'assets/icons/videos_colors.png',
@@ -127,7 +128,7 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                             ),
                           ),
                         ),
-                      ),
+                      ),*/
                       _turismoImageCard(
                         size,
                         'assets/icons/imagen_colors.png',

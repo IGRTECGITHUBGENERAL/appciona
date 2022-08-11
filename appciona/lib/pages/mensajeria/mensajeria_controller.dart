@@ -5,12 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class MensajeriaController {
   late Stream messageStream;
-  late String roomID = "", messageId = "", myUid = "";
+  late String roomID = "", messageId = "", myUid = "", myName = "";
   User? userInfo = FirebaseAuth.instance.currentUser;
 
   Future<void> initChatRoom() async {
     if (userInfo != null) {
       myUid = userInfo!.uid;
+      myName = userInfo!.displayName.toString();
       roomID = myUid;
     }
     try {
@@ -39,14 +40,14 @@ class MensajeriaController {
       await docRef.set(
         {
           "Mensaje": mensaje,
-          "Remitente": myUid,
+          "Remitente": myName,
           "ts": ts,
         },
       );
       await updateLastMessageSend(
         {
           "UltimoMensaje": mensaje,
-          "UltimoRemitente": myUid,
+          "UltimoRemitente": myName,
           "ts": ts,
         },
       );
