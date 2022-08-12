@@ -6,11 +6,9 @@ import 'package:appciona/pages/turismo/turismo_main_page.dart';
 import 'package:appciona/pages/ultimas_noticias/ultimas_noticias_page.dart';
 import 'package:appciona/pages/widgets/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:overlay_support/overlay_support.dart';
+//import 'package:overlay_support/overlay_support.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({Key? key}) : super(key: key);
@@ -22,90 +20,9 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> {
   bool loaded = false;
 
-  late final FirebaseMessaging _messaging;
-  PushNotification? _notificationInfo;
-
-  //Notificación normal. Cuando se está dentro de la App
-  void registerNotification() async {
-    await Firebase.initializeApp();
-    _messaging = FirebaseMessaging.instance;
-
-    NotificationSettings settings = await _messaging.requestPermission(
-      alert: true,
-      badge: true,
-      provisional: false,
-      sound: true,
-    );
-
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print("User granted the permission");
-
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        PushNotification notification = PushNotification(
-            title: message.notification!.title,
-            body: message.notification!.body,
-            dataTitle: message.data['title'],
-            dataBody: message.data['body']);
-
-        setState(() {
-          _notificationInfo = notification;
-        });
-
-        if (notification != null) {
-          showSimpleNotification(
-            Text(_notificationInfo!.title!),
-            leading: const NotificationBadge(totalNotification: 1),
-            subtitle: Text(_notificationInfo!.body!),
-            background: Colors.cyan.shade700,
-            duration: const Duration(seconds: 2),
-          );
-        }
-      });
-    } else {
-      print("permission declined by user");
-    }
-  }
-
-  //Cuando la App está terminada
-  checkForInitialMessage() async {
-    await Firebase.initializeApp();
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
-    if (initialMessage != null) {
-      PushNotification notification = PushNotification(
-          title: initialMessage.notification!.title,
-          body: initialMessage.notification!.body,
-          dataTitle: initialMessage.data['title'],
-          dataBody: initialMessage.data['body']);
-
-      setState(() {
-        _notificationInfo = notification;
-      });
-    }
-    setState(() {
-      loaded = true;
-    });
-  }
-
   @override
   void initState() {
-    //cuando la App está en segundo plano (aún no se ha terminado)
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      PushNotification notification = PushNotification(
-          title: message.notification!.title,
-          body: message.notification!.body,
-          dataTitle: message.data['title'],
-          dataBody: message.data['body']);
-
-      setState(() {
-        _notificationInfo = notification;
-      });
-    });
-    //notificación normal
-    registerNotification();
-    //cuando la App está terminada
-    checkForInitialMessage();
-
+    loaded = true;
     super.initState();
   }
 
@@ -138,11 +55,19 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 
   Widget loadingView() {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/logo-green.png'),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Image.asset(
+                'assets/images/logo-green.png',
+                width: size.width * 0.70,
+              ),
+            ),
             const SizedBox(
               height: 20,
             ),

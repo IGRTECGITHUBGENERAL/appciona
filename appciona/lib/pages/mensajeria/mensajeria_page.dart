@@ -3,7 +3,7 @@ import 'package:appciona/pages/mensajeria/mensajeria_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:overlay_support/overlay_support.dart';
+//import 'package:overlay_support/overlay_support.dart';
 
 class MensajeriaPage extends StatefulWidget {
   const MensajeriaPage({Key? key}) : super(key: key);
@@ -40,6 +40,7 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
       ((event) {
         String last = event.get("UltimoRemitente");
         if (last != _controller.myName) {
+          /*
           showOverlayNotification(
             (context) {
               return Card(
@@ -72,7 +73,8 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
               );
             },
             duration: const Duration(seconds: 5),
-          );
+            
+          );*/
           /*
           showSimpleNotification(
             const Text(

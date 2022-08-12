@@ -5,7 +5,7 @@ import 'package:appciona/notification_badge.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:overlay_support/overlay_support.dart';
+//import 'package:overlay_support/overlay_support.dart';
 
 class PushNotificationHomePage extends StatefulWidget {
   const PushNotificationHomePage({Key? key}) : super(key: key);
@@ -49,12 +49,13 @@ class _PushNotificationHomePageState extends State<PushNotificationHomePage> {
         });
 
         if (notification != null) {
-          showSimpleNotification(Text(_notificationInfo!.title!),
+          /*showSimpleNotification(Text(_notificationInfo!.title!),
               leading: NotificationBadge(
                   totalNotification: _totalNotificationCounter),
               subtitle: Text(_notificationInfo!.body!),
               background: Colors.cyan.shade700,
               duration: Duration(seconds: 2));
+              */
         }
       });
     } else {

@@ -1,4 +1,3 @@
-import 'package:appciona/models/audiovisual.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MediaController {

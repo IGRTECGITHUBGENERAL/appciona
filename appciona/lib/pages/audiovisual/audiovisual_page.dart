@@ -1,4 +1,5 @@
 import 'package:appciona/config/palette.dart';
+import 'package:appciona/pages/audiovisual/imagenes/imagenes_page.dart';
 import 'package:appciona/pages/audiovisual/media/media_controller.dart';
 import 'package:appciona/pages/audiovisual/media/media_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -113,22 +114,6 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                           ),
                         ),
                       ),
-                      /*
-                      _turismoImageCard(
-                        size,
-                        'assets/icons/videos_colors.png',
-                        'Videos',
-                        () => Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => const MediaPage(
-                              type: 'Podcast',
-                              iconAssetPlaceholder:
-                                  'assets/icons/videos_colors.png',
-                            ),
-                          ),
-                        ),
-                      ),*/
                       _turismoImageCard(
                         size,
                         'assets/icons/imagen_colors.png',
@@ -136,10 +121,8 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                         () => Navigator.push(
                           context,
                           CupertinoPageRoute(
-                            builder: (context) => const MediaPage(
-                              type: 'Podcast',
-                              iconAssetPlaceholder:
-                                  'assets/icons/imagen_colors.png',
+                            builder: (context) => const ImagenesPage(
+                              logo: 'assets/icons/imagen_colors.png',
                             ),
                           ),
                         ),
