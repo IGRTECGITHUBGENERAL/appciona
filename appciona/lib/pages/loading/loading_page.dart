@@ -1,7 +1,9 @@
+import 'package:appciona/config/notification_helper.dart';
 import 'package:appciona/pages/audiovisual/audiovisual_page.dart';
 import 'package:appciona/pages/turismo/turismo_main_page.dart';
 import 'package:appciona/pages/ultimas_noticias/ultimas_noticias_page.dart';
 import 'package:appciona/pages/widgets/drawer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +19,21 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> {
   bool loaded = false;
 
+  checkForUserState() async {
+    FirebaseAuth.instance.authStateChanges().listen((event) async {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await NotificationHelper.addMessagingListener();
+      } else {
+        print("Es nulo");
+      }
+    });
+  }
+
   @override
   void initState() {
     loaded = true;
+    checkForUserState();
     super.initState();
   }
 

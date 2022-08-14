@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:appciona/config/notification_helper.dart';
 import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/mensajeria/mensajeria_page.dart';
 import 'package:appciona/pages/servicios/servicios.dart';
@@ -139,15 +140,27 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             color: Palette.appcionaPrimaryColor,
           ),
           title: const Text("Mensajería"),
-          /*
-          trailing: Container(
-            padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 5.0),
-            decoration: BoxDecoration(
-              color: Palette.appcionaPrimaryColor.shade100,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Text('1'),
-          ),*/
+          trailing: ValueListenableBuilder(
+            valueListenable: NotificationHelper.notification,
+            builder: (context, value, widget) {
+              if (value as bool) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 3.0, horizontal: 5.0),
+                  decoration: BoxDecoration(
+                    color: Palette.appcionaPrimaryColor.shade100,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(
+                    CupertinoIcons.bell,
+                    color: Palette.appcionaPrimaryColor.shade500,
+                  ),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
           onTap: () => {
             Navigator.push(
               context,

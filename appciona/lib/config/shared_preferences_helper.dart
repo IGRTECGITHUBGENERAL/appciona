@@ -39,7 +39,7 @@ class SharedPreferencesHelper {
         ds["telefono"],
       );
       SharedPreferences pref = await _prefs();
-      pref.setString(_nameKey, userData.nombre.toString());
+      pref.setString(_nameKey, '${userData.nombre} ${userData.apellidos}');
       pref.setString(_emailKey, userData.correo.toString());
       pref.setString(_uidUser, userData.uid.toString());
     } catch (e) {
