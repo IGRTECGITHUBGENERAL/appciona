@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UsersModel {
-  final String uid;
-  final String nombre;
-  final String apellidos;
-  final String correo;
-  final String dni;
-  final String pass;
-  final String ciudad;
-  final String rol;
-  final String telefono;
+  final String? uid;
+  final String? nombre;
+  final String? apellidos;
+  final String? correo;
+  final String? dni;
+  final String? pass;
+  final String? ciudad;
+  final String? rol;
+  final String? telefono;
 
   UsersModel(
     this.uid,

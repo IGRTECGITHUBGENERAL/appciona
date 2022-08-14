@@ -34,6 +34,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     setState(() {});
   }
 
+  Future<void> loadUserData() async {
+    await _controller.getUserData();
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -114,32 +119,18 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           child: Image.asset('assets/images/logo-green.png'),
         ),
         FutureBuilder(
-          future: _controller.getUserInfo(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              InfoUser info = snapshot.data as InfoUser;
-              return ListTile(
-                title: Text(
-                  "¡Bienvenido ${info.nombre}!",
-                  textAlign: TextAlign.center,
-                ),
-                subtitle: Text(
-                  "${info.email}",
-                  textAlign: TextAlign.center,
-                ),
-              );
-            } else if (snapshot.hasData) {
-              return const ListTile(
-                title: Text(
-                  "¡Bienvenido!",
-                  textAlign: TextAlign.center,
-                ),
-              );
-            } else {
-              return const ListTile(
-                title: LinearProgressIndicator(),
-              );
-            }
+          future: loadUserData(),
+          builder: (context, data) {
+            return ListTile(
+              title: Text(
+                "¡Bienvenido ${_controller.userName}!",
+                textAlign: TextAlign.center,
+              ),
+              subtitle: Text(
+                _controller.userEmail,
+                textAlign: TextAlign.center,
+              ),
+            );
           },
         ),
         ListTile(

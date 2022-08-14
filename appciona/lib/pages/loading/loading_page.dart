@@ -1,6 +1,3 @@
-import 'package:appciona/config/palette.dart';
-import 'package:appciona/models/pushnotification_model.dart';
-import 'package:appciona/notification_badge.dart';
 import 'package:appciona/pages/audiovisual/audiovisual_page.dart';
 import 'package:appciona/pages/turismo/turismo_main_page.dart';
 import 'package:appciona/pages/ultimas_noticias/ultimas_noticias_page.dart';

@@ -1,31 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:appciona/config/shared_preferences_helper.dart';
 
 class DrawerWidgetController {
-  Future<InfoUser> getUserInfo() async {
-    try {
-      final User? user = FirebaseAuth.instance.currentUser;
-      DocumentSnapshot qs = await FirebaseFirestore.instance
-          .collection('Users')
-          .doc(user!.uid)
-          .get();
-      InfoUser info = InfoUser(
-        nombre: '${qs["nombre"]} ${qs["apellidos"]}',
-        email: qs["correo"],
-      );
-      return info;
-    } catch (e) {
-      return InfoUser(nombre: '', email: '');
-    }
+  String userName = "userName";
+  String userEmail = "";
+
+  Future<void> getUserData() async {
+    userName = await SharedPreferencesHelper.getNameUser() ?? "Usuario";
+    userEmail = await SharedPreferencesHelper.getEmailUser() ?? "";
   }
-}
-
-class InfoUser {
-  String? nombre;
-  String? email;
-
-  InfoUser({
-    this.nombre,
-    this.email,
-  });
 }

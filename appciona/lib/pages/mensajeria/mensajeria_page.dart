@@ -39,66 +39,7 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
     chatsReference.snapshots().listen(
       ((event) {
         String last = event.get("UltimoRemitente");
-        if (last != _controller.myName) {
-          /*
-          showOverlayNotification(
-            (context) {
-              return Card(
-                child: SafeArea(
-                  child: ListTile(
-                    leading: Image.asset('assets/images/logo-green.png'),
-                    title: const Text(
-                      "Appciona",
-                      style: TextStyle(
-                        color: Palette.appcionaPrimaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
-                    ),
-                    subtitle: Text(
-                      event.get("UltimoMensaje"),
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                      ),
-                    ),
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MensajeriaPage(),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-            duration: const Duration(seconds: 5),
-            
-          );*/
-          /*
-          showSimpleNotification(
-            const Text(
-              "Appciona",
-              style: TextStyle(
-                color: Palette.appcionaPrimaryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-            leading: Image.asset('assets/images/logo-green.png'),
-            subtitle: Text(
-              event.get("UltimoMensaje"),
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 14,
-              ),
-            ),
-            background: Colors.white,
-            duration: const Duration(seconds: 5),
-            elevation: 5,
-            slideDismiss: true,
-          );*/
-        }
+        if (last != _controller.myName) {}
       }),
     );
     setState(() {});
