@@ -8,60 +8,68 @@ class ImagenesController {
   Future<int> getAlbumsSize() async {
     int result = 0;
     try {
-      qs = await FirebaseFirestore.instance.collection("Imagenes").get();
+      qs = await FirebaseFirestore.instance.collection("Galerias").get();
       result = qs.docs.length;
     } catch (e) {
-      print(e);
+      debugPrint("Error al obtener la cantidad de los albums: $e");
     }
     return result;
   }
 
   Future getFirstAlbums() async {
-    qs = await FirebaseFirestore.instance
-        .collection("Imagenes")
-        .orderBy("Nombre")
-        .limit(10)
-        .get();
-    albums = qs.docs
-        .map((e) => Album(
-              id: e.id,
-              nombre: e["Nombre"],
-              portada: e["Portada"],
-            ))
-        .toList();
+    try {
+      qs = await FirebaseFirestore.instance
+          .collection("Galerias")
+          .orderBy("Titulo")
+          .limit(10)
+          .get();
+      albums = qs.docs
+          .map((e) => Album(
+                id: e.id,
+                titulo: e["Titulo"],
+                portada: e["Portada"],
+                imagenes: e["Imagenes"],
+              ))
+          .toList();
+    } catch (e) {
+      debugPrint("Error al obtener los primeros albumes: $e");
+    }
   }
 
   Future getNextAlbums() async {
     try {
       var lastVisible = qs.docs[qs.docs.length - 1];
       qs = await FirebaseFirestore.instance
-          .collection("Imagenes")
+          .collection("Galerias")
           .startAfterDocument(lastVisible)
-          .orderBy("Nombre")
+          .orderBy("Titulo")
           .limit(10)
           .get();
       List<Album> noticiasNext = qs.docs
           .map((e) => Album(
                 id: e.id,
-                nombre: e["Nombre"],
+                titulo: e["Nombre"],
                 portada: e["Portada"],
+                imagenes: e["Imagenes"],
               ))
           .toList();
       albums.addAll(noticiasNext);
     } catch (e) {
-      debugPrint('Error en la obtención de los albums $e');
+      debugPrint('Error en la obtención de los siguientes albums $e');
     }
   }
 }
 
 class Album {
   String id;
-  String nombre;
+  String titulo;
   String portada;
+  List<dynamic> imagenes;
 
   Album({
     required this.id,
-    required this.nombre,
+    required this.titulo,
     required this.portada,
+    required this.imagenes,
   });
 }

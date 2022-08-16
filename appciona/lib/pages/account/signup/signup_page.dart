@@ -3,9 +3,7 @@ import 'package:appciona/models/user_model.dart';
 import 'package:appciona/pages/account/signup/signup_controller.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../firebaseServices/auth_services.dart';
 

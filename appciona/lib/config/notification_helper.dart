@@ -24,26 +24,29 @@ class NotificationHelper {
           .doc(userUid)
           .snapshots()
           .listen((DocumentSnapshot event) async {
-        mensajeria.ultimoMensaje = event["UltimoMensaje"];
-        mensajeria.ultimoRemitente = event["UltimoRemitente"];
-        mensajeria.ts = DateTime.parse(event["ts"].toDate().toString());
-        String userName = await SharedPreferencesHelper.getNameUser() ?? "";
-        if (userName.isEmpty) {
-          DocumentSnapshot qs = await FirebaseFirestore.instance
-              .collection('Users')
-              .doc(userUid)
-              .get();
-          userName = '${qs["nombre"]} ${qs["apellidos"]}';
-        }
-        if (mensajeria.ultimoRemitente != userName) {
-          showNotification(mensajeria.ultimoMensaje.toString(), 0);
-          notification = ValueNotifier<bool>(true);
-        } else {
-          notification = ValueNotifier<bool>(false);
+        if (event.exists) {
+          mensajeria.ultimoMensaje = event["UltimoMensaje"];
+          mensajeria.ultimoRemitente = event["UltimoRemitente"];
+          mensajeria.ts = DateTime.parse(event["ts"].toDate().toString());
+          String userName = await SharedPreferencesHelper.getNameUser() ?? "";
+          if (userName.isEmpty) {
+            DocumentSnapshot qs = await FirebaseFirestore.instance
+                .collection('Users')
+                .doc(userUid)
+                .get();
+            userName = '${qs["nombre"]} ${qs["apellidos"]}';
+          }
+          if (mensajeria.ultimoRemitente != userName) {
+            showNotification(mensajeria.ultimoMensaje.toString(), 0);
+            notification = ValueNotifier<bool>(true);
+          } else {
+            notification = ValueNotifier<bool>(false);
+          }
         }
       });
     } catch (e) {
-      print("Error al crear el listener: $e");
+      notification = ValueNotifier<bool>(false);
+      debugPrint("Error al crear el listener: $e");
     }
   }
 

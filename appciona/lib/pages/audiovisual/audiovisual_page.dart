@@ -1,6 +1,5 @@
 import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/audiovisual/imagenes/imagenes_page.dart';
-import 'package:appciona/pages/audiovisual/media/media_controller.dart';
 import 'package:appciona/pages/audiovisual/media/media_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';

@@ -86,10 +86,14 @@ class CrearEditarEventoController {
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => AgendaPage()));
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AgendaPage(),
+          ),
+        );
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Color(0XFF00BAEF),
+            backgroundColor: const Color(0XFF00BAEF),
             elevation: 5,
             margin: const EdgeInsets.all(10),
             behavior: SnackBarBehavior.floating,
@@ -145,7 +149,7 @@ class CrearEditarEventoController {
 
   showAlertDialog(BuildContext context, String titulo, String contenido) {
     Widget okButton = TextButton(
-      child: Text("OK"),
+      child: const Text("OK"),
       onPressed: () {},
     );
 
@@ -181,11 +185,6 @@ class CrearEditarEventoController {
     agendas = agendas
         .where((element) => element.Fecha.isAfter(DateTime.now()))
         .toList();
-    print("Número de agendas: ${agendas.length}");
-    for (var agenda in agendas) {
-      print(
-          "Titulo: ${agenda.Titulo} Descripción: ${agenda.Descripcion} Fecha: ${agenda.Fecha}");
-    }
   }
 
   Future<bool> actulizarEvento(String titulo, String descripcion,

@@ -1,6 +1,8 @@
 import 'package:appciona/config/palette.dart';
+import 'package:appciona/pages/audiovisual/imagenes/galeria/galeria_page.dart';
 import 'package:appciona/pages/audiovisual/imagenes/imagenes_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ImagenesPage extends StatefulWidget {
@@ -93,14 +95,25 @@ class _ImagenesPageState extends State<ImagenesPage> {
                         ),
                         child: Column(
                           children: [
-                            ListView.builder(
-                              shrinkWrap: true,
-                              primary: false,
-                              padding: const EdgeInsets.all(10),
-                              itemCount: _controller.albums.length,
-                              itemBuilder: (context, index) {
-                                return _album(size, index);
-                              },
+                            Wrap(
+                              children: [
+                                GridView.builder(
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  padding: const EdgeInsets.all(10),
+                                  itemCount: _controller.albums.length,
+                                  itemBuilder: (context, index) {
+                                    return _album(size, index);
+                                  },
+                                  gridDelegate:
+                                      const SliverGridDelegateWithMaxCrossAxisExtent(
+                                    maxCrossAxisExtent: 200,
+                                    childAspectRatio: 3 / 2,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -111,43 +124,55 @@ class _ImagenesPageState extends State<ImagenesPage> {
     );
   }
 
-  UnconstrainedBox _album(Size size, int index) {
-    return UnconstrainedBox(
-      child: InkWell(
-        onTap: () {},
-        child: Container(
-          width: size.width * 0.45,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            color: Palette.appcionaPrimaryColor.shade100,
-            borderRadius: BorderRadius.circular(10),
+  Widget _album(Size size, int index) {
+    return InkWell(
+      onTap: () => Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => GaleriaPage(
+            imagenes: _controller.albums[index].imagenes,
+            nombreAlbum: _controller.albums[index].titulo,
+            logo: widget.logo,
           ),
-          child: Stack(
-            children: [
-              CachedNetworkImage(
+        ),
+      ),
+      child: Container(
+        width: size.width * 0.50,
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          color: Palette.appcionaPrimaryColor.shade100,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Stack(
+          children: [
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: CachedNetworkImage(
                 fit: BoxFit.cover,
                 imageUrl: _controller.albums[index].portada,
                 placeholder: (context, url) => Image.asset(widget.logo),
                 errorWidget: (context, url, error) => Image.asset(widget.logo),
               ),
-              Positioned(
-                bottom: 0,
-                child: Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(10),
-                  color: Palette.appcionaPrimaryColor,
-                  width: size.width * 0.45,
-                  child: Text(
-                    _controller.albums[index].nombre,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+            ),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Palette.appcionaPrimaryColor.withOpacity(0.8),
+                ),
+                width: size.width * 0.50,
+                child: Text(
+                  _controller.albums[index].titulo,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:appciona/models/noticia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class UltimasNoticiasController {
   List<Noticia> noticias = [];
@@ -11,7 +12,7 @@ class UltimasNoticiasController {
       qs = await FirebaseFirestore.instance.collection("Noticias").get();
       result = qs.docs.length;
     } catch (e) {
-      print(e);
+      debugPrint("Error al obtener la cantidad de noticias $e");
     }
     return result;
   }
@@ -35,7 +36,7 @@ class UltimasNoticiasController {
               ))
           .toList();
     } catch (e) {
-      print(e);
+      debugPrint("Error al obtener las primeras noticias: $e");
     }
   }
 
@@ -61,7 +62,7 @@ class UltimasNoticiasController {
           .toList();
       noticias.addAll(noticiasNext);
     } catch (e) {
-      print(e);
+      debugPrint("Error al obtener las siguientes noticias: $e");
     }
   }
 }

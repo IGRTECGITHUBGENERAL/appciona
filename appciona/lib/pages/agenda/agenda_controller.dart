@@ -70,7 +70,7 @@ class AgendaController {
     agendas = agendas
         .where((element) =>
             element.Fecha.isAfter(fecha) &&
-            element.Fecha.isBefore(fecha.add(Duration(days: 1))))
+            element.Fecha.isBefore(fecha.add(const Duration(days: 1))))
         .toList();
     return agendas;
   }
@@ -78,11 +78,14 @@ class AgendaController {
   Future<bool> eliminarEvento(String? uid) async {
     bool result = false;
 
-    try{    
+    try {
       final db = FirebaseFirestore.instance.collection('Agendas').doc(uid);
-      db.delete().then((value) => result = true).catchError((error) => result = false);
+      db
+          .delete()
+          .then((value) => result = true)
+          .catchError((error) => result = false);
       return result;
-    }catch(error) {
+    } catch (error) {
       return result;
     }
   }

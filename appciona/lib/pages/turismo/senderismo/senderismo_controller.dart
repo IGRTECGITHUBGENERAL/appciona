@@ -1,5 +1,6 @@
 import 'package:appciona/models/senderismo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class SenderismoController {
   List<Senderismo> itemSenderismo = [];
@@ -11,7 +12,7 @@ class SenderismoController {
       qs = await FirebaseFirestore.instance.collection("Senderismo").get();
       lenght = qs.docs.length;
     } catch (e) {
-      print(e);
+      debugPrint("Error al obtener la cantidad de items para senderismo: $e");
     }
     return lenght;
   }
@@ -34,7 +35,7 @@ class SenderismoController {
               ))
           .toList();
     } catch (e) {
-      print(e);
+      debugPrint("Error al obtener los primeros items de senderismo: $e");
     }
   }
 

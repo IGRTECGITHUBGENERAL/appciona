@@ -4,6 +4,7 @@ import 'package:appciona/models/encuestas.dart';
 import 'package:appciona/models/respuestas_encuestas.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../models/pregunta.dart';
 
@@ -22,7 +23,7 @@ class EncuestasController {
       });
       return true;
     } catch (e) {
-      print(e);
+      debugPrint("Error al enviar las respuestas del usuario: $e");
       return false;
     }
   }
@@ -88,7 +89,7 @@ class EncuestasController {
       }
       return encuestas;
     } catch (e) {
-      print(e);
+      debugPrint("Error al obtener las encuestas: $e");
       return encuestas;
     }
   }

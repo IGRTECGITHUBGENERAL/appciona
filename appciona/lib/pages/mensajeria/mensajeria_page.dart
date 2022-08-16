@@ -17,11 +17,13 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
   final TextEditingController _messageCtrl = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
+  String _messageText = "";
+
   Future sendMessage() async {
     if (_messageCtrl.text.isNotEmpty) {
-      await _controller.sendMessage(_messageCtrl.text).then(
-            (value) => _messageCtrl.clear(),
-          );
+      _messageText = _messageCtrl.text;
+      _messageCtrl.clear();
+      await _controller.sendMessage(_messageText).then((value) => {});
     }
     setState(() {});
     _scrollController.animateTo(
@@ -33,6 +35,7 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
 
   Future initChatRoom() async {
     await _controller.initChatRoom();
+    /*
     DocumentReference chatsReference = FirebaseFirestore.instance
         .collection("Mensajeria")
         .doc(_controller.roomID);
@@ -41,7 +44,7 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
         String last = event.get("UltimoRemitente");
         if (last != _controller.myName) {}
       }),
-    );
+    );*/
     setState(() {});
   }
 

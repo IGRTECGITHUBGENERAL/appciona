@@ -2,9 +2,10 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class MensajeriaController {
-  late Stream messageStream;
+  late Stream messageStream = const Stream.empty();
   late String roomID = "", messageId = "", myUid = "", myName = "";
   User? userInfo = FirebaseAuth.instance.currentUser;
 
@@ -26,7 +27,7 @@ class MensajeriaController {
           .orderBy("ts", descending: true)
           .snapshots();
     } catch (e) {
-      print('Error en la obtención de mensajes:\n$e');
+      debugPrint('Error en la obtención de mensajes:\n$e');
     }
   }
 
@@ -57,15 +58,19 @@ class MensajeriaController {
         },
       );
     } catch (e) {
-      print('Error en la creacion de un mensaje nuevo:\n$e');
+      debugPrint('Error en la creacion de un mensaje nuevo:\n$e');
     }
     messageId = "";
   }
 
   Future updateLastMessageSend(Map<String, dynamic> data) async {
-    DocumentReference docRef =
-        FirebaseFirestore.instance.collection("Mensajeria").doc(roomID);
-    await docRef.set(data);
+    try {
+      DocumentReference docRef =
+          FirebaseFirestore.instance.collection("Mensajeria").doc(roomID);
+      await docRef.set(data);
+    } catch (e) {
+      debugPrint("Error al actualizar el último mensaje");
+    }
   }
 
   String getRandomString(int length) {

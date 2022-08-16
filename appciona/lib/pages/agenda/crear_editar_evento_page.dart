@@ -22,7 +22,7 @@ class _CrearEditarEventoPageState extends State<CrearEditarEventoPage> {
   TextEditingController descripcionCtrl = TextEditingController();
   TextEditingController fechaCtrl = TextEditingController();
   TextEditingController horaCtrl = TextEditingController();
-  CrearEditarEventoController _controller = CrearEditarEventoController();
+  final CrearEditarEventoController _controller = CrearEditarEventoController();
 
   save() {
     if (_formKey.currentState!.validate()) {
@@ -186,6 +186,8 @@ class TextBox extends StatelessWidget {
       validator: (value) {
         if (value!.isEmpty) {
           return '$label requerido';
+        } else {
+          return null;
         }
       },
     );

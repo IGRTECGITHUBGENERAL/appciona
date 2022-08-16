@@ -8,7 +8,7 @@ class BNavigator extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BNavigatorState createState() => _BNavigatorState();
+  State createState() => _BNavigatorState();
 }
 
 class _BNavigatorState extends State<BNavigator> {

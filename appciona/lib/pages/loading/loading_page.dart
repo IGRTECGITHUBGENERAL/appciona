@@ -3,11 +3,9 @@ import 'package:appciona/pages/audiovisual/audiovisual_page.dart';
 import 'package:appciona/pages/turismo/turismo_main_page.dart';
 import 'package:appciona/pages/ultimas_noticias/ultimas_noticias_page.dart';
 import 'package:appciona/pages/widgets/drawer.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:overlay_support/overlay_support.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({Key? key}) : super(key: key);
@@ -24,8 +22,6 @@ class _LoadingPageState extends State<LoadingPage> {
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         await NotificationHelper.addMessagingListener();
-      } else {
-        print("Es nulo");
       }
     });
   }

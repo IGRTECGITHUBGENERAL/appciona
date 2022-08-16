@@ -63,7 +63,6 @@ class _EncuestasSingleTestPageState extends State<EncuestasSingleTestPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

@@ -1,6 +1,5 @@
 import 'package:appciona/config/shared_preferences_helper.dart';
 import 'package:appciona/firebaseServices/auth_services.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginController {
   Future<bool> login(String email, String pass) async {
