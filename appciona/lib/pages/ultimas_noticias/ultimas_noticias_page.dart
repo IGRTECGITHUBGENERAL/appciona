@@ -36,7 +36,10 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
   void initState() {
     super.initState();
     _getInitData();
+   // _controller.checkForUserState();
+
     _scCtrl.addListener(() {
+     //_getNextData();
       if (_scCtrl.position.atEdge) {
         if (_scCtrl.position.pixels != 0 &&
             _controller.noticias.length < noNoticias) {
@@ -73,6 +76,14 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
       drawer: Drawer(
         child: widget.drawer,
       ),
+       onDrawerChanged: (value){
+        if(!value) {
+               setState(() {
+            _getInitData();
+          });
+        }
+        },
+
       body: SafeArea(
         child: noNoticias == 0
             ? const Center(

@@ -88,16 +88,21 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                           ),
                         ),
                       ),
-                      _turismoImageCard(
-                        size,
-                        'assets/icons/radio_directo_colors.png',
-                        'Radio en vivo',
-                        () async {
-                          if (radioUrl.isNotEmpty) {
-                            if (!await launchUrl(Uri.parse(radioUrl))) {}
-                          }
-                        },
+                _turismoImageCard(
+                  size,
+                  'assets/icons/radio_directo_colors.png',
+                  'Radio en vivo',
+                      () => Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => const MediaPage(
+                        type: 'Radio en vivo',
+                        iconAssetPlaceholder:
+                        'assets/icons/directo_colors.png',
                       ),
+                    ),
+                  ),
+                ),
                       _turismoImageCard(
                         size,
                         'assets/icons/directo_colors.png',
@@ -122,6 +127,21 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                           CupertinoPageRoute(
                             builder: (context) => const ImagenesPage(
                               logo: 'assets/icons/imagen_colors.png',
+                            ),
+                          ),
+                        ),
+                      ),
+                      _turismoImageCard(
+                        size,
+                        'assets/icons/videos_colors.png',
+                        'Videos',
+                            () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => const MediaPage(
+                              type: 'Videos',
+                              iconAssetPlaceholder:
+                              'assets/icons/videos_colors.png',
                             ),
                           ),
                         ),

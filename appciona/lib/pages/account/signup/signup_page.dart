@@ -47,6 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   signUp() async {
     if (_keyForm.currentState!.validate()) {
+      print("presionado");
       if (_controller.ciudadSelected!.startsWith('Mi ciudad')) {
         Alerts.messageBoxMessage(context, 'Ups',
             'Por favor selecciona la ciudad a la que perteneces');
@@ -59,6 +60,7 @@ class _SignUpPageState extends State<SignUpPage> {
             .authSignUp(emailCtrl.text, passCtrl.text)
             .then((UserCredential? user) async {
           if (user != null) {
+            print("intentando registrar");
             UsersModel register = UsersModel(
               user.user!.uid,
               nameCtrl.text,
@@ -77,10 +79,61 @@ class _SignUpPageState extends State<SignUpPage> {
                     int counter = 0;
                     Navigator.of(context).popUntil((route) => counter++ >= 2);
                   }
+
                 });
               }
+
             });
           }
+
+          else
+          {
+
+
+            Future.delayed(const Duration(milliseconds: 100), ()
+            {
+
+
+              showGeneralDialog(
+                  barrierColor: Colors.black.withOpacity(0.5),
+                  transitionBuilder: (context, a1, a2, widget) {
+                    return Transform.scale(
+                      scale: a1.value,
+                      child: Opacity(
+                        opacity: a1.value,
+                        child: AlertDialog(
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16.0)),
+                          title: Text('¡Usuario existente!',textScaleFactor:1.3 ),
+                          content:
+                          SingleChildScrollView(
+                            child:
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('El usuario ya se encuentra registrado',textScaleFactor:1.2 ,),
+                                  Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: TextButton(onPressed: (){Navigator.maybePop(context);}, child: Text("salir",style: TextStyle(fontSize: 25),)))
+                                ],
+                              ),
+
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  transitionDuration: Duration(milliseconds: 300),
+                  barrierDismissible: true,
+                  barrierLabel: '',
+                  context: context,
+                  pageBuilder: (context, animation1, animation2) {return Container();});
+
+
+            });
+
+          }
+
         });
         setState(() {
           singin = false;
@@ -327,6 +380,9 @@ class _SignUpPageState extends State<SignUpPage> {
             return "Las contraseñas no coinciden";
           } else if (isPassword && passCtrl.text.length < 6) {
             return "La contraseña debe tener al menos 6 caracteres";
+          }
+          if(dniCtrl.text==""||dniCtrl==null){
+            dniCtrl.text="NA";
           }
           if (value!.isEmpty) {
             return "Campo necesario";

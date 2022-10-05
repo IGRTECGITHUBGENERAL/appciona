@@ -8,6 +8,8 @@ class SharedPreferencesHelper {
   static const String _nameKey = "nameUser";
   static const String _emailKey = "emailUser";
   static const String _uidUser = "uidUser";
+  static const String _uidCity = "uidUser";
+
   static Future<SharedPreferences> _prefs() async =>
       await SharedPreferences.getInstance();
 
@@ -19,6 +21,9 @@ class SharedPreferencesHelper {
 
   static Future<String?> getUidUser() async =>
       await _prefs().then((value) => value.getString(_uidUser));
+
+  static Future<String?> getUidCity() async =>
+      await _prefs().then((value) => value.getString(_uidCity));
 
   static Future<bool> createUserData() async {
     try {
@@ -42,10 +47,17 @@ class SharedPreferencesHelper {
       pref.setString(_nameKey, '${userData.nombre} ${userData.apellidos}');
       pref.setString(_emailKey, userData.correo.toString());
       pref.setString(_uidUser, userData.uid.toString());
+      pref.setString(_uidCity, userData.ciudad.toString());
     } catch (e) {
       debugPrint("Error al crear datos del usuario: $e");
     }
     return true;
+  }
+
+  static Future addCityData(String cityUID) async {
+    SharedPreferences pref = await _prefs();
+    pref.setString(_uidCity, cityUID);
+
   }
 
   static Future deleteUserData() async {
@@ -53,6 +65,7 @@ class SharedPreferencesHelper {
     pref.remove(_nameKey);
     pref.remove(_emailKey);
     pref.remove(_uidUser);
+    pref.remove(_uidCity);
     pref.clear();
   }
 }

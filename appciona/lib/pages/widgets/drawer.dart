@@ -11,10 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../firebaseServices/google_sign_in.dart';
+import '../../models/ciudades.dart';
 import '../agenda/agenda_page.dart';
 import '../encuestas/encuestas_page.dart';
 import '../account/login/login_page.dart';
 import 'drawer_controller.dart';
+import 'package:appciona/config/shared_preferences_helper.dart';
+List<Ciudades> ciudades = [];
+List<String> ciudadesNombres=[];
+var currentSelectedValue;
 
 class DrawerWidget extends StatefulWidget {
   final int userState;
@@ -43,6 +48,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   void initState() {
     super.initState();
+    getListCitysUID();
     getWhatsappNumber();
   }
 
@@ -86,6 +92,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 
   Column _columnNotLogued() {
+    var posicion="hola";
     return Column(
       children: [
         Padding(
@@ -108,6 +115,38 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 (value) => setState(() {}),
               ),
         ),
+        typeFieldWidget()
+
+
+
+        /*ListTile(
+          leading: const Icon(
+            Icons.logout,
+            color: Palette.appcionaSecondaryColor,
+          ),
+          title: const Text("añadir bartolome"),
+          onTap: () async {
+            try {
+              final provider =
+              Provider.of<GoogleSignInProvider>(context, listen: false);
+              bool result = await provider.googleLogout();
+              if (!result) {
+                await FirebaseAuth.instance.signOut();
+
+                SharedPreferencesHelper.addCityData("vkS40AndXTPEJ2p3MFlt");
+                //   SharedPreferencesHelper.deleteUserData();
+              }
+            } on ProviderNotFoundException catch (e) {
+              await FirebaseAuth.instance.signOut();
+              // SharedPreferencesHelper.deleteUserData();
+              SharedPreferencesHelper.addCityData("vkS40AndXTPEJ2p3MFlt");
+            } catch (e) {
+              Alerts.messageBoxMessage(context, '¡UPS!',
+                  'Parece que hubo un error al cerrar sesión.');
+            }
+            setState(() {});
+          },
+        ),*/
       ],
     );
   }
@@ -228,20 +267,23 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               bool result = await provider.googleLogout();
               if (!result) {
                 await FirebaseAuth.instance.signOut();
+
+               SharedPreferencesHelper.deleteUserData();
               }
             } on ProviderNotFoundException catch (e) {
               await FirebaseAuth.instance.signOut();
-            } catch (e) {
+              SharedPreferencesHelper.deleteUserData();
+             } catch (e) {
               Alerts.messageBoxMessage(context, '¡UPS!',
                   'Parece que hubo un error al cerrar sesión.');
             }
             setState(() {});
           },
         ),
+
       ],
     );
   }
-
   void openwhatsapp() async {
     if (numberMensajeria.isNotEmpty) {
       var whatsapp = "https://wa.me/+$numberMensajeria";
@@ -278,5 +320,73 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         }
       }
     }
+  }
+  Future<void> getListCitysUID()  async {
+
+    late QuerySnapshot qs;
+    qs = await FirebaseFirestore.instance
+        .collection("Ciudades")
+        .get();
+    ciudades = qs.docs
+        .map((e) => Ciudades(
+      UID: e.id,
+      Nombre: e["Nombre"],
+    ))
+        .toList();
+    print("ciudades");
+    print(ciudades.length);
+    print(ciudades[0].Nombre);
+    ciudadesNombres=[];
+    ciudades.forEach((data) => ciudadesNombres.add(data.Nombre.toString()));
+   setState(() {
+     ciudades;
+     ciudadesNombres;
+   });
+  }
+  Widget typeFieldWidget() {
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: FormField<String>(
+        builder: (FormFieldState<String> state) {
+          return InputDecorator(
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0))),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                hint: Text("Selecciona una ciudad"),
+                value: currentSelectedValue,
+                isDense: true,
+                onChanged: (newValue) {
+                  setState(() {
+
+                    try {
+                      print(currentSelectedValue);
+                     // currentSelectedValue = newValue;
+                      int select = ciudadesNombres.indexOf(newValue!);
+                      print(ciudades[select].UID);
+                      SharedPreferencesHelper.addCityData(ciudades[select].UID.toString());
+                      ciudadesNombres=[];
+                      Navigator.pop(context);
+                    }catch(excep){
+                      ciudadesNombres=[];
+                    }
+
+                  });
+                  ciudadesNombres=[];
+                },
+                items: ciudadesNombres.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
