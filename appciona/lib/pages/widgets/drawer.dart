@@ -104,7 +104,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             Icons.login,
             color: Palette.appcionaSecondaryColor,
           ),
-          title: const Text("Iniciar sesión"),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Iniciar sesión"),
+              const Text("Login",style:TextStyle(fontSize:12 )),
+            ],
+          ),
           onTap: () => Navigator.of(context, rootNavigator: true)
               .push(
                 CupertinoPageRoute(
@@ -114,6 +120,28 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               .then(
                 (value) => setState(() {}),
               ),
+        ),
+        ListTile(
+          leading: const Icon(
+            Icons.question_answer_outlined,
+            color: Palette.appcionaSecondaryColor,
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Encuestas"),
+              const Text("surveys",style:TextStyle(fontSize:12 )),
+            ],
+          ),
+          onTap: () => Navigator.of(context, rootNavigator: true)
+              .push(
+            CupertinoPageRoute(
+              builder: (context) => const EncuestasPage(),
+            ),
+          )
+              .then(
+                (value) => setState(() { SharedPreferencesHelper.addEncuestaData("Global"); } ),
+          ),
         ),
         typeFieldWidget()
 
@@ -162,9 +190,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           future: loadUserData(),
           builder: (context, data) {
             return ListTile(
-              title: Text(
-                "¡Bienvenido ${_controller.userName}!",
-                textAlign: TextAlign.center,
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("¡Bienvenido ${_controller.userName}!"),
+                  Text("Welcome!",style:TextStyle(fontSize:12 )),
+                ],
               ),
               subtitle: Text(
                 _controller.userEmail,
@@ -178,7 +209,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             CupertinoIcons.mail,
             color: Palette.appcionaPrimaryColor,
           ),
-          title: const Text("Mensajería"),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Mensajería"),
+              Text("Messenger service",style:TextStyle(fontSize:12 )),
+            ],
+          ),
           trailing: ValueListenableBuilder(
             valueListenable: NotificationHelper.notification,
             builder: (context, value, widget) {
@@ -214,7 +251,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             Icons.book,
             color: Palette.appcionaPrimaryColor,
           ),
-          title: const Text("Agenda"),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Agenda"),
+              Text("Diary",style:TextStyle(fontSize:12 )),
+            ],
+          ),
           onTap: () => {
             Navigator.push(
               context,
@@ -229,7 +272,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             Icons.question_answer_outlined,
             color: Palette.appcionaPrimaryColor,
           ),
-          title: const Text("Encuestas"),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Encuestas"),
+              const Text("surveys",style:TextStyle(fontSize:12 )),
+            ],
+          ),
           onTap: () => {
             Navigator.push(
               context,
@@ -244,7 +293,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             AssetImage('assets/icons/servicios_mono.png'),
             color: Palette.appcionaPrimaryColor,
           ),
-          title: const Text("Servicios"),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Servicios"),
+              const Text("Services",style:TextStyle(fontSize:12 )),
+            ],
+          ),
           onTap: () => {
             Navigator.push(
               context,
@@ -259,7 +314,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             Icons.logout,
             color: Palette.appcionaSecondaryColor,
           ),
-          title: const Text("Cerrar sesión"),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Cerrar sesión"),
+              const Text("Sign off",style:TextStyle(fontSize:12 )),
+            ],
+          ),
           onTap: () async {
             try {
               final provider =
@@ -275,7 +336,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               SharedPreferencesHelper.deleteUserData();
              } catch (e) {
               Alerts.messageBoxMessage(context, '¡UPS!',
-                  'Parece que hubo un error al cerrar sesión.');
+                  'Parece que hubo un error al cerrar sesión., Sorry an error has appear');
             }
             setState(() {});
           },
@@ -294,7 +355,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text("Necesitas instalar WhatsApp."),
+              content: Text("Necesitas instalar WhatsApp.- you need install WhastApp!"),
             ),
           );
         }

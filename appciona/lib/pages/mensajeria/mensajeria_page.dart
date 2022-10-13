@@ -62,11 +62,17 @@ class _MensajeriaPageState extends State<MensajeriaPage> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text(
-          "Mensajería",
-          style: TextStyle(
-            color: Palette.appcionaPrimaryColor,
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Mensajería',
+              style: TextStyle(
+                color: Palette.appcionaPrimaryColor,
+              ),
+            ),
+            Text("-Messenger service-",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+          ],
         ),
         centerTitle: true,
         leading: IconButton(

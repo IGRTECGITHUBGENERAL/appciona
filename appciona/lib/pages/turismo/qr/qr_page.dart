@@ -23,11 +23,17 @@ class _QRPageState extends State<QRPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: const Text(
-          'Códigos QR',
-          style: TextStyle(
-            color: Palette.appcionaPrimaryColor,
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Códigos QR",
+              style: TextStyle(
+                color: Palette.appcionaPrimaryColor,
+              ),
+            ),
+            Text("-QR codes-",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+          ],
         ),
         centerTitle: true,
         leading: IconButton(

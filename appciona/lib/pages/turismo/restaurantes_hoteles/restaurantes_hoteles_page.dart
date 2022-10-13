@@ -37,18 +37,30 @@ class _RestaurantesHotelesPageState extends State<RestaurantesHotelesPage> {
           ),
         ),
         title: widget.tipo == "Hotel"
-            ? Text(
-                "${widget.tipo}es",
-                style: const TextStyle(
-                  color: Palette.appcionaPrimaryColor,
-                ),
-              )
-            : Text(
-                "${widget.tipo}s",
-                style: const TextStyle(
-                  color: Palette.appcionaPrimaryColor,
-                ),
+            ? Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Hoteles",
+              style: TextStyle(
+                color: Palette.appcionaPrimaryColor,
               ),
+            ),
+            Text("-Hotels-",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+          ],
+        )
+            : Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text(
+            "Restaurantes",
+            style: TextStyle(
+              color: Palette.appcionaPrimaryColor,
+            ),
+          ),
+          Text("-Restaurants-",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+        ],
+      ),
         centerTitle: true,
         actions: [
           Image.asset(
@@ -160,7 +172,7 @@ class _RestaurantesHotelesPageState extends State<RestaurantesHotelesPage> {
                           child: Icon(Icons.location_on_rounded),
                         ),
                         const TextSpan(
-                          text: ' Dirección\n',
+                          text: ' Dirección\n       Location\n',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextSpan(text: '$direccion\n'),

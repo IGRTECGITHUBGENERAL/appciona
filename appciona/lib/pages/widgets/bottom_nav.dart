@@ -52,7 +52,7 @@ class _BNavigatorState extends State<BNavigator> {
           icon: Icon(
             Icons.map_outlined,
           ),
-          label: 'Turismo',
+          label: 'Turismo\n-Tourism-',
         ),
         BottomNavigationBarItem(
           icon: Icon(

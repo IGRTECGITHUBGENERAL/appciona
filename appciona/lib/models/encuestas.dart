@@ -3,6 +3,8 @@ class Encuestas {
   String? titulo;
   String? descripcion;
   String? imagen;
+  String? Ciudad;
+
   Map<String, dynamic>? formulario;
 
   Encuestas({
@@ -11,6 +13,9 @@ class Encuestas {
     this.descripcion,
     this.imagen,
     this.formulario,
+    this.Ciudad,
+
+
   });
 
   factory Encuestas.fromJson(Map<String, dynamic> json) => Encuestas(
@@ -19,6 +24,8 @@ class Encuestas {
         descripcion: json["Descripcion"].toString(),
         imagen: json["Imagen"].toString(),
         formulario: json["Formulario"],
+         Ciudad: json["Ciudad"],
+
       );
 
   Map<String, dynamic> toMap() {
@@ -28,6 +35,9 @@ class Encuestas {
       'Descripcion': descripcion,
       'Imagen': imagen,
       'Formulario': formulario,
+      'Ciudad': Ciudad,
+
+
     };
   }
 }

@@ -109,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(
               Icons.newspaper,
             ),
-            label: 'Últimas noticias',
+            label: 'Últimas noticias-Last News',
           ),
           BottomNavigationBarItem(
             icon: Icon(
@@ -121,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(
               Icons.map,
             ),
-            label: 'Turismo',
+            label: 'Turismo-Tourism',
           ),
         ],
       ),

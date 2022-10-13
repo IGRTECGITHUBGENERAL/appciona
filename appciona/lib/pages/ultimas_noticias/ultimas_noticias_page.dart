@@ -3,6 +3,7 @@ import 'package:appciona/pages/ultimas_noticias/ultimas_noticias_controller.dart
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UltimasNoticias extends StatefulWidget {
   final Widget drawer;
@@ -56,11 +57,17 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text(
-          'Últimas noticias',
-          style: TextStyle(
-            color: Palette.appcionaPrimaryColor,
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Últimas noticias',
+              style: TextStyle(
+                color: Palette.appcionaPrimaryColor,
+              ),
+            ),
+            Text("Last News",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+          ],
         ),
         centerTitle: true,
         actions: [
@@ -120,7 +127,11 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
       ),
     );
   }
-
+  void _launchContent(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      debugPrint('No se pudo acceder al sitio.');
+    }
+  }
   Container _cardNoticia(Size size, int index) {
     return Container(
       width: size.width * 0.90,
@@ -210,6 +221,15 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
                         fontSize: 10,
                       ),
                       textAlign: TextAlign.right,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        _launchContent(_controller.noticias[index].link.toString());
+                      },
+                      child: Text(
+                        'Ver más', //title
+                        textAlign: TextAlign.end, //aligment
+                      ),
                     ),
                   ],
                 ),

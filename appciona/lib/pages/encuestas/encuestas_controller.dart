@@ -6,10 +6,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../config/shared_preferences_helper.dart';
 import '../../models/pregunta.dart';
 
 class EncuestasController {
   final User? user = FirebaseAuth.instance.currentUser;
+  late QuerySnapshot qs;
+  String idciudad="null";
+  String ValidaEncuesta="null";
 
   Future<bool> sendAnswers(RespuestasEncuestas respuestas) async {
     try {
@@ -62,9 +66,32 @@ class EncuestasController {
   Future<List<Encuestas>> getForms() async {
     List<Encuestas> encuestas = [];
     try {
-      QuerySnapshot qs =
-          await FirebaseFirestore.instance.collection('Encuestas').get();
-      encuestas = qs.docs
+
+      idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
+      ValidaEncuesta = await SharedPreferencesHelper.getUidEncuesta() ?? "null";
+      print("qsawait:$idciudad");
+      QuerySnapshot qq;
+      if(ValidaEncuesta=="Global") {
+
+        qq =
+        await FirebaseFirestore.instance.collection('Encuestas').where("Ciudad",isEqualTo: "bSi74gAMRLVklvs8C8t9").get();
+      }
+
+
+      else{
+
+
+        // await FirebaseFirestore.instance.collection("Encuestas").where("Ciudad",isEqualTo: "$idciudad").get();
+        qq = await FirebaseFirestore.instance.collection("Encuestas").where("Ciudad",isEqualTo: "$idciudad").get();
+      }
+
+
+
+
+
+
+
+      encuestas = qq.docs
           .map(
             (e) => Encuestas(
               uid: e.id,

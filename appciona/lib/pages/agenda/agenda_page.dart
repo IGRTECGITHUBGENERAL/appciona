@@ -16,22 +16,33 @@ class AgendaPage extends StatefulWidget {
 }
 
 class _AgendaPageState extends State<AgendaPage> {
+  DateTime now = new DateTime.now();
+
+
   DateTime _selectedDate = DateTime.now();
   final AgendaController _controller = AgendaController();
 
   @override
   Widget build(BuildContext context) {
+    DateTime date = new DateTime(now.year, now.month, now.day);
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color(0XFFF3F4F6),
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text(
-          "Agenda",
-          style: TextStyle(
-            color: Palette.appcionaPrimaryColor,
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Agenda',
+              style: TextStyle(
+                color: Palette.appcionaPrimaryColor,
+              ),
+            ),
+            Text("-Diary-",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+          ],
         ),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -40,7 +51,7 @@ class _AgendaPageState extends State<AgendaPage> {
             color: Palette.appcionaPrimaryColor,
           ),
         ),
-        actions: <Widget>[
+       /* actions: <Widget>[
           Center(
             child: Text(
               'Nuevo evento',
@@ -70,7 +81,7 @@ class _AgendaPageState extends State<AgendaPage> {
               );
             },
           ),
-        ],
+        ],*/
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -224,7 +235,7 @@ class _AgendaPageState extends State<AgendaPage> {
                   : const SizedBox.shrink(),
             ),
           ),
-          Column(
+         /* Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Row(
@@ -282,7 +293,7 @@ class _AgendaPageState extends State<AgendaPage> {
                 ],
               ),
             ],
-          ),
+          ),*/
         ],
       ),
     );

@@ -52,7 +52,7 @@ android {
         applicationId "com.igrtec.appciona"
         minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 7
+        versionCode 9
         versionName flutterVersionName
     }
     signingConfigs {

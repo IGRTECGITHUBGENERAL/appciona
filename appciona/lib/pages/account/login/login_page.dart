@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   _textBox(
                       size,
-                      'Correo electrónico',
+                      'Correo electrónico - email',
                       emailCtrl,
                       TextInputType.emailAddress,
                       TextInputAction.next,
@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                       Icons.email),
                   _textBox(
                     size,
-                    'Contraseña',
+                    'Contraseña - password',
                     passCtrl,
                     TextInputType.visiblePassword,
                     TextInputAction.done,
@@ -160,7 +160,12 @@ class _LoginPageState extends State<LoginPage> {
                         builder: (context) => const RecoverPasswordPage(),
                       ),
                     ),
-                    child: const Text('¿Olvidaste tu contraseña?'),
+                    child: Column(
+                      children: [
+                        const Text('¿Olvidaste tu contraseña?'),
+                        const Text('Forgot your password?',style: TextStyle(fontSize: 12),),
+                      ],
+                    ),
                   ),
                   Container(
                     width: size.width * 0.60,
@@ -173,7 +178,12 @@ class _LoginPageState extends State<LoginPage> {
                       color: Color(0XFF005059),
                     ),
                   ),
+              Column(
+                children: [
                   const Text('¿No tienes cuenta?'),
+                  const Text('You do not have an account?',style: TextStyle(fontSize: 12),),
+                ],
+              ),
                   TextButton(
                     onPressed: () => {
                       Navigator.push(
@@ -183,9 +193,14 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     },
-                    child: const Text(
-                      'Registrate',
-                      style: TextStyle(color: Colors.orange),
+                    child:  Column(
+                      children: [
+                        const Text(
+                          'Registrate',
+                          style: TextStyle(color: Colors.orange),
+                        ),
+                        const Text('sign in',style: TextStyle(fontSize: 12,color: Colors.orange),),
+                      ],
                     ),
                   ),
                 ],

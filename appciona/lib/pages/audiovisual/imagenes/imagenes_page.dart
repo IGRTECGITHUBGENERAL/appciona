@@ -61,11 +61,17 @@ class _ImagenesPageState extends State<ImagenesPage> {
             color: Palette.appcionaPrimaryColor,
           ),
         ),
-        title: const Text(
-          'Imágenes',
-          style: TextStyle(
-            color: Palette.appcionaPrimaryColor,
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Imágenes',
+              style: TextStyle(
+                color: Palette.appcionaPrimaryColor,
+              ),
+            ),
+            Text("-Images-",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+          ],
         ),
         centerTitle: true,
         actions: [

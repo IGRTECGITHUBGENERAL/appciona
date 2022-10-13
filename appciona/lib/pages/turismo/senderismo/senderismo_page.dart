@@ -54,11 +54,17 @@ class _SenderismoPageState extends State<SenderismoPage> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text(
-          "Senderismo",
-          style: TextStyle(
-            color: Palette.appcionaPrimaryColor,
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Senderismo",
+              style: TextStyle(
+                color: Palette.appcionaPrimaryColor,
+              ),
+            ),
+            Text("-hiking-",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+          ],
         ),
         centerTitle: true,
         leading: IconButton(

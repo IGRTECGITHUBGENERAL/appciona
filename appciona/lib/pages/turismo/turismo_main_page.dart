@@ -25,11 +25,17 @@ class _TurismoMainPageState extends State<TurismoMainPage> {
       appBar: AppBar(
         elevation: 2,
         backgroundColor: Colors.white,
-        title: const Text(
-          "Turismo",
-          style: TextStyle(
-            color: Palette.appcionaPrimaryColor,
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Turismo',
+              style: TextStyle(
+                color: Palette.appcionaPrimaryColor,
+              ),
+            ),
+            Text("Tourism",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+          ],
         ),
         centerTitle: true,
         actions: [
@@ -61,13 +67,13 @@ class _TurismoMainPageState extends State<TurismoMainPage> {
                       _turismoImageCard(
                         size,
                         'assets/icons/lugares_interes_colors.png',
-                        'Lugares de interés',
+                        'Lugares de interés\n-Places of interest-',
                         const LugaresInteresPage(),
                       ),
                       _turismoImageCard(
                         size,
                         'assets/icons/senderismo_colors.png',
-                        'Senderismo',
+                        'Senderismo\n-hiking-',
                         const SenderismoPage(
                           assetImagePlaceholder:
                               'assets/icons/senderismo_colors.png',
@@ -76,7 +82,7 @@ class _TurismoMainPageState extends State<TurismoMainPage> {
                       _turismoImageCard(
                         size,
                         'assets/icons/restaurant_colors.png',
-                        'Restaurantes',
+                        'Restaurantes\n-Restaurants-',
                         const RestaurantesHotelesPage(
                           tipo: 'Restaurante',
                         ),
@@ -84,7 +90,7 @@ class _TurismoMainPageState extends State<TurismoMainPage> {
                       _turismoImageCard(
                         size,
                         'assets/icons/hotel_colors.png',
-                        'Hoteles',
+                        'Hoteles\n-Hotels-',
                         const RestaurantesHotelesPage(
                           tipo: 'Hotel',
                         ),
@@ -92,7 +98,7 @@ class _TurismoMainPageState extends State<TurismoMainPage> {
                       _turismoImageCard(
                         size,
                         'assets/icons/qr_colors.png',
-                        'Códigos QR',
+                        'Códigos QR\n-QR Codes-',
                         const QRPage(),
                       ),
                     ],

@@ -1,14 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../config/shared_preferences_helper.dart';
+
 class ImagenesController {
   List<Album> albums = [];
   late QuerySnapshot qs;
-
+  String idciudad="null";
   Future<int> getAlbumsSize() async {
     int result = 0;
     try {
-      qs = await FirebaseFirestore.instance.collection("Galerias").get();
+      idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
+      if(idciudad==null||idciudad=="null")
+      {
+        qs = await FirebaseFirestore.instance.collection("Galerias").get();
+        print(idciudad);
+      }
+      else{
+        qs = await FirebaseFirestore.instance
+            .collection("Galerias")
+            .where("Ciudad",isEqualTo: "$idciudad")
+            .get();
+        print(idciudad);
+      }
+
+
       result = qs.docs.length;
     } catch (e) {
       debugPrint("Error al obtener la cantidad de los albums: $e");

@@ -2,9 +2,12 @@ import 'package:appciona/models/agendas.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../config/shared_preferences_helper.dart';
+
 class AgendaController {
+  String idciudad="null";
   late List<DateTime>? fechasConEventos = [];
-  User? user = FirebaseAuth.instance.currentUser;
+
   List<String> meses = [
     "Enero",
     "Febrero",
@@ -30,10 +33,26 @@ class AgendaController {
   ];
 
   Future<List<DateTime>?> obtenerFechasConEventos() async {
-    QuerySnapshot qs = await FirebaseFirestore.instance
-        .collection("Agendas")
-        .where('usuarioUID', isEqualTo: user!.uid)
-        .get();
+
+    idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
+    late QuerySnapshot qs;
+
+    if(idciudad==null||idciudad=="null")
+    {
+      qs = await FirebaseFirestore.instance
+          .collection("Agendas")
+          .get();
+    }
+    else{
+      qs = await FirebaseFirestore.instance
+          .collection("Agendas")
+          .where("Ciudad",isEqualTo: "$idciudad")
+          .get();
+    }
+
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(now.year, now.month, now.day);
+
     List<Agenda> agendas = qs.docs
         .map((e) => Agenda(
               uid: e.id,
@@ -44,19 +63,31 @@ class AgendaController {
             ))
         .toList();
     agendas = agendas
-        .where((element) => element.Fecha.isAfter(DateTime.now()))
+        .where((element) => element.Fecha.isAfter(date))
         .toList();
     for (var agenda in agendas) {
       fechasConEventos!.add(agenda.Fecha);
     }
+
     return fechasConEventos;
   }
 
   Future<List<Agenda>?> obtenerAgendas(DateTime fecha) async {
-    QuerySnapshot qs = await FirebaseFirestore.instance
-        .collection("Agendas")
-        .where('usuarioUID', isEqualTo: user!.uid)
-        .get();
+    idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
+    late QuerySnapshot qs;
+    print("qsawait:$idciudad");
+    if(idciudad==null||idciudad=="null")
+    {
+      qs = await FirebaseFirestore.instance
+          .collection("Agendas")
+          .get();
+    }
+    else{
+      qs = await FirebaseFirestore.instance
+          .collection("Agendas")
+          .where("Ciudad",isEqualTo: "$idciudad")
+          .get();
+    }
     List<Agenda> agendas = [];
     agendas = qs.docs
         .map((e) => Agenda(

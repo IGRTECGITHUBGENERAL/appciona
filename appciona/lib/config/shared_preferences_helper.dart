@@ -9,7 +9,7 @@ class SharedPreferencesHelper {
   static const String _emailKey = "emailUser";
   static const String _uidUser = "uidUser";
   static const String _uidCity = "uidUser";
-
+  static const String _uidEncuesta = "uidEncuesta";
   static Future<SharedPreferences> _prefs() async =>
       await SharedPreferences.getInstance();
 
@@ -24,7 +24,8 @@ class SharedPreferencesHelper {
 
   static Future<String?> getUidCity() async =>
       await _prefs().then((value) => value.getString(_uidCity));
-
+  static Future<String?> getUidEncuesta() async =>
+      await _prefs().then((value) => value.getString(_uidEncuesta));
   static Future<bool> createUserData() async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
@@ -59,6 +60,11 @@ class SharedPreferencesHelper {
     pref.setString(_uidCity, cityUID);
 
   }
+  static Future addEncuestaData(String encuestaUID) async {
+    SharedPreferences pref = await _prefs();
+    pref.setString(_uidEncuesta, encuestaUID);
+
+  }
 
   static Future deleteUserData() async {
     SharedPreferences pref = await _prefs();
@@ -66,6 +72,14 @@ class SharedPreferencesHelper {
     pref.remove(_emailKey);
     pref.remove(_uidUser);
     pref.remove(_uidCity);
+    pref.remove(_uidEncuesta);
+    pref.remove(_uidEncuesta);
     pref.clear();
+  }
+  static Future deleteEncuestaData() async {
+    SharedPreferences pref1 = await _prefs();
+
+    pref1.remove(_uidEncuesta);
+    pref1.clear();
   }
 }

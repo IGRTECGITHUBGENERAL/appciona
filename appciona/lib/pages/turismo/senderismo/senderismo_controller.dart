@@ -2,14 +2,26 @@ import 'package:appciona/models/senderismo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../../config/shared_preferences_helper.dart';
+
 class SenderismoController {
   List<Senderismo> itemSenderismo = [];
   late QuerySnapshot qs;
-
+  String idciudad="null";
   Future<int> getItemsSize() async {
     int lenght = 0;
+
     try {
-      qs = await FirebaseFirestore.instance.collection("Senderismo").get();
+      idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
+      if(idciudad==null||idciudad=="null")
+      {
+        qs = await FirebaseFirestore.instance.collection("Senderismo").get();
+      }
+      else{
+        qs = await FirebaseFirestore.instance.collection("Senderismo")
+        .where("Ciudad",isEqualTo: "$idciudad")
+            .get();
+      }
       lenght = qs.docs.length;
     } catch (e) {
       debugPrint("Error al obtener la cantidad de items para senderismo: $e");
@@ -19,11 +31,22 @@ class SenderismoController {
 
   Future<void> getFirstItems() async {
     try {
-      qs = await FirebaseFirestore.instance
-          .collection("Senderismo")
-          .limit(10)
-          .get();
-      itemSenderismo = qs.docs
+      idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
+      if(idciudad==null||idciudad=="null")
+      {
+        qs = await FirebaseFirestore.instance
+            .collection("Senderismo")
+            .limit(10)
+            .get();
+      }
+      else{
+        qs = await FirebaseFirestore.instance
+            .collection("Senderismo")
+            .where("Ciudad",isEqualTo: "$idciudad")
+            .limit(10)
+            .get();
+           }
+          itemSenderismo = qs.docs
           .map((e) => Senderismo(
                 uid: e.id,
                 titulo: e["Titulo"],
@@ -41,12 +64,24 @@ class SenderismoController {
 
   Future<void> getNextItems() async {
     var lastVisible = qs.docs[qs.docs.length - 1];
+    idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
+    if(idciudad==null||idciudad=="null")
+    {
+      qs = await FirebaseFirestore.instance
+          .collection("Senderismo")
+          .startAfterDocument(lastVisible)
+          .limit(10)
+          .get();
+    }
+    else{
+      qs = await FirebaseFirestore.instance
+          .collection("Senderismo")
+          .where("Ciudad",isEqualTo: "$idciudad")
+          .startAfterDocument(lastVisible)
+          .limit(10)
+          .get();
+          }
 
-    qs = await FirebaseFirestore.instance
-        .collection("Senderismo")
-        .startAfterDocument(lastVisible)
-        .limit(10)
-        .get();
     List<Senderismo> itemsNext = qs.docs
         .map(
           (e) => Senderismo(

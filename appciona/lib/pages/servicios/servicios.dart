@@ -75,12 +75,18 @@ class _ServiciosPageState extends State<ServiciosPage> {
             color: Palette.appcionaPrimaryColor,
           ),
         ),
-        title: const Text(
-          "Servicios",
-          style: TextStyle(
-            color: Palette.appcionaPrimaryColor,
+       title: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text(
+            'Servicios',
+            style: TextStyle(
+              color: Palette.appcionaPrimaryColor,
+            ),
           ),
-        ),
+          Text("-Services-",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+        ],
+      ),
         centerTitle: true,
         actions: [
           Image.asset(

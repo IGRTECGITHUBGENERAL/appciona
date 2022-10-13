@@ -91,7 +91,7 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                 _turismoImageCard(
                   size,
                   'assets/icons/radio_directo_colors.png',
-                  'Radio en vivo',
+                  'Radio en vivo\n-live radio-',
                       () => Navigator.push(
                     context,
                     CupertinoPageRoute(
@@ -106,7 +106,7 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                       _turismoImageCard(
                         size,
                         'assets/icons/directo_colors.png',
-                        'En directo',
+                        'En directo\n-direct-',
                         () => Navigator.push(
                           context,
                           CupertinoPageRoute(
@@ -121,7 +121,7 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                       _turismoImageCard(
                         size,
                         'assets/icons/imagen_colors.png',
-                        'Imágenes',
+                        'Imágenes\n-images-',
                         () => Navigator.push(
                           context,
                           CupertinoPageRoute(
