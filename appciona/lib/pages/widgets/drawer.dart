@@ -425,10 +425,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
     late QuerySnapshot qs3;
 
-
+    idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
 
     qs3 = await FirebaseFirestore.instance
-        .collection("Funcionarios")
+
+        .collection("Funcionarios")     .where("Ciudad",isEqualTo: "$idciudad")
+
         .get();
 
     funcionarios = qs3.docs
