@@ -58,12 +58,12 @@ class _SenderismoPageState extends State<SenderismoPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              "Senderismo",
+              "Rutas",
               style: TextStyle(
                 color: Palette.appcionaPrimaryColor,
               ),
             ),
-            Text("-hiking-",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+            Text("-routes-",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
           ],
         ),
         centerTitle: true,

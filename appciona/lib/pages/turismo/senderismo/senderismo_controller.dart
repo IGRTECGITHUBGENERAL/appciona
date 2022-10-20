@@ -15,11 +15,14 @@ class SenderismoController {
       idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
       if(idciudad==null||idciudad=="null")
       {
-        qs = await FirebaseFirestore.instance.collection("Senderismo").get();
+        qs = await FirebaseFirestore.instance.collection("Senderismo")
+            .orderBy('Fecha',descending: false)
+            .get();
       }
       else{
         qs = await FirebaseFirestore.instance.collection("Senderismo")
         .where("Ciudad",isEqualTo: "$idciudad")
+            .orderBy('Fecha',descending: false)
             .get();
       }
       lenght = qs.docs.length;

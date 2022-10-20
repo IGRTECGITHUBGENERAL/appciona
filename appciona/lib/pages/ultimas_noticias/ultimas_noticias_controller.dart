@@ -20,10 +20,17 @@ class UltimasNoticiasController {
       print("qsawait:$idciudad");
       if(idciudad==null||idciudad=="null")
       {
-        qs = await FirebaseFirestore.instance.collection("Noticias").get();
+        qs = await FirebaseFirestore.instance.collection("Noticias")
+            .orderBy('Fecha')
+            .orderBy('date', descending: false)
+            .get();
+
       }
       else{
-        qs = await FirebaseFirestore.instance.collection("Noticias").where("Ciudad",isEqualTo: "$idciudad").get();
+        qs = await FirebaseFirestore.instance.collection("Noticias").where("Ciudad",isEqualTo: "$idciudad")
+
+
+            .get();
       }
 
       result = qs.docs.length;
@@ -42,7 +49,7 @@ class UltimasNoticiasController {
       {
         qs = await FirebaseFirestore.instance
             .collection("Noticias")
-            .orderBy("Fecha")
+
             .limit(10)
             .get();
       }
@@ -50,7 +57,9 @@ class UltimasNoticiasController {
         qs = await FirebaseFirestore.instance
             .collection("Noticias")
             .where("Ciudad",isEqualTo: "$idciudad")
-            .orderBy("Fecha")
+
+
+
             .limit(10)
             .get();
       }

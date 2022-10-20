@@ -4,12 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../config/shared_preferences_helper.dart';
+
 class MensajeriaController {
   late Stream messageStream = const Stream.empty();
-  late String roomID = "", messageId = "", myUid = "", myName = "";
+  String idciudad="null";
+  late String roomID = "", messageId = "", myUid = "", myName = "",myciudad="";
   User? userInfo = FirebaseAuth.instance.currentUser;
 
   Future<void> initChatRoom() async {
+    idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
     if (userInfo != null) {
       myUid = userInfo!.uid;
       DocumentSnapshot qs = await FirebaseFirestore.instance
@@ -18,6 +22,7 @@ class MensajeriaController {
           .get();
       myName = '${qs["nombre"]} ${qs["apellidos"]}';
       roomID = myUid;
+      myciudad=idciudad;
     }
     try {
       messageStream = FirebaseFirestore.instance
@@ -55,6 +60,7 @@ class MensajeriaController {
           "UltimoRemitente": myName,
           "ts": ts,
           "ChatDe": myName,
+          "Ciudad": idciudad,
         },
       );
     } catch (e) {

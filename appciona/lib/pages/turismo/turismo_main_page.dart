@@ -73,7 +73,7 @@ class _TurismoMainPageState extends State<TurismoMainPage> {
                       _turismoImageCard(
                         size,
                         'assets/icons/senderismo_colors.png',
-                        'Senderismo\n-hiking-',
+                        'Rutas\n-routes-',
                         const SenderismoPage(
                           assetImagePlaceholder:
                               'assets/icons/senderismo_colors.png',

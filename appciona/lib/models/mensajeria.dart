@@ -4,12 +4,15 @@ class Mensajeria {
   String? ultimoMensaje;
   String? ultimoRemitente;
   DateTime? ts;
+  String? Ciudad;
+
   Mensajeria({
     this.id,
     this.chatDe,
     this.ultimoMensaje,
     this.ultimoRemitente,
     this.ts,
+    this.Ciudad,
   });
 }
 

@@ -23,6 +23,23 @@ class _ServiciosPageState extends State<ServiciosPage> {
   late TextEditingController titleCtrl;
   late TextEditingController descrCtrl;
 
+  Future initChatRoom() async {
+    await _controller.initChatRoom();
+    /*
+    DocumentReference chatsReference = FirebaseFirestore.instance
+        .collection("Mensajeria")
+        .doc(_controller.roomID);
+    chatsReference.snapshots().listen(
+      ((event) {
+        String last = event.get("UltimoRemitente");
+        if (last != _controller.myName) {}
+      }),
+    );*/
+    setState(() {});
+  }
+
+
+
   void submitForm() async {
     if (_keyForm.currentState!.validate()) {
       Alerts.messageBoxLoading(context, 'Enviando');
@@ -35,8 +52,11 @@ class _ServiciosPageState extends State<ServiciosPage> {
       if (result.startsWith(_controller.docCreationSuccessful)) {
         Navigator.pop(context);
         Navigator.pop(context);
+
+        await _controller.sendMessage(titleCtrl.text).then((value) => {});
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
+
             content: Text("¡Sugerencia o incidencia enviado con éxito!"),
           ),
         );
@@ -58,6 +78,7 @@ class _ServiciosPageState extends State<ServiciosPage> {
     titleCtrl = TextEditingController(text: '');
     descrCtrl = TextEditingController(text: '');
     _controller.file = null;
+    initChatRoom();
     super.initState();
   }
 

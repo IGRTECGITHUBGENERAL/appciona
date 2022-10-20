@@ -11,7 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../firebaseServices/google_sign_in.dart';
+import '../../models/Funcionarios.dart';
 import '../../models/ciudades.dart';
+import '../Citas/Citas_page.dart';
 import '../agenda/agenda_page.dart';
 import '../encuestas/encuestas_page.dart';
 import '../account/login/login_page.dart';
@@ -19,6 +21,10 @@ import 'drawer_controller.dart';
 import 'package:appciona/config/shared_preferences_helper.dart';
 List<Ciudades> ciudades = [];
 List<String> ciudadesNombres=[];
+
+List<Funcionarios> funcionarios = [];
+List<String> funcionariosNombres=[];
+List<String> funcionariosCargos=[];
 var currentSelectedValue;
 
 class DrawerWidget extends StatefulWidget {
@@ -32,7 +38,7 @@ class DrawerWidget extends StatefulWidget {
 class _DrawerWidgetState extends State<DrawerWidget> {
   final DrawerWidgetController _controller = DrawerWidgetController();
   String numberMensajeria = "";
-
+  String idciudad="null";
   Future<void> getWhatsappNumber() async {
     QuerySnapshot ds =
         await FirebaseFirestore.instance.collection("WhatSapp").get();
@@ -262,7 +268,29 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             Navigator.push(
               context,
               CupertinoPageRoute(
-                builder: (context) => const AgendaPage(),
+                builder: (context) => const AgendaPage (),
+              ),
+            )
+          },
+        ),
+        ListTile(
+          leading: const Icon(
+            Icons.book,
+            color: Palette.appcionaPrimaryColor,
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Citas"),
+              Text("Date",style:TextStyle(fontSize:12 )),
+            ],
+          ),
+          onTap: () => {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => const CitaPage(),
+
               ),
             )
           },
@@ -359,17 +387,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
           );
         }
-        /*
-      if (await canLaunch(whatappURLIos)) {
-        await launch(whatappURLIos, forceSafariVC: false);
-      } else {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Necesitas instalar WhatsApp."),
-          ),
-        );
-      }*/
+
       } else {
         if (!await launchUrl(Uri.parse(whatsappURlAndroid))) {
           Navigator.pop(context);
@@ -403,7 +421,54 @@ class _DrawerWidgetState extends State<DrawerWidget> {
      ciudades;
      ciudadesNombres;
    });
+
+
+    late QuerySnapshot qs3;
+
+
+
+    qs3 = await FirebaseFirestore.instance
+        .collection("Funcionarios")
+        .get();
+
+    funcionarios = qs3.docs
+
+
+
+        .map((e) => Funcionarios(
+
+      UID: e.id,
+      Nombre: e["Nombre"],
+
+
+    ))
+        .toList();
+
+
+    print(funcionarios.length);
+
+    funcionariosNombres=[];
+
+
+
+
+    funcionarios.forEach((data) => funcionariosNombres.add(data.Nombre.toString()));
+
+    setState(() {
+      funcionarios;
+      funcionariosNombres;
+
+    });
+
+
   }
+
+  Future<void> getListFuncionarios()  async {
+
+
+  }
+
+
   Widget typeFieldWidget() {
 
     return Container(

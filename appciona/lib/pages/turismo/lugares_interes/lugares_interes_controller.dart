@@ -93,7 +93,10 @@ class LugaresInteresController {
 
       if(idciudad==null||idciudad=="null")
       {
-        qs = await FirebaseFirestore.instance.collection("LugaresDeInteres").get();
+        qs = await FirebaseFirestore.instance
+            .collection("LugaresDeInteres")
+            .where("Ciudad",isEqualTo: "$idciudad")
+            .get();
       }
       else{
         qs = await FirebaseFirestore.instance
