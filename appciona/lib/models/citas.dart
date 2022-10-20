@@ -7,6 +7,7 @@ class Cita {
   String? Estado;
   String? Tipo;
   String? Ciudad;
+  String? Gobernante;
   DateTime Fecha;
 
   Cita(
@@ -17,5 +18,6 @@ class Cita {
         this.Estado,
         this.Tipo,
         this.Ciudad,
+        this.Gobernante,
         required this.Fecha});
 }

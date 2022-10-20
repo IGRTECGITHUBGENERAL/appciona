@@ -144,7 +144,7 @@ class _CitaPageState extends State<CitaPage> {
                                   '${citas[index1].Titulo}',
                                   '${citas[index1].Estado}',
                                   '${citas[index1].Descripcion}',
-
+                                  '${citas[index1].Gobernante}',
                                   citas[index1]);
                             },
                           );
@@ -191,7 +191,7 @@ class _CitaPageState extends State<CitaPage> {
                                   '${citas[index1].Titulo}',
                                   '${citas[index1].Estado}',
                                   '${citas[index1].Descripcion}',
-
+                                  '${citas[index1].Gobernante}',
                                   citas[index1]);
                             },
                           );
@@ -222,8 +222,8 @@ class _CitaPageState extends State<CitaPage> {
     );
   }
 
-  Container _agendaPerDia(Size size, String noDia, String dia, String actividad,String estado,
-      String hora, Cita citas) {
+  Container _agendaPerDia(Size size, String noDia, String dia, String actividad,String estado,String gobernador
+      ,String hora, Cita citas) {
     return Container(
       padding: const EdgeInsets.symmetric(
         vertical: 10,
@@ -312,6 +312,16 @@ class _CitaPageState extends State<CitaPage> {
                   ),
                   Text(
                     estado,
+                    style: GoogleFonts.lato(
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff7B91A3),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    gobernador,
                     style: GoogleFonts.lato(
                       textStyle: const TextStyle(
                         fontSize: 16,
@@ -390,7 +400,7 @@ class _CitaPageState extends State<CitaPage> {
     );
   }
 
-  Container _agendaPerDiaadmin(Size size, String noDia, String dia, String actividad,String estado,
+  Container _agendaPerDiaadmin(Size size, String noDia, String dia, String actividad,String estado,String gobernador,
       String hora, Cita citas) {
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -422,6 +432,7 @@ class _CitaPageState extends State<CitaPage> {
                         ),
                       ),
                     ),
+
                     Text(
                       dia,
                       textAlign: TextAlign.center,
@@ -480,8 +491,19 @@ class _CitaPageState extends State<CitaPage> {
                       ),
                     ),
                   ),
+
                   Text(
                     estado,
+                    style: GoogleFonts.lato(
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff7B91A3),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    gobernador,
                     style: GoogleFonts.lato(
                       textStyle: const TextStyle(
                         fontSize: 16,

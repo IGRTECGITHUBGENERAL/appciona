@@ -44,11 +44,11 @@ class CrearEditarCitasController {
   }
 
   void save(String titulo, String descripcion, BuildContext context,
-      bool edicion, String? uid) async {
+      bool edicion, String? uid,String Gobernante) async {
     fechaHoraFirebase = DateTime(selectedDate.year, selectedDate.month,
         selectedDate.day, selectedTime24Hour.hour, selectedTime24Hour.minute);
     if (edicion) {
-      if (await actulizarEvento(titulo, descripcion, fechaHoraFirebase, uid)) {
+      if (await actulizarEvento(titulo, descripcion, fechaHoraFirebase, uid,Gobernante)) {
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.push(
@@ -88,7 +88,7 @@ class CrearEditarCitasController {
         showAlertDialog(context, "Hubo un problema", "Intente nuevamente.");
       }
     } else {
-      if (await crearEvento(titulo, descripcion, fechaHoraFirebase)) {
+      if (await crearEvento(titulo, descripcion, fechaHoraFirebase,Gobernante)) {
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.push(
@@ -131,7 +131,7 @@ class CrearEditarCitasController {
   }
 
   Future<bool> crearEvento(
-      String titulo, String descripcion, DateTime fechaHoraFirebase) async {
+      String titulo, String descripcion, DateTime fechaHoraFirebase, String Gobernante) async {
     bool result = false;
     idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
     try {
@@ -144,6 +144,7 @@ class CrearEditarCitasController {
             'Titulo': titulo,
             'Descripcion': descripcion,
             'Fecha': fechaHoraFirebase,
+             'Gobernante': Gobernante,
             'usuarioUID': user!.uid,
             'Estado': "En espera",
             'Tipo': "Usuario",
@@ -190,6 +191,7 @@ class CrearEditarCitasController {
               Titulo: e["Titulo"],
               Descripcion: e["Descripcion"],
                Estado: e["Estado"],
+                Gobernante: e["Gobernante"],
               Fecha: DateTime.parse(e['Fecha'].toDate().toString()),
             ))
         .toList();
@@ -200,7 +202,7 @@ class CrearEditarCitasController {
   }
 
   Future<bool> actulizarEvento(String titulo, String descripcion,
-      DateTime fechaHoraFirebase, String? uid) async {
+      DateTime fechaHoraFirebase, String? uid,String Gobernante) async {
     bool result = false;
     idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
     final db = FirebaseFirestore.instance.collection('Citas').doc(uid);
@@ -210,7 +212,7 @@ class CrearEditarCitasController {
             'Titulo': titulo,
             'Descripcion': descripcion,
             'Fecha': fechaHoraFirebase,
-
+        'Gobernante': Gobernante,
         'Estado': "En espera",
 
         'Ciudad': idciudad,

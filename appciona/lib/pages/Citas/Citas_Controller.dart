@@ -75,6 +75,7 @@ class CitasController {
       Descripcion: i["Descripcion"],
       Estado: i["Estado"],
       Tipo: i["Tipo"],
+      Gobernante: i["Gobernante"],
       Fecha: DateTime.parse(i['Fecha'].toDate().toString()),
     ))
         .toList();
@@ -104,6 +105,7 @@ class CitasController {
       Titulo: i["Titulo"],
       Descripcion: i["Descripcion"],
       Estado: i["Estado"],
+      Gobernante: i["Gobernante"],
       Fecha: DateTime.parse(i['Fecha'].toDate().toString()),
     ))
         .toList();

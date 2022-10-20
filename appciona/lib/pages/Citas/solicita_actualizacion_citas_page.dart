@@ -41,10 +41,10 @@ class _SolicitaActualzacionCitaPageState extends State<SolicitarActualzacionPage
     if (_formKey.currentState!.validate()) {
       if (widget.isEditing) {
         _controller.save(tituloCtrl.text, descripcionCtrl.text, context,
-            widget.isEditing, widget.citasInfo!.uid);
+            widget.isEditing, widget.citasInfo!.uid,dropdownValue);
       } else {
         _controller.save(tituloCtrl.text, descripcionCtrl.text, context,
-            widget.isEditing, null);
+            widget.isEditing, null,dropdownValue);
         _formKey.currentState!.reset();
       }
     }
