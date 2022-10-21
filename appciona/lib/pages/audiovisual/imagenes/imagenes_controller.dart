@@ -13,7 +13,8 @@ class ImagenesController {
       idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
       if(idciudad==null||idciudad=="null")
       {
-        qs = await FirebaseFirestore.instance.collection("Galerias").get();
+        qs = await FirebaseFirestore.instance.collection("Galerias")
+            .where("Ciudad",isEqualTo: "$idciudad").get();
         print(idciudad);
       }
       else{
@@ -34,11 +35,34 @@ class ImagenesController {
 
   Future getFirstAlbums() async {
     try {
-      qs = await FirebaseFirestore.instance
-          .collection("Galerias")
-          .orderBy("Titulo")
-          .limit(10)
-          .get();
+
+
+      if(idciudad==null||idciudad=="null")
+      {
+        qs = await FirebaseFirestore.instance
+
+
+
+            .collection("Galerias")
+
+            .orderBy("Titulo")
+            .limit(10)
+            .get();
+      }
+      else{
+        qs = await FirebaseFirestore.instance
+
+
+
+            .collection("Galerias")
+            .where("Ciudad",isEqualTo: "$idciudad") .orderBy("Titulo")
+
+            .limit(10)
+            .get();
+
+      }
+
+
       albums = qs.docs
           .map((e) => Album(
                 id: e.id,
