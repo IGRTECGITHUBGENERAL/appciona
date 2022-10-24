@@ -13,18 +13,10 @@ class SenderismoController {
 
     try {
       idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
-      if(idciudad==null||idciudad=="null")
-      {
+
         qs = await FirebaseFirestore.instance.collection("Senderismo")
-            .orderBy('Fecha',descending: false)
-            .get();
-      }
-      else{
-        qs = await FirebaseFirestore.instance.collection("Senderismo")
-        .where("Ciudad",isEqualTo: "$idciudad")
-            .orderBy('Fecha',descending: false)
-            .get();
-      }
+         .get();
+
       lenght = qs.docs.length;
     } catch (e) {
       debugPrint("Error al obtener la cantidad de items para senderismo: $e");
@@ -34,22 +26,34 @@ class SenderismoController {
 
   Future<void> getFirstItems() async {
     try {
-      idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
+
+
       if(idciudad==null||idciudad=="null")
       {
         qs = await FirebaseFirestore.instance
+
+
+
             .collection("Senderismo")
+
+
             .limit(10)
             .get();
       }
       else{
         qs = await FirebaseFirestore.instance
+
+
+
             .collection("Senderismo")
             .where("Ciudad",isEqualTo: "$idciudad")
+
             .limit(10)
             .get();
-           }
-          itemSenderismo = qs.docs
+
+      }
+
+      itemSenderismo = qs.docs
           .map((e) => Senderismo(
                 uid: e.id,
                 titulo: e["Titulo"],
@@ -67,7 +71,7 @@ class SenderismoController {
 
   Future<void> getNextItems() async {
     var lastVisible = qs.docs[qs.docs.length - 1];
-    idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
+
     if(idciudad==null||idciudad=="null")
     {
       qs = await FirebaseFirestore.instance
