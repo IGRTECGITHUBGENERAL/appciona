@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:appciona/config/notification_helper.dart';
 import 'package:appciona/config/palette.dart';
+import 'package:appciona/pages/account/delete/delete_page.dart';
 import 'package:appciona/pages/mensajeria/mensajeria_page.dart';
 import 'package:appciona/pages/servicios/servicios.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
@@ -367,6 +368,27 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   'Parece que hubo un error al cerrar sesión., Sorry an error has appear');
             }
             setState(() {});
+          },
+        ),
+        ListTile(
+          leading: const ImageIcon(
+            AssetImage('assets/icons/servicios_mono.png'),
+            color: Palette.appcionaPrimaryColor,
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Eliminar Cuenta"),
+              const Text("Eliminar Cuenta",style:TextStyle(fontSize:12 )),
+            ],
+          ),
+          onTap: () => {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => const Deletepage(),
+              ),
+            )
           },
         ),
 

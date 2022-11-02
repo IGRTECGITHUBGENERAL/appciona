@@ -1,3 +1,11 @@
+//import 'dart:developer';
+//import 'dart:html';
+
+//import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'dart:html';
+
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthServices {
@@ -36,4 +44,25 @@ class AuthServices {
     }
     return null;
   }
-}
+
+
+
+
+
+  Future<UserCredential?> deleteUser(String mail, String password) async {
+    UserCredential? userCredential;
+
+
+    userCredential = await _auth.signInWithEmailAndPassword(
+        email: mail, password: password);
+      final user = userCredential.user;
+      //print(user?.uid);
+    await user?.delete();
+
+
+
+    }
+
+  }
+
+

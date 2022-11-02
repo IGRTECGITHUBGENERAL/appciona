@@ -24,8 +24,18 @@ class _ContentPageState extends State<ContentPage> {
       debugPrint('No se pudo acceder al sitio.');
     }
   }
+  void _launchInBrowser(String url) async {
+    if (!await launch(
+      url,
+      forceSafariVC: true,
+      forceWebView: false,
+      headers: <String, String>{'my_header_key': 'my_header_value'},
+    )) {
+      throw 'Could not launch $url';
+    }}
 
-  @override
+
+    @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -94,8 +104,9 @@ class _ContentPageState extends State<ContentPage> {
                           ),
                           FloatingActionButton(
                             backgroundColor: Colors.white,
-                            tooltip: 'Reproducir podcast',
-                            onPressed: () => _launchContent(doc["Link"]),
+                            tooltip: 'Reproducir',
+                            onPressed: () => _launchInBrowser(doc["Link"]),
+                            //onPressed: () => _launchContent(doc["Link"]),
                             child: const Icon(
                               Icons.play_arrow,
                               color: Colors.orange,
