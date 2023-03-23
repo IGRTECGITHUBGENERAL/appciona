@@ -1,11 +1,17 @@
 import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/audiovisual/imagenes/imagenes_page.dart';
 import 'package:appciona/pages/audiovisual/media/media_page.dart';
+import 'package:appciona/pages/audiovisual/media/media_page_radio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'content/content_page_youtube.dart';
+import 'media/media_page_youtube.dart';
+
+final box = GetStorage();
 class AudiovisualPage extends StatefulWidget {
   final Widget drawer;
   const AudiovisualPage({
@@ -30,6 +36,7 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
   @override
   void initState() {
     super.initState();
+    GetStorage.init();
     getRadioUrl();
   }
 
@@ -95,7 +102,7 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                       () => Navigator.push(
                     context,
                     CupertinoPageRoute(
-                      builder: (context) => const MediaPage(
+                      builder: (context) => const MediaPage_radio(
                         type: 'Radio en vivo',
                         iconAssetPlaceholder:
                         'assets/icons/directo_colors.png',
@@ -132,13 +139,18 @@ class _AudiovisualPageState extends State<AudiovisualPage> {
                         ),
                       ),
                       _turismoImageCard(
+
                         size,
                         'assets/icons/videos_colors.png',
                         'Videos',
                             () => Navigator.push(
+
                           context,
+
                           CupertinoPageRoute(
-                            builder: (context) => const MediaPage(
+
+                            builder: (context) => const MediaPage_youtube(
+
                               type: 'Videos',
                               iconAssetPlaceholder:
                               'assets/icons/videos_colors.png',

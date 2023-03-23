@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/shared_preferences_helper.dart';
+import '../../Web/page_web.dart';
 import '../../widgets/alerts.dart';
 
 class LugaresInteresController {
@@ -49,9 +51,12 @@ class LugaresInteresController {
                     ),
                     TextButton(
                       onPressed: () async {
+
                         if (!await launchUrl(Uri.parse(document["Link"]))) {
                           debugPrint('No se pudo abrir el enlace');
                         }
+
+
                       },
                       child: const Text(
                         'Ver más...',

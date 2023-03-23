@@ -166,6 +166,7 @@ class _CrearEditarCitaPageState extends State<CrearEditarCitasPage> {
                   value: currentSelectedValue,
 
                   // Step 4.
+
                   items: funcionariosNombres.map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,

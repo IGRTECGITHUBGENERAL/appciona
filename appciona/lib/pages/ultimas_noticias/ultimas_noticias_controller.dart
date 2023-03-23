@@ -2,6 +2,7 @@ import 'package:appciona/models/noticia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../config/shared_preferences_helper.dart';
 
@@ -9,7 +10,7 @@ class UltimasNoticiasController {
   List<Noticia> noticias = [];
   late QuerySnapshot qs;
   String idciudad="null";
-
+  final f = new DateFormat('yyyy-MM-dd hh:mm');
 
   Future<int> getNoticiasSize() async {
 
@@ -21,14 +22,13 @@ class UltimasNoticiasController {
       if(idciudad==null||idciudad=="null")
       {
         qs = await FirebaseFirestore.instance.collection("Noticias")
-            .orderBy('Fecha')
-            .orderBy('date', descending: false)
+            .orderBy("Fecha",descending: true)
             .get();
 
       }
       else{
         qs = await FirebaseFirestore.instance.collection("Noticias").where("Ciudad",isEqualTo: "$idciudad")
-
+            .orderBy("Fecha",descending: true)
 
             .get();
       }
@@ -49,7 +49,7 @@ class UltimasNoticiasController {
       {
         qs = await FirebaseFirestore.instance
             .collection("Noticias")
-
+            .orderBy("Fecha",descending: true)
             .limit(10)
             .get();
       }
@@ -59,7 +59,7 @@ class UltimasNoticiasController {
             .where("Ciudad",isEqualTo: "$idciudad")
 
 
-
+            .orderBy("Fecha",descending: true)
             .limit(10)
             .get();
       }
@@ -89,7 +89,7 @@ class UltimasNoticiasController {
       {
         qs = await FirebaseFirestore.instance
             .collection("Noticias")
-            .orderBy("Fecha")
+            .orderBy("Fecha",descending: true)
             .startAfterDocument(lastVisible)
             .limit(10)
             .get();
@@ -98,7 +98,7 @@ class UltimasNoticiasController {
         qs = await FirebaseFirestore.instance
             .collection("Noticias")
             .where("Ciudad",isEqualTo: "$idciudad")
-            .orderBy("Fecha")
+            .orderBy("Fecha",descending: true)
             .startAfterDocument(lastVisible)
             .limit(10)
             .get();

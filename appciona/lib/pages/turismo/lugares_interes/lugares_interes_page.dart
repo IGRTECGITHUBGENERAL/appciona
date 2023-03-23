@@ -2,10 +2,16 @@ import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/turismo/lugares_interes/lugares_interes_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../config/shared_preferences_helper.dart';
+import '../../Web/page_web.dart';
 
 class LugaresInteresPage extends StatefulWidget {
   const LugaresInteresPage({
@@ -18,7 +24,8 @@ class LugaresInteresPage extends StatefulWidget {
 
 class _LugaresInteresPageState extends State<LugaresInteresPage> {
   bool isMapSelected = false;
-
+  String link="null";
+  final box = GetStorage();
   final _initialCameraPosition = const CameraPosition(
     target: LatLng(37.9101298, -6.8306072),
     zoom: 15,
@@ -39,6 +46,8 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
   void initState() {
     _controller.markers = [];
     super.initState();
+     GetStorage.init();
+
   }
 
   @override
@@ -57,7 +66,9 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
                 color: Palette.appcionaPrimaryColor,
               ),
             ),
-            Text("-Places of interest-",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+            Text("-Places of interest-",
+                style: TextStyle(
+                    fontSize: 12, color: Palette.appcionaPrimaryColor)),
           ],
         ),
         centerTitle: true,
@@ -140,7 +151,7 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
                 ],
               ),
             ),
-      floatingActionButton: Stack(
+      /*  floatingActionButton: Stack(
         children: [
           Align(
             alignment:
@@ -160,7 +171,7 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
             ),
           ),
         ],
-      ),
+      ),*/
     );
   }
 
@@ -173,6 +184,8 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
       child: InkWell(
         borderRadius: BorderRadius.circular(15),
         onTap: () async {
+
+         // _nameSaver(link);
           if (!await launchUrl(Uri.parse(link))) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -180,6 +193,17 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
               ),
             );
           }
+         /* box.write('link', link);
+          SharedPreferencesHelper.addlink(link);
+          print(box.read('link'));
+          print("entrada   "+link);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => WebViewXPage()),
+          )
+            ;
+*/
+
         },
         child: SizedBox(
           width: 150,
@@ -221,4 +245,14 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
       ),
     );
   }
+
+
+  Future<String> _nameSaver(String dato) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('name2', dato);
+    prefs.setString('school2', 'asdasdas');
+    return 'saved';
+  }
+
 }
+

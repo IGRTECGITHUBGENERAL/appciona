@@ -1,9 +1,14 @@
 import 'package:appciona/config/palette.dart';
+import 'package:appciona/pages/Web/test_web.dart';
 import 'package:appciona/pages/audiovisual/content/content_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../Web/page_web.dart';
+import '../../Web/radio.dart';
 
 class ContentPage extends StatefulWidget {
   final String documentID;
@@ -18,7 +23,7 @@ class ContentPage extends StatefulWidget {
 
 class _ContentPageState extends State<ContentPage> {
   final ContentController _controller = ContentController();
-
+  final box = GetStorage();
   void _launchContent(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
       debugPrint('No se pudo acceder al sitio.');
@@ -34,6 +39,12 @@ class _ContentPageState extends State<ContentPage> {
       throw 'Could not launch $url';
     }}
 
+  void initState() {
+
+    super.initState();
+    GetStorage.init();
+
+  }
 
     @override
   Widget build(BuildContext context) {
@@ -105,8 +116,11 @@ class _ContentPageState extends State<ContentPage> {
                           FloatingActionButton(
                             backgroundColor: Colors.white,
                             tooltip: 'Reproducir',
-                            onPressed: () => _launchInBrowser(doc["Link"]),
-                            //onPressed: () => _launchContent(doc["Link"]),
+                            heroTag:box.write('link', doc["Link"]),
+
+
+               /* onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context)=>radio())),*/
+                          onPressed: () => _launchContent(doc["Link"]),
                             child: const Icon(
                               Icons.play_arrow,
                               color: Colors.orange,
@@ -171,6 +185,8 @@ class _ContentPageState extends State<ContentPage> {
                           ],
                         ),
                       ),
+
+
                     ],
                   );
                 } else if (data.hasError) {

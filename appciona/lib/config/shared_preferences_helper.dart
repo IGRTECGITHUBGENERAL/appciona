@@ -9,7 +9,9 @@ class SharedPreferencesHelper {
   static const String _emailKey = "emailUser";
   static const String _uidUser = "uidUser";
   static const String _uidCity = "uidUser";
+  static const String _uidLogo = "uidUser";
   static const String _uidEncuesta = "uidEncuesta";
+  static const String _Link = "uiLink";
   static Future<SharedPreferences> _prefs() async =>
       await SharedPreferences.getInstance();
 
@@ -21,9 +23,15 @@ class SharedPreferencesHelper {
 
   static Future<String?> getUidUser() async =>
       await _prefs().then((value) => value.getString(_uidUser));
+  static Future<String?> getlink() async =>
+      await _prefs().then((value) => value.getString(_Link));
 
   static Future<String?> getUidCity() async =>
       await _prefs().then((value) => value.getString(_uidCity));
+
+  static Future<String?> getUidlogo() async =>
+      await _prefs().then((value) => value.getString(_uidLogo));
+
   static Future<String?> getUidEncuesta() async =>
       await _prefs().then((value) => value.getString(_uidEncuesta));
   static Future<bool> createUserData() async {
@@ -43,12 +51,15 @@ class SharedPreferencesHelper {
         ds["ciudad"],
         ds["rol"],
         ds["telefono"],
+
       );
       SharedPreferences pref = await _prefs();
       pref.setString(_nameKey, '${userData.nombre} ${userData.apellidos}');
       pref.setString(_emailKey, userData.correo.toString());
       pref.setString(_uidUser, userData.uid.toString());
       pref.setString(_uidCity, userData.ciudad.toString());
+
+
     } catch (e) {
       debugPrint("Error al crear datos del usuario: $e");
     }
@@ -60,9 +71,19 @@ class SharedPreferencesHelper {
     pref.setString(_uidCity, cityUID);
 
   }
+  static Future addLogo(String cityUID) async {
+    SharedPreferences pref = await _prefs();
+    pref.setString(_uidLogo, cityUID);
+
+  }
   static Future addEncuestaData(String encuestaUID) async {
     SharedPreferences pref = await _prefs();
     pref.setString(_uidEncuesta, encuestaUID);
+
+  }
+  static Future addlink(String linkUID) async {
+    SharedPreferences pref = await _prefs();
+    pref.setString(_Link, linkUID);
 
   }
 
@@ -81,5 +102,11 @@ class SharedPreferencesHelper {
 
     pref1.remove(_uidEncuesta);
     pref1.clear();
+  }
+  static Future deleteLink() async {
+    SharedPreferences pref2 = await _prefs();
+
+    pref2.remove(_Link);
+    pref2.clear();
   }
 }

@@ -384,6 +384,9 @@ class _SignUpPageState extends State<SignUpPage> {
           if(dniCtrl.text==""||dniCtrl==null){
             dniCtrl.text="NA";
           }
+          if(telCtrl.text==""||telCtrl==null){
+            telCtrl.text="0000000000";
+          }
           if (value!.isEmpty) {
             return "Campo necesario";
           } else {

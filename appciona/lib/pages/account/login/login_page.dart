@@ -1,9 +1,11 @@
 import 'package:appciona/config/palette.dart';
 import 'package:appciona/pages/account/recover/recover_password_page.dart';
 import 'package:appciona/pages/account/signup/signup_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../config/shared_preferences_helper.dart';
 import '../../widgets/alerts.dart';
 import 'login_controller.dart';
 
@@ -26,9 +28,25 @@ class _LoginPageState extends State<LoginPage> {
     if (_keyForm.currentState!.validate()) {
       setState(() {
         loginIng = true;
+
       });
       if (await _controller.login(emailCtrl.text, passCtrl.text)) {
+
+
+
+        FirebaseFirestore.instance
+            .collection("Users")
+            .where("correo",isEqualTo: "$emailCtrl")
+            .get()
+            .then((QuerySnapshot querySnapshot) {
+          querySnapshot.docs.forEach((doc) {
+            print(doc['ciudad']);
+            SharedPreferencesHelper.addCityData(doc['ciudad']);
+          });
+        });
         Navigator.pop(context);
+
+
       } else {
         Alerts.messageBoxMessage(context, 'Verifica tus datos',
             'Los datos que ingresaste son erróneos');

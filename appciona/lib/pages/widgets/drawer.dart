@@ -5,16 +5,24 @@ import 'package:appciona/pages/account/delete/delete_page.dart';
 import 'package:appciona/pages/mensajeria/mensajeria_page.dart';
 import 'package:appciona/pages/servicios/servicios.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
+import 'package:appciona/pages/widgets/politicas_de_privacidad.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../firebaseServices/google_sign_in.dart';
+import '../../main.dart';
 import '../../models/Funcionarios.dart';
 import '../../models/ciudades.dart';
 import '../Citas/Citas_page.dart';
+import '../Player/youtube_player.dart';
+import '../Web/newweb.dart';
+import '../Web/test_web.dart';
+import '../Web/webtest2.dart';
 import '../agenda/agenda_page.dart';
 import '../encuestas/encuestas_page.dart';
 import '../account/login/login_page.dart';
@@ -27,9 +35,11 @@ List<Funcionarios> funcionarios = [];
 List<String> funcionariosNombres=[];
 List<String> funcionariosCargos=[];
 var currentSelectedValue;
-
+String logo ="";
+final box = GetStorage();
 class DrawerWidget extends StatefulWidget {
   final int userState;
+
   const DrawerWidget({Key? key, required this.userState}) : super(key: key);
 
   @override
@@ -37,7 +47,9 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
+
   final DrawerWidgetController _controller = DrawerWidgetController();
+
   String numberMensajeria = "";
   String idciudad="null";
   Future<void> getWhatsappNumber() async {
@@ -49,12 +61,23 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   Future<void> loadUserData() async {
     await _controller.getUserData();
+    logo = await SharedPreferencesHelper.getUidlogo().toString();
+    setState(() {});
+  }
+  Future<void> logodata() async {
+    await _controller.getlogodata();
+
     setState(() {});
   }
 
   @override
+
   void initState() {
     super.initState();
+
+ //   logo =box.read('logo');
+    GetStorage.init();
+    if(logo ==""){box.write('logo',"");}
     getListCitysUID();
     getWhatsappNumber();
   }
@@ -67,7 +90,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ? _columnLogued()
             : widget.userState == 2
                 ? _columnWaiting()
-                : _columnNotLogued(),
+                :  _columnNotLogued(),
       ),
     );
   }
@@ -79,6 +102,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           padding: const EdgeInsets.all(50.0),
           child: Image.asset('assets/images/logo-green.png'),
         ),
+
         const ListTile(
           leading: CircularProgressIndicator(),
           title: LinearProgressIndicator(),
@@ -98,14 +122,27 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     );
   }
 
-  Column _columnNotLogued() {
+  Column _columnNotLogued()  {
     var posicion="hola";
+    logo= box.read('logo');
+    if (logo =="")[ logo ="https://firebasestorage.googleapis.com/v0/b/appciona-d1353.appspot.com/o/asd?alt=media&token=584440ff-f336-4414-b7e4-10184694f409"]; else[];
+
     return Column(
+
       children: [
         Padding(
           padding: const EdgeInsets.all(50.0),
           child: Image.asset('assets/images/logo-green.png'),
         ),
+        Container(
+          child: new Image.network(logo
+            ,
+            height: 60.0,
+            fit: BoxFit.cover,
+          ),
+        ),
+
+
         ListTile(
           leading: const Icon(
             Icons.login,
@@ -150,7 +187,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 (value) => setState(() { SharedPreferencesHelper.addEncuestaData("Global"); } ),
           ),
         ),
-        typeFieldWidget()
+        typeFieldWidget(),
+        InkWell(
+          onTap: () => Navigator.of(context, rootNavigator: true)
+        .push(CupertinoPageRoute(builder: (context) => politica())),
+          child: Text(
+            'Politica de Privacidad',
+            style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
+          ),
+        )
 
 
 
@@ -187,11 +232,21 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 
   Column _columnLogued() {
+    logo= box.read('logo');
+    if (logo =="")[ logo ="https://firebasestorage.googleapis.com/v0/b/appciona-d1353.appspot.com/o/asd?alt=media&token=584440ff-f336-4414-b7e4-10184694f409"]; else[];
+
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(50.0),
           child: Image.asset('assets/images/logo-green.png'),
+        ),
+        Container(
+          child: new Image.network(logo
+            ,
+            height: 55.0,
+            fit: BoxFit.cover,
+          ),
         ),
         FutureBuilder(
           future: loadUserData(),
@@ -296,6 +351,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             )
           },
         ),
+
         ListTile(
           leading: const Icon(
             Icons.question_answer_outlined,
@@ -313,9 +369,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               context,
               CupertinoPageRoute(
                 builder: (context) => const EncuestasPage(),
+
               ),
-            )
-          },
+            )   .then(
+          (value) => setState(() { SharedPreferencesHelper.addEncuestaData(""); } ),
+          ),}
         ),
         ListTile(
           leading: const ImageIcon(
@@ -325,8 +383,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Servicios"),
-              const Text("Services",style:TextStyle(fontSize:12 )),
+              const Text("Incidencias"),
+              const Text("Incidents",style:TextStyle(fontSize:12 )),
             ],
           ),
           onTap: () => {
@@ -370,58 +428,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             setState(() {});
           },
         ),
-        ListTile(
-          leading: const ImageIcon(
-            AssetImage('assets/icons/servicios_mono.png'),
-            color: Palette.appcionaPrimaryColor,
+        InkWell(
+          onTap: () => Navigator.of(context, rootNavigator: true)
+              .push(CupertinoPageRoute(builder: (context) => politica())),
+          child: Text(
+            'Politica de Privacidad',
+            style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
           ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Eliminar Cuenta"),
-              const Text("Eliminar Cuenta",style:TextStyle(fontSize:12 )),
-            ],
-          ),
-          onTap: () => {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const Deletepage(),
-              ),
-            )
-          },
-        ),
+        )
 
       ],
     );
   }
-  void openwhatsapp() async {
-    if (numberMensajeria.isNotEmpty) {
-      var whatsapp = "https://wa.me/+$numberMensajeria";
-      var whatsappURlAndroid = "whatsapp://send?phone=$whatsapp";
-      var whatappURLIos = "https://wa.me/$whatsapp?text=${Uri.parse("hello")}";
-      if (Platform.isIOS) {
-        if (!await launchUrl(Uri.parse(whatappURLIos))) {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Necesitas instalar WhatsApp.- you need install WhastApp!"),
-            ),
-          );
-        }
 
-      } else {
-        if (!await launchUrl(Uri.parse(whatsappURlAndroid))) {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Necesitas instalar WhatsApp."),
-            ),
-          );
-        }
-      }
-    }
-  }
   Future<void> getListCitysUID()  async {
 
     late QuerySnapshot qs;
@@ -432,6 +451,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         .map((e) => Ciudades(
       UID: e.id,
       Nombre: e["Nombre"],
+
+      logo: e["logo"],
     ))
         .toList();
     print("ciudades");
@@ -449,9 +470,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
     idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
 
+
+
     qs3 = await FirebaseFirestore.instance
 
-        .collection("Funcionarios")     .where("Ciudad",isEqualTo: "$idciudad")
+        .collection("Funcionarios").where("Ciudad",isEqualTo: "$idciudad")
 
         .get();
 
@@ -463,6 +486,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
       UID: e.id,
       Nombre: e["Nombre"],
+      Cargo: e["Puesto"],
 
 
     ))
@@ -487,7 +511,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   }
 
-  Future<void> getListFuncionarios()  async {
+  Future<void> getlogo()  async {
 
 
   }
@@ -515,10 +539,17 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       print(currentSelectedValue);
                      // currentSelectedValue = newValue;
                       int select = ciudadesNombres.indexOf(newValue!);
+
                       print(ciudades[select].UID);
+
                       SharedPreferencesHelper.addCityData(ciudades[select].UID.toString());
+
                       ciudadesNombres=[];
+                      box.write('logo', ciudades[select].logo.toString());
+                      //SharedPreferencesHelper.addLogo(ciudades[select].logo.toString());
+
                       Navigator.pop(context);
+
                     }catch(excep){
                       ciudadesNombres=[];
                     }

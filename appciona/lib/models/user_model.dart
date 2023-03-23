@@ -21,6 +21,7 @@ class UsersModel {
     this.ciudad,
     this.rol,
     this.telefono,
+
   );
 
   CollectionReference users = FirebaseFirestore.instance.collection('Users');

@@ -3,7 +3,10 @@ import 'package:appciona/pages/ultimas_noticias/ultimas_noticias_controller.dart
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../Web/page_web.dart';
 
 class UltimasNoticias extends StatefulWidget {
   final Widget drawer;
@@ -19,7 +22,7 @@ class UltimasNoticias extends StatefulWidget {
 class _UltimasNoticiasState extends State<UltimasNoticias> {
   final UltimasNoticiasController _controller = UltimasNoticiasController();
   final ScrollController _scCtrl = ScrollController();
-
+  final box = GetStorage();
   late int noNoticias = -1;
 
   Future<void> _getInitData() async {
@@ -37,6 +40,7 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
   void initState() {
     super.initState();
     _getInitData();
+    GetStorage.init();
    // _controller.checkForUserState();
 
     _scCtrl.addListener(() {
@@ -214,17 +218,14 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
                       ),
                       textAlign: TextAlign.right,
                     ),
-                    Text(
-                      '${_controller.noticias[index].fecha}',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 10,
-                      ),
-                      textAlign: TextAlign.right,
-                    ),
+
                     TextButton(
                       onPressed: () {
                         _launchContent(_controller.noticias[index].link.toString());
+                    /*    box.write('link', _controller.noticias[index].link.toString());
+
+
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewXPage()));*/
                       },
                       child: Text(
                         'Ver más', //title
@@ -240,4 +241,5 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
       ),
     );
   }
+
 }

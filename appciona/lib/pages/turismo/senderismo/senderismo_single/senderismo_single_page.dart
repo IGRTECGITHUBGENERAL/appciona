@@ -4,7 +4,10 @@ import 'package:appciona/pages/turismo/senderismo/senderismo_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../Web/page_web.dart';
 
 class SenderismoSinglePage extends StatefulWidget {
   final String uid;
@@ -19,13 +22,18 @@ class SenderismoSinglePage extends StatefulWidget {
 
 class _SenderismoSinglePageState extends State<SenderismoSinglePage> {
   final SenderismoController _controller = SenderismoController();
-
+  final box = GetStorage();
   void _launchContent(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
       debugPrint('No se pudo acceder al sitio.');
     }
   }
+  void initState() {
 
+    super.initState();
+    GetStorage.init();
+
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -158,6 +166,17 @@ class _SenderismoSinglePageState extends State<SenderismoSinglePage> {
       elevation: 5,
       color: Palette.appcionaPrimaryColor.shade100,
       child: InkWell(
+        /*onTap: () async {
+          box.write('link','${item.mapa}');
+
+          Navigator.push(
+
+            context,
+            MaterialPageRoute(builder: (context) => WebViewXPage()),
+          );
+
+
+        },*/
         onTap: () => _launchContent('${item.mapa}'),
         child: Container(
           padding: const EdgeInsets.all(15),

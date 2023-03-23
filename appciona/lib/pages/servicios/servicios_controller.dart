@@ -63,6 +63,7 @@ class ServiciosController {
         'Ubicacion': jsonDecode(jsonEncode(sugg.ubicacion)),
         'uid': uidGen,
         'Ciudad': idciudad,
+      'Usuario':  userInfo!.uid
       });
       return docCreationSuccessful;
     } catch (e) {
