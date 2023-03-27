@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../Web/page_web.dart';
-
 class SenderismoSinglePage extends StatefulWidget {
   final String uid;
   const SenderismoSinglePage({
@@ -28,12 +26,12 @@ class _SenderismoSinglePageState extends State<SenderismoSinglePage> {
       debugPrint('No se pudo acceder al sitio.');
     }
   }
-  void initState() {
 
+  void initState() {
     super.initState();
     GetStorage.init();
-
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

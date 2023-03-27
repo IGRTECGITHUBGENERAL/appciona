@@ -1,14 +1,11 @@
 import 'package:appciona/config/palette.dart';
-import 'package:appciona/pages/Web/test_web.dart';
+
 import 'package:appciona/pages/audiovisual/content/content_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../Web/page_web.dart';
-import '../../Web/radio.dart';
 
 class ContentPage extends StatefulWidget {
   final String documentID;
@@ -29,6 +26,7 @@ class _ContentPageState extends State<ContentPage> {
       debugPrint('No se pudo acceder al sitio.');
     }
   }
+
   void _launchInBrowser(String url) async {
     if (!await launch(
       url,
@@ -37,16 +35,15 @@ class _ContentPageState extends State<ContentPage> {
       headers: <String, String>{'my_header_key': 'my_header_value'},
     )) {
       throw 'Could not launch $url';
-    }}
-
-  void initState() {
-
-    super.initState();
-    GetStorage.init();
-
+    }
   }
 
-    @override
+  void initState() {
+    super.initState();
+    GetStorage.init();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -116,11 +113,10 @@ class _ContentPageState extends State<ContentPage> {
                           FloatingActionButton(
                             backgroundColor: Colors.white,
                             tooltip: 'Reproducir',
-                            heroTag:box.write('link', doc["Link"]),
+                            heroTag: box.write('link', doc["Link"]),
 
-
-               /* onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context)=>radio())),*/
-                          onPressed: () => _launchContent(doc["Link"]),
+                            /* onPressed: () =>  Navigator.push(context, MaterialPageRoute(builder: (context)=>radio())),*/
+                            onPressed: () => _launchContent(doc["Link"]),
                             child: const Icon(
                               Icons.play_arrow,
                               color: Colors.orange,
@@ -185,8 +181,6 @@ class _ContentPageState extends State<ContentPage> {
                           ],
                         ),
                       ),
-
-
                     ],
                   );
                 } else if (data.hasError) {

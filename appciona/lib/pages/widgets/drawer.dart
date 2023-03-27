@@ -5,7 +5,7 @@ import 'package:appciona/pages/account/delete/delete_page.dart';
 import 'package:appciona/pages/mensajeria/mensajeria_page.dart';
 import 'package:appciona/pages/servicios/servicios.dart';
 import 'package:appciona/pages/widgets/alerts.dart';
-import 'package:appciona/pages/widgets/politicas_de_privacidad.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,24 +19,23 @@ import '../../main.dart';
 import '../../models/Funcionarios.dart';
 import '../../models/ciudades.dart';
 import '../Citas/Citas_page.dart';
-import '../Player/youtube_player.dart';
-import '../Web/newweb.dart';
-import '../Web/test_web.dart';
-import '../Web/webtest2.dart';
+
 import '../agenda/agenda_page.dart';
 import '../encuestas/encuestas_page.dart';
 import '../account/login/login_page.dart';
 import 'drawer_controller.dart';
 import 'package:appciona/config/shared_preferences_helper.dart';
+
 List<Ciudades> ciudades = [];
-List<String> ciudadesNombres=[];
+List<String> ciudadesNombres = [];
 
 List<Funcionarios> funcionarios = [];
-List<String> funcionariosNombres=[];
-List<String> funcionariosCargos=[];
+List<String> funcionariosNombres = [];
+List<String> funcionariosCargos = [];
 var currentSelectedValue;
-String logo ="";
+String logo = "";
 final box = GetStorage();
+
 class DrawerWidget extends StatefulWidget {
   final int userState;
 
@@ -47,11 +46,10 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-
   final DrawerWidgetController _controller = DrawerWidgetController();
 
   String numberMensajeria = "";
-  String idciudad="null";
+  String idciudad = "null";
   Future<void> getWhatsappNumber() async {
     QuerySnapshot ds =
         await FirebaseFirestore.instance.collection("WhatSapp").get();
@@ -64,6 +62,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     logo = await SharedPreferencesHelper.getUidlogo().toString();
     setState(() {});
   }
+
   Future<void> logodata() async {
     await _controller.getlogodata();
 
@@ -71,13 +70,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 
   @override
-
   void initState() {
     super.initState();
 
- //   logo =box.read('logo');
+    //   logo =box.read('logo');
     GetStorage.init();
-    if(logo ==""){box.write('logo',"");}
+    if (logo == "") {
+      box.write('logo', "");
+    }
     getListCitysUID();
     getWhatsappNumber();
   }
@@ -90,7 +90,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ? _columnLogued()
             : widget.userState == 2
                 ? _columnWaiting()
-                :  _columnNotLogued(),
+                : _columnNotLogued(),
       ),
     );
   }
@@ -102,7 +102,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           padding: const EdgeInsets.all(50.0),
           child: Image.asset('assets/images/logo-green.png'),
         ),
-
         const ListTile(
           leading: CircularProgressIndicator(),
           title: LinearProgressIndicator(),
@@ -122,26 +121,30 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     );
   }
 
-  Column _columnNotLogued()  {
-    var posicion="hola";
-    logo= box.read('logo');
-    if (logo =="")[ logo ="https://firebasestorage.googleapis.com/v0/b/appciona-d1353.appspot.com/o/asd?alt=media&token=584440ff-f336-4414-b7e4-10184694f409"]; else[];
+  Column _columnNotLogued() {
+    var posicion = "hola";
+    logo = box.read('logo');
+    if (logo == "")
+      [
+        logo =
+            "https://firebasestorage.googleapis.com/v0/b/appciona-d1353.appspot.com/o/asd?alt=media&token=584440ff-f336-4414-b7e4-10184694f409"
+      ];
+    else
+      [];
 
     return Column(
-
       children: [
         Padding(
           padding: const EdgeInsets.all(50.0),
           child: Image.asset('assets/images/logo-green.png'),
         ),
         Container(
-          child: new Image.network(logo
-            ,
+          child: new Image.network(
+            logo,
             height: 60.0,
             fit: BoxFit.cover,
           ),
         ),
-
 
         ListTile(
           leading: const Icon(
@@ -152,7 +155,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text("Iniciar sesión"),
-              const Text("Login",style:TextStyle(fontSize:12 )),
+              const Text("Login", style: TextStyle(fontSize: 12)),
             ],
           ),
           onTap: () => Navigator.of(context, rootNavigator: true)
@@ -174,30 +177,30 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text("Encuestas"),
-              const Text("surveys",style:TextStyle(fontSize:12 )),
+              const Text("surveys", style: TextStyle(fontSize: 12)),
             ],
           ),
           onTap: () => Navigator.of(context, rootNavigator: true)
               .push(
-            CupertinoPageRoute(
-              builder: (context) => const EncuestasPage(),
-            ),
-          )
+                CupertinoPageRoute(
+                  builder: (context) => const EncuestasPage(),
+                ),
+              )
               .then(
-                (value) => setState(() { SharedPreferencesHelper.addEncuestaData("Global"); } ),
-          ),
+                (value) => setState(() {
+                  SharedPreferencesHelper.addEncuestaData("Global");
+                }),
+              ),
         ),
         typeFieldWidget(),
-        InkWell(
-          onTap: () => Navigator.of(context, rootNavigator: true)
-        .push(CupertinoPageRoute(builder: (context) => politica())),
-          child: Text(
-            'Politica de Privacidad',
-            style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
-          ),
-        )
-
-
+        // InkWell(
+        //   onTap: () => Navigator.of(context, rootNavigator: true)
+        // .push(CupertinoPageRoute(builder: (context) => politica())),
+        //   child: Text(
+        //     'Politica de Privacidad',
+        //     style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
+        //   ),
+        // )
 
         /*ListTile(
           leading: const Icon(
@@ -232,8 +235,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 
   Column _columnLogued() {
-    logo= box.read('logo');
-    if (logo =="")[ logo ="https://firebasestorage.googleapis.com/v0/b/appciona-d1353.appspot.com/o/asd?alt=media&token=584440ff-f336-4414-b7e4-10184694f409"]; else[];
+    logo = box.read('logo');
+    if (logo == "")
+      [
+        logo =
+            "https://firebasestorage.googleapis.com/v0/b/appciona-d1353.appspot.com/o/asd?alt=media&token=584440ff-f336-4414-b7e4-10184694f409"
+      ];
+    else
+      [];
 
     return Column(
       children: [
@@ -242,8 +251,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           child: Image.asset('assets/images/logo-green.png'),
         ),
         Container(
-          child: new Image.network(logo
-            ,
+          child: new Image.network(
+            logo,
             height: 55.0,
             fit: BoxFit.cover,
           ),
@@ -256,7 +265,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("¡Bienvenido ${_controller.userName}!"),
-                  Text("Welcome!",style:TextStyle(fontSize:12 )),
+                  Text("Welcome!", style: TextStyle(fontSize: 12)),
                 ],
               ),
               subtitle: Text(
@@ -275,7 +284,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Mensajería"),
-              Text("Messenger service",style:TextStyle(fontSize:12 )),
+              Text("Messenger service", style: TextStyle(fontSize: 12)),
             ],
           ),
           trailing: ValueListenableBuilder(
@@ -317,14 +326,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Agenda"),
-              Text("Diary",style:TextStyle(fontSize:12 )),
+              Text("Diary", style: TextStyle(fontSize: 12)),
             ],
           ),
           onTap: () => {
             Navigator.push(
               context,
               CupertinoPageRoute(
-                builder: (context) => const AgendaPage (),
+                builder: (context) => const AgendaPage(),
               ),
             )
           },
@@ -338,7 +347,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Citas"),
-              Text("Date",style:TextStyle(fontSize:12 )),
+              Text("Date", style: TextStyle(fontSize: 12)),
             ],
           ),
           onTap: () => {
@@ -346,35 +355,35 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               context,
               CupertinoPageRoute(
                 builder: (context) => const CitaPage(),
-
               ),
             )
           },
         ),
 
         ListTile(
-          leading: const Icon(
-            Icons.question_answer_outlined,
-            color: Palette.appcionaPrimaryColor,
-          ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Encuestas"),
-              const Text("surveys",style:TextStyle(fontSize:12 )),
-            ],
-          ),
-          onTap: () => {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => const EncuestasPage(),
-
-              ),
-            )   .then(
-          (value) => setState(() { SharedPreferencesHelper.addEncuestaData(""); } ),
-          ),}
-        ),
+            leading: const Icon(
+              Icons.question_answer_outlined,
+              color: Palette.appcionaPrimaryColor,
+            ),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("Encuestas"),
+                const Text("surveys", style: TextStyle(fontSize: 12)),
+              ],
+            ),
+            onTap: () => {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => const EncuestasPage(),
+                    ),
+                  ).then(
+                    (value) => setState(() {
+                      SharedPreferencesHelper.addEncuestaData("");
+                    }),
+                  ),
+                }),
         ListTile(
           leading: const ImageIcon(
             AssetImage('assets/icons/servicios_mono.png'),
@@ -384,7 +393,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text("Incidencias"),
-              const Text("Incidents",style:TextStyle(fontSize:12 )),
+              const Text("Incidents", style: TextStyle(fontSize: 12)),
             ],
           ),
           onTap: () => {
@@ -405,7 +414,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text("Cerrar sesión"),
-              const Text("Sign off",style:TextStyle(fontSize:12 )),
+              const Text("Sign off", style: TextStyle(fontSize: 12)),
             ],
           ),
           onTap: () async {
@@ -416,109 +425,83 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               if (!result) {
                 await FirebaseAuth.instance.signOut();
 
-               SharedPreferencesHelper.deleteUserData();
+                SharedPreferencesHelper.deleteUserData();
               }
             } on ProviderNotFoundException catch (e) {
               await FirebaseAuth.instance.signOut();
               SharedPreferencesHelper.deleteUserData();
-             } catch (e) {
+            } catch (e) {
               Alerts.messageBoxMessage(context, '¡UPS!',
                   'Parece que hubo un error al cerrar sesión., Sorry an error has appear');
             }
             setState(() {});
           },
         ),
-        InkWell(
-          onTap: () => Navigator.of(context, rootNavigator: true)
-              .push(CupertinoPageRoute(builder: (context) => politica())),
-          child: Text(
-            'Politica de Privacidad',
-            style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
-          ),
-        )
-
+        // InkWell(
+        //   onTap: () => Navigator.of(context, rootNavigator: true)
+        //       .push(CupertinoPageRoute(builder: (context) => politica())),
+        //   child: Text(
+        //     'Politica de Privacidad',
+        //     style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
+        //   ),
+        // )
       ],
     );
   }
 
-  Future<void> getListCitysUID()  async {
-
+  Future<void> getListCitysUID() async {
     late QuerySnapshot qs;
-    qs = await FirebaseFirestore.instance
-        .collection("Ciudades")
-        .get();
+    qs = await FirebaseFirestore.instance.collection("Ciudades").get();
     ciudades = qs.docs
         .map((e) => Ciudades(
-      UID: e.id,
-      Nombre: e["Nombre"],
-
-      logo: e["logo"],
-    ))
+              UID: e.id,
+              Nombre: e["Nombre"],
+              logo: e["logo"],
+            ))
         .toList();
     print("ciudades");
     print(ciudades.length);
     print(ciudades[0].Nombre);
-    ciudadesNombres=[];
+    ciudadesNombres = [];
     ciudades.forEach((data) => ciudadesNombres.add(data.Nombre.toString()));
-   setState(() {
-     ciudades;
-     ciudadesNombres;
-   });
-
+    setState(() {
+      ciudades;
+      ciudadesNombres;
+    });
 
     late QuerySnapshot qs3;
 
     idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
 
-
-
     qs3 = await FirebaseFirestore.instance
-
-        .collection("Funcionarios").where("Ciudad",isEqualTo: "$idciudad")
-
+        .collection("Funcionarios")
+        .where("Ciudad", isEqualTo: "$idciudad")
         .get();
 
     funcionarios = qs3.docs
-
-
-
         .map((e) => Funcionarios(
-
-      UID: e.id,
-      Nombre: e["Nombre"],
-      Cargo: e["Puesto"],
-
-
-    ))
+              UID: e.id,
+              Nombre: e["Nombre"],
+              Cargo: e["Puesto"],
+            ))
         .toList();
-
 
     print(funcionarios.length);
 
-    funcionariosNombres=[];
+    funcionariosNombres = [];
 
-
-
-
-    funcionarios.forEach((data) => funcionariosNombres.add(data.Nombre.toString()));
+    funcionarios
+        .forEach((data) => funcionariosNombres.add(data.Nombre.toString()));
 
     setState(() {
       funcionarios;
       funcionariosNombres;
-
     });
-
-
   }
 
-  Future<void> getlogo()  async {
-
-
-  }
-
+  Future<void> getlogo() async {}
 
   Widget typeFieldWidget() {
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: FormField<String>(
@@ -534,28 +517,26 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 isDense: true,
                 onChanged: (newValue) {
                   setState(() {
-
                     try {
                       print(currentSelectedValue);
-                     // currentSelectedValue = newValue;
+                      // currentSelectedValue = newValue;
                       int select = ciudadesNombres.indexOf(newValue!);
 
                       print(ciudades[select].UID);
 
-                      SharedPreferencesHelper.addCityData(ciudades[select].UID.toString());
+                      SharedPreferencesHelper.addCityData(
+                          ciudades[select].UID.toString());
 
-                      ciudadesNombres=[];
+                      ciudadesNombres = [];
                       box.write('logo', ciudades[select].logo.toString());
                       //SharedPreferencesHelper.addLogo(ciudades[select].logo.toString());
 
                       Navigator.pop(context);
-
-                    }catch(excep){
-                      ciudadesNombres=[];
+                    } catch (excep) {
+                      ciudadesNombres = [];
                     }
-
                   });
-                  ciudadesNombres=[];
+                  ciudadesNombres = [];
                 },
                 items: ciudadesNombres.map((String value) {
                   return DropdownMenuItem<String>(

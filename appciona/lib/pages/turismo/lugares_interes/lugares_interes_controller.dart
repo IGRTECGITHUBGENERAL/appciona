@@ -6,19 +6,19 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/shared_preferences_helper.dart';
-import '../../Web/page_web.dart';
+
 import '../../widgets/alerts.dart';
 
 class LugaresInteresController {
   late List<Marker>? markers;
 
   Future<bool> addMarkers(BuildContext context) async {
-
     late QuerySnapshot qs;
 
     try {
-    qs = await FirebaseFirestore.instance.collection("LugaresDeInteres").get();
-    List<DocumentSnapshot> documents = qs.docs;
+      qs =
+          await FirebaseFirestore.instance.collection("LugaresDeInteres").get();
+      List<DocumentSnapshot> documents = qs.docs;
       for (var document in documents) {
         print("debuggin two");
         try {
@@ -51,12 +51,9 @@ class LugaresInteresController {
                     ),
                     TextButton(
                       onPressed: () async {
-
                         if (!await launchUrl(Uri.parse(document["Link"]))) {
                           debugPrint('No se pudo abrir el enlace');
                         }
-
-
                       },
                       child: const Text(
                         'Ver más...',
@@ -92,24 +89,22 @@ class LugaresInteresController {
   }
 
   Future<dynamic> getNoticias() async {
-    String idciudad="null";
+    String idciudad = "null";
     late QuerySnapshot qs;
     idciudad = await SharedPreferencesHelper.getUidCity() ?? "null";
 
-      if(idciudad==null||idciudad=="null")
-      {
-        qs = await FirebaseFirestore.instance
-            .collection("LugaresDeInteres")
-            .where("Ciudad",isEqualTo: "$idciudad")
-            .get();
-      }
-      else{
-        qs = await FirebaseFirestore.instance
-            .collection("LugaresDeInteres")
-            .where("Ciudad",isEqualTo: "$idciudad")
-            .get();
-      }
-       List<DocumentSnapshot> documents = qs.docs;
+    if (idciudad == null || idciudad == "null") {
+      qs = await FirebaseFirestore.instance
+          .collection("LugaresDeInteres")
+          .where("Ciudad", isEqualTo: "$idciudad")
+          .get();
+    } else {
+      qs = await FirebaseFirestore.instance
+          .collection("LugaresDeInteres")
+          .where("Ciudad", isEqualTo: "$idciudad")
+          .get();
+    }
+    List<DocumentSnapshot> documents = qs.docs;
     return documents;
   }
 }

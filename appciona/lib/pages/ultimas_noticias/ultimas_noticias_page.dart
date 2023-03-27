@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../Web/page_web.dart';
-
 class UltimasNoticias extends StatefulWidget {
   final Widget drawer;
   const UltimasNoticias({
@@ -41,10 +39,10 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
     super.initState();
     _getInitData();
     GetStorage.init();
-   // _controller.checkForUserState();
+    // _controller.checkForUserState();
 
     _scCtrl.addListener(() {
-     //_getNextData();
+      //_getNextData();
       if (_scCtrl.position.atEdge) {
         if (_scCtrl.position.pixels != 0 &&
             _controller.noticias.length < noNoticias) {
@@ -70,7 +68,9 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
                 color: Palette.appcionaPrimaryColor,
               ),
             ),
-            Text("Last News",style:TextStyle(fontSize:12,color: Palette.appcionaPrimaryColor )),
+            Text("Last News",
+                style: TextStyle(
+                    fontSize: 12, color: Palette.appcionaPrimaryColor)),
           ],
         ),
         centerTitle: true,
@@ -87,14 +87,13 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
       drawer: Drawer(
         child: widget.drawer,
       ),
-       onDrawerChanged: (value){
-        if(!value) {
-               setState(() {
+      onDrawerChanged: (value) {
+        if (!value) {
+          setState(() {
             _getInitData();
           });
         }
-        },
-
+      },
       body: SafeArea(
         child: noNoticias == 0
             ? const Center(
@@ -131,11 +130,13 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
       ),
     );
   }
+
   void _launchContent(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
       debugPrint('No se pudo acceder al sitio.');
     }
   }
+
   Container _cardNoticia(Size size, int index) {
     return Container(
       width: size.width * 0.90,
@@ -218,11 +219,11 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
                       ),
                       textAlign: TextAlign.right,
                     ),
-
                     TextButton(
                       onPressed: () {
-                        _launchContent(_controller.noticias[index].link.toString());
-                    /*    box.write('link', _controller.noticias[index].link.toString());
+                        _launchContent(
+                            _controller.noticias[index].link.toString());
+                        /*    box.write('link', _controller.noticias[index].link.toString());
 
 
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewXPage()));*/
@@ -241,5 +242,4 @@ class _UltimasNoticiasState extends State<UltimasNoticias> {
       ),
     );
   }
-
 }

@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/shared_preferences_helper.dart';
-import '../../Web/page_web.dart';
 
 class LugaresInteresPage extends StatefulWidget {
   const LugaresInteresPage({
@@ -24,7 +23,7 @@ class LugaresInteresPage extends StatefulWidget {
 
 class _LugaresInteresPageState extends State<LugaresInteresPage> {
   bool isMapSelected = false;
-  String link="null";
+  String link = "null";
   final box = GetStorage();
   final _initialCameraPosition = const CameraPosition(
     target: LatLng(37.9101298, -6.8306072),
@@ -46,8 +45,7 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
   void initState() {
     _controller.markers = [];
     super.initState();
-     GetStorage.init();
-
+    GetStorage.init();
   }
 
   @override
@@ -184,8 +182,7 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
       child: InkWell(
         borderRadius: BorderRadius.circular(15),
         onTap: () async {
-
-         // _nameSaver(link);
+          // _nameSaver(link);
           if (!await launchUrl(Uri.parse(link))) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -193,7 +190,7 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
               ),
             );
           }
-         /* box.write('link', link);
+          /* box.write('link', link);
           SharedPreferencesHelper.addlink(link);
           print(box.read('link'));
           print("entrada   "+link);
@@ -203,7 +200,6 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
           )
             ;
 */
-
         },
         child: SizedBox(
           width: 150,
@@ -246,13 +242,10 @@ class _LugaresInteresPageState extends State<LugaresInteresPage> {
     );
   }
 
-
   Future<String> _nameSaver(String dato) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('name2', dato);
     prefs.setString('school2', 'asdasdas');
     return 'saved';
   }
-
 }
-
